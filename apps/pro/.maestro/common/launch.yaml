@@ -3,6 +3,11 @@ appId: com.renatoprobst.mowlypro
 - launchApp:
     appId: com.renatoprobst.mowlypro
     clearState: true
+- runFlow:
+    when:
+      visible: 'Open in .*'
+    commands:
+      - tapOn: Cancel
 - extendedWaitUntil:
     visible:
       id: drawer-toggle
