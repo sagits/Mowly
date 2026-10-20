@@ -124,3 +124,7 @@ The plan screen's spacing is slightly taller than the reference, so ADD A PROMO 
 ## [customer] My Services screenshot simplifications (C19)
 
 C19 is an Android screenshot, rebuilt in the iOS language of C01-C17. The header band has only the title: the gift icon and the address selector come with the shared CustomerHeader (Task 8). Cards use a hairline border instead of the Android drop shadow, and the next date reads "Sunday, October 25" (the shared long format) rather than "Sat, Nov 18". Icons are Ionicons outlines, and the empty state is a plain "No services yet" with a GET A QUOTE button (not in the references).
+
+## [customer] Create your account and booked screen simplifications (C13-C15)
+
+The account page uses the native header (back arrow, no title) instead of C13's grey circle back button plus the funnel header, and the title sits below it. First and last name share a row under a single "First name" / "Last name" label pair rather than one "Full Name*" label, and the red asterisks are dropped. The card block is the demo card: plain prefilled fields (no VISA or CVC icons) and the line "Demo card, nothing is charged". The policy summary card (C15) shows three short bullets with a pin icon and no bold terms section, since the real terms are not shown in the references. The "Terms of Service" link is not tappable. The booked screen is invented (no reference): green check, "You're booked!", service, plan and first date, and GO TO MY SERVICES.

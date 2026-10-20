@@ -32,3 +32,28 @@ appId: com.renatoprobst.mowly
     id: quote-continue
 - assertVisible:
     id: account-screen
+- tapOn:
+    id: account-first
+- inputText: Renato
+- tapOn:
+    id: account-last
+- inputText: Probst
+- tapOn:
+    id: account-email
+- inputText: renato@example.com
+- hideKeyboard
+- scroll
+- scroll
+- tapOn:
+    id: account-terms
+- tapOn:
+    id: book-now
+- extendedWaitUntil:
+    visible:
+      id: booked-screen
+    timeout: 15000
+- tapOn:
+    id: booked-go
+- assertVisible:
+    id: screen-services
+- assertVisible: '.*Mowing.*'
