@@ -1,7 +1,8 @@
 /** The sheet that confirms claiming one date of a job. */
 import { useRef } from 'react';
 import { Text, View } from 'react-native';
-import { useClaimJob } from '@mowly/api';
+import { useQueryClient } from '@tanstack/react-query';
+import { queryKeys, useClaimJob } from '@mowly/api';
 import { formatMoney, formatShort, FREQUENCY_LABELS, weekdayShort } from '@mowly/types';
 import type { IsoDate, Job } from '@mowly/types';
 import { BottomSheet, Button, showToast } from '@mowly/ui';
@@ -9,6 +10,7 @@ import { BottomSheet, Button, showToast } from '@mowly/ui';
 /** CLAIM JOB claims once: the ref blocks a second press made before `isPending` has rendered. */
 export function ClaimSheet({ job, date, visible, onClose }: { job: Job | null; date: IsoDate | null; visible: boolean; onClose: () => void }) {
   const { mutateAsync, isPending } = useClaimJob();
+  const qc = useQueryClient();
   const busy = useRef(false);
   const claim = async () => {
     if (busy.current || !job || !date) return;
@@ -17,6 +19,8 @@ export function ClaimSheet({ job, date, visible, onClose }: { job: Job | null; d
       await mutateAsync({ id: job.id, date });
       showToast('Job claimed');
     } catch {
+      // The hook only refetches on success; drop the stale job from the map and pager.
+      await qc.invalidateQueries({ queryKey: queryKeys.jobs });
       showToast('This job was already claimed');
     } finally {
       busy.current = false;

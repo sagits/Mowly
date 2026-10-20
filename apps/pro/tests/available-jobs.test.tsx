@@ -66,5 +66,6 @@ test('claiming an already claimed job shows a toast', async () => {
   await claimJob('job-01', today());
   await fireEvent.press(screen.getByTestId('claim-confirm'));
   expect(await screen.findByText('This job was already claimed')).toBeTruthy();
+  await waitFor(() => expect(screen.queryByTestId('pin-job-01')).toBeNull());
   expect(await getClaimedJobs()).toHaveLength(13);
 });
