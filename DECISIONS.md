@@ -105,3 +105,7 @@ The PRD lists "onboarding progress in Zustand". `checklistDone(pro)` derives eve
 ## [pro] Drawer `backBehavior="history"` and a green back button for non-drawer (app) screens
 
 The pro Drawer uses `backBehavior="history"`, so `router.back()` from a step screen returns to whoever opened it (Dashboard, Settings) rather than the first drawer route. (app)-level screens that are not drawer items (`evaluate`; later `profile`, `route`) are registered with a `Drawer.Screen` (title only, so they stay out of the custom menu) and show `BackButton` (a green back chevron calling `router.back()`) as `headerLeft` instead of the hamburger.
+
+## [pro] Dashboard fidelity differences from P06
+
+Done checklist rows show a green check (P06 is captured in an all-open state, so it has no done row), and the header shows the green centered "Dashboard" title (PRD navigation rule; P06 shows none).

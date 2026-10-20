@@ -7,8 +7,8 @@ test('the next row opens its step, a locked row does nothing', async () => {
   expect(await screen.findByText('Welcome, Mike')).toBeTruthy();
   expect(screen.getByText('1291 customers served in Austin, TX')).toBeTruthy();
   expect(screen.getByTestId('checklist-profile-done')).toBeTruthy();
-  fireEvent.press(screen.getByTestId('checklist-bank'));
+  await fireEvent.press(screen.getByTestId('checklist-bank'));
   expect(screen).toHavePathname('/');
-  fireEvent.press(screen.getByTestId('checklist-evaluate'));
+  await fireEvent.press(screen.getByTestId('checklist-evaluate'));
   await waitFor(() => expect(screen).toHavePathname('/evaluate'));
 });
