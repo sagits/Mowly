@@ -11,9 +11,9 @@ export function ServiceExploreRow({ service, onViewPrice }: { service: Service; 
       <View className="flex-1 justify-between p-3">
         <View>
           <Text className="text-lg font-semibold text-ink">{service.name}</Text>
-          <Text numberOfLines={2} className="mt-1 text-sm text-ink">{service.included}</Text>
+          <Text numberOfLines={1} className="mt-1 text-sm text-ink">{service.included}</Text>
         </View>
-        <View className="w-40 self-end">
+        <View className="self-end">
           <Button testID={`browse-view-price-${service.id}`} label="View price" variant="outline" onPress={onViewPrice} />
         </View>
       </View>

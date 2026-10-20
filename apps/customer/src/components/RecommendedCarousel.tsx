@@ -28,7 +28,7 @@ export function RecommendedCarousel({ onQuote }: { onQuote: (id: ServiceId) => v
               <View className="flex-1 pr-3">
                 <Text className="text-lg font-semibold text-ink">{r.title}</Text>
                 <Text className="mb-4 mt-1 text-sm text-ink">{r.body}</Text>
-                <View className="w-44">
+                <View className="self-start">
                   <Button testID={`browse-reco-${r.id}-quote`} label="Get a quote" onPress={() => onQuote(r.id)} />
                 </View>
               </View>
