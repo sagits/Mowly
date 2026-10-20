@@ -130,6 +130,9 @@ importers:
       '@mowly/features':
         specifier: workspace:*
         version: link:../../packages/features
+      '@mowly/mocks':
+        specifier: workspace:*
+        version: link:../../packages/mocks
       '@mowly/stores':
         specifier: workspace:*
         version: link:../../packages/stores
@@ -257,6 +260,9 @@ importers:
       '@mowly/features':
         specifier: workspace:*
         version: link:../../packages/features
+      '@mowly/mocks':
+        specifier: workspace:*
+        version: link:../../packages/mocks
       '@mowly/stores':
         specifier: workspace:*
         version: link:../../packages/stores
@@ -400,6 +406,12 @@ importers:
       '@mowly/ui':
         specifier: workspace:*
         version: link:../ui
+
+  packages/mocks:
+    dependencies:
+      '@mowly/types':
+        specifier: workspace:*
+        version: link:../types
 
   packages/stores:
     dependencies:

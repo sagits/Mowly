@@ -17,6 +17,7 @@
     "@hookform/resolvers": "^5.9.1",
     "@mowly/api": "workspace:*",
     "@mowly/features": "workspace:*",
+    "@mowly/mocks": "workspace:*",
     "@mowly/stores": "workspace:*",
     "@mowly/types": "workspace:*",
     "@mowly/ui": "workspace:*",
