@@ -134,3 +134,7 @@ The account page uses the native header (back arrow, no title) instead of C13's 
 C18 is an Android screenshot, rebuilt in the iOS language of C01-C17. The recommended cards use the service photo where the reference has a cartoon gardener (no illustration asset), carry a hairline border instead of the drop shadow, and the three cards are Take a break, Keep it green and Bite-free summer. The service rows use the catalog `included` sentence (clamped to one line) and the shared `Button` outline pill. The address row shows the seeded address (1820 Maple Ridge Drive) and opens a sheet with that one address and an inert "Add address". The gift icon is inert. The header is shared by all four tabs.
 
 The Browse pills size to their content (no fixed widths) so the labels stay on one line. The service summary is clamped to one line as briefed, so long catalog sentences end in an ellipsis (C18's two-line summaries are shorter than the catalog text).
+
+## [customer] Service detail screenshot simplifications (C20)
+
+C20 is an Android screenshot, rebuilt in the iOS language. The header uses the native stack header (chevron back, plain help-circle icon without the white discs), the title block is centered by iOS rather than left-aligned, the status bar text stays dark, and action row titles are regular weight with the shared `ListRow` green chevron instead of C20's bold titles and dark chevrons. The "What's included?" text is the catalog sentence, shorter than C20's paragraph. Price reads "$53.00 per service" and the pro is the seeded Greenleaf Lawn Co.
