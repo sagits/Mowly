@@ -1,10 +1,36 @@
 /** The header of every quote funnel screen: wordmark, phone icon and the street address. */
 import { Ionicons } from '@expo/vector-icons';
-import { Text, View } from 'react-native';
+import { useNavigation, useRouter } from 'expo-router';
+import { Pressable, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useCustomer } from '@mowly/api';
 import { colors, Wordmark } from '@mowly/ui';
 import { useQuoteDraft } from '../stores/useQuoteDraft';
+
+/**
+ * The X that leaves the funnel and keeps the draft (testid `funnel-close`). It closes the quote modal on
+ * the root stack, so it returns to whichever tab opened it; with nothing under the modal (a web reload or
+ * a deep link) it replaces to Browse.
+ */
+export function FunnelClose({ color = colors.ink }: { color?: string }) {
+  const navigation = useNavigation();
+  const router = useRouter();
+  return (
+    <Pressable
+      testID="funnel-close"
+      accessibilityRole="button"
+      accessibilityLabel="Close"
+      hitSlop={8}
+      onPress={() => {
+        const root = navigation.getParent();
+        if (root?.canGoBack()) root.goBack();
+        else router.replace('/');
+      }}
+    >
+      <Ionicons name="close" size={28} color={color} />
+    </Pressable>
+  );
+}
 
 /** Draft address when the contact step is done, the customer's address before that. */
 export function FunnelHeader() {
@@ -16,7 +42,10 @@ export function FunnelHeader() {
   return (
     <View className="px-4" style={{ paddingTop: top + 8 }}>
       <View className="flex-row items-center justify-between">
-        <Wordmark />
+        <View className="flex-row items-center gap-3">
+          <FunnelClose />
+          <Wordmark />
+        </View>
         <View className="h-10 w-10 items-center justify-center rounded-full border border-border">
           <Ionicons name="call" size={22} color={colors.primary} />
         </View>
