@@ -138,3 +138,7 @@ The Browse pills size to their content (no fixed widths) so the labels stay on o
 ## [customer] Service detail screenshot simplifications (C20)
 
 C20 is an Android screenshot, rebuilt in the iOS language. The header uses the native stack header (chevron back, plain help-circle icon without the white discs), the title block is centered by iOS rather than left-aligned, the status bar text stays dark, and action row titles are regular weight with the shared `ListRow` green chevron instead of C20's bold titles and dark chevrons. The "What's included?" text is the catalog sentence, shorter than C20's paragraph. Price reads "$53.00 per service" and the pro is the seeded Greenleaf Lawn Co.
+
+## [customer] Inbox screenshot simplifications (C21)
+
+C21 is an Android screenshot, rebuilt in the iOS language. The date uses the short format ("Oct 19") instead of "10/19/23", and the preview shows the last message text without the sender-name prefix ("John: ..."). The chat screen behind a row is a placeholder until Task 12.
