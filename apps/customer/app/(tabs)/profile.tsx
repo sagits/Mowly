@@ -4,6 +4,7 @@ import { Text, View } from 'react-native';
 import { useCustomer, useResetDemo } from '@mowly/api';
 import { ConfirmDialog, ListRow, Screen, showToast } from '@mowly/ui';
 import { CustomerHeader } from '../../src/components/CustomerHeader';
+import { useQuoteDraft } from '../../src/stores/useQuoteDraft';
 
 const notInDemo = () => showToast('Not in this demo');
 
@@ -40,6 +41,8 @@ export default function ProfileScreen() {
         onConfirm={() =>
           reset.mutate(undefined, {
             onSuccess: () => {
+              // a half-finished quote must not survive the reset either
+              useQuoteDraft.getState().reset();
               close();
               showToast('Demo reset');
             },
