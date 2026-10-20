@@ -1,0 +1,28 @@
+appId: com.renatoprobst.mowlypro
+---
+- runFlow: common/launch.yaml
+- runFlow: common/sign-out.yaml
+- tapOn:
+    id: welcome-signup
+- tapOn:
+    id: signup-zip
+- inputText: '78704'
+- tapOn:
+    id: signup-email
+- inputText: mike@example.com
+- tapOn:
+    id: signup-phone
+- inputText: '5125550147'
+- tapOn:
+    id: signup-category
+- tapOn:
+    id: signup-category-option-lawn
+- assertVisible:
+    id: core-skills
+- scrollUntilVisible:
+    element:
+      id: signup-next
+- tapOn:
+    id: signup-next
+- assertVisible:
+    id: screen-dashboard

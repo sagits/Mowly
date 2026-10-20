@@ -1,14 +1,7 @@
 appId: com.renatoprobst.mowlypro
 ---
 - runFlow: common/launch.yaml
-- runFlow:
-    file: common/open-drawer-item.yaml
-    env:
-      ITEM: drawer-settings
-- tapOn:
-    id: settings-sign-out
-- tapOn:
-    id: sign-out-confirm
+- runFlow: common/sign-out.yaml
 - tapOn:
     id: welcome-login
 - tapOn:
