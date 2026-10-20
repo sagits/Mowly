@@ -33,7 +33,7 @@ export default function AppLayout() {
         <Drawer.Screen
           key={item.testID}
           name={item.href === '/' ? 'index' : String(item.href).slice(1)}
-          options={{ title: item.label }}
+          options={{ title: item.label, ...(item.href === '/settings' && { headerShown: false }) }}
         />
       ))}
       {/* Pushed (app)-level screens: not drawer items, so a back button replaces the hamburger. */}

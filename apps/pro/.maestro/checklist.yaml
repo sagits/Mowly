@@ -7,6 +7,20 @@ appId: com.renatoprobst.mowlypro
     id: checklist-evaluate
 - assertVisible:
     id: screen-evaluate
+- tapOn:
+    id: equipment-mower
+- tapOn:
+    id: evaluate-save
+- assertVisible:
+    id: checklist-evaluate-done
+- tapOn:
+    id: checklist-work-area
+- tapOn:
+    id: work-area-by-day
+- tapOn:
+    id: work-area-save
+- assertVisible:
+    id: checklist-work-area-done
 - runFlow: common/launch.yaml
 - tapOn:
     id: checklist-profile

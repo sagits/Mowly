@@ -38,7 +38,7 @@ const SERVICES: Service[] = [
 const PRO: Pro = {
   firstName: 'Mike', lastName: 'Sullivan', businessName: 'Sullivan Lawn Care', yearFounded: '2018', crewSize: 2,
   city: 'Austin', customersServed: 1291, email: 'mike@sullivanlawncare.example', mobilePhone: '(512) 555-0188', officePhone: '',
-  businessAddress: '', bio: '', avatar: null, truckPhoto: null, category: 'lawn', skills: ['Mowing', 'Edging', 'Blowing'],
+  businessAddress: '', bio: '', avatar: null, truckPhoto: null, category: 'lawn', skills: ['Lawn Mowing', 'Leaf Removal', 'Cleanup'],
   equipment: { mower: false, trimmer: false, blower: false }, equipmentAnswered: false, startingPoint: ADDRESSES[0]!,
   workAreaMode: 'one', workAreaSaved: false, gpsEnabled: false, damageFeeAccepted: false, taxInfo: null, bankLinked: false,
   notifications: {

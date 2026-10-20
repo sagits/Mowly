@@ -113,3 +113,12 @@ Done checklist rows show a green check (P06 is captured in an all-open state, so
 ## [pro] Build a profile: folder with a Stack, exit through drawer history
 
 `profile/` is a folder with a native `Stack` (intro is the root, `form` is pushed). The plan's `router.dismiss(2)` cannot pop a Stack root, so saving runs `router.dismiss()` then `router.back()`: the first pops the form, the second leaves the intro through the drawer's history back to whoever opened it. The intro shows the green `BackButton` (not a drawer root). Differences from P08/P09: a leaf icon replaces the illustration, the form is prefilled from the Pro record once it loads (so re-saving never wipes the avatar), and the camera glyph is Ionicons' `camera-outline`.
+
+## [pro] Core skills follow P05; the seed skills were renamed to match
+`CORE_SKILLS.lawn` is the P05 list (Cleanup, Lawn Mowing, Leaf Removal, Weed Pulling, Weeding). The foundation seed used invented names (Mowing, Edging, Blowing) that are not in P05, so the seed's `skills` became `['Lawn Mowing', 'Leaf Removal', 'Cleanup']` so the toggles preselect. Value-only change in `packages/mocks/src/seed.ts` (no other use of those names).
+
+## [pro] Settings is a folder with a Stack; `settings` Drawer.Screen is configured in the DRAWER_ITEMS map
+`settings` is already a drawer item, so `headerShown: false` is applied inside the map (a second `Drawer.Screen name="settings"` throws "Screen names must be unique"). Work area opened from the Dashboard has a one-screen stack, so back falls through to drawer history; a test confirms the Settings item still shows the list afterwards.
+
+## [pro] Fidelity of skills, evaluate and work area
+Not compared against a live screenshot (the simulator was stuck on an "Open in Mowly Pro" system dialog after a deep-link attempt). Built from P21 and P05 by inspection: work-area copy, "Main Crew", Mon-Sun row with pencil, radios, startingPoint address with pencil, full-width green Save. The pool category list and the callout header are transcribed/invented as in the prototype.
