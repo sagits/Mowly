@@ -1,7 +1,7 @@
 /** Quote step 4: pick a frequency, start date and promo (C08-C12). */
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useQuote, useService } from '@mowly/api';
 import { nextWeekday } from '@mowly/types';
@@ -25,6 +25,8 @@ export default function QuotePlanScreen() {
   const [dateOpen, setDateOpen] = useState(false);
   const [promoOpen, setPromoOpen] = useState(false);
   const [busy, setBusy] = useState(false);
+  const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  useEffect(() => () => clearTimeout(timer.current), []);
 
   useEffect(() => {
     if (!quote) return;
@@ -132,9 +134,13 @@ export default function QuotePlanScreen() {
           disabled={!chosen}
           loading={busy}
           onPress={() => {
+            if (busy) return;
             setBusy(true);
             // ponytail: nothing to wait for; the delay only shows the spinner of C12
-            setTimeout(() => router.push('/quote/account'), 800);
+            timer.current = setTimeout(() => {
+              setBusy(false);
+              router.push('/quote/account');
+            }, 800);
           }}
         />
         <DateSheet

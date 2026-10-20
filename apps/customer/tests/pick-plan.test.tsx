@@ -1,4 +1,5 @@
 // Tests the Pick your plan step (C08-C12): preselect, promo, start date sheet, exits.
+import { router } from 'expo-router';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { useQuoteDraft } from '../src/stores/useQuoteDraft';
 import { renderApp } from './renderApp';
@@ -42,13 +43,18 @@ test('not looking goes back to service select', async () => {
   await waitFor(() => expect(screen).toHavePathname('/quote'));
 });
 
-test('continue spins then opens the account step', async () => {
+test('continue spins, opens the account step once, and is usable again on return', async () => {
   jest.useFakeTimers();
   await renderApp('/quote/plan');
   await screen.findByTestId('plan-row-weekly');
   await fireEvent.press(screen.getByTestId('quote-continue'));
+  await fireEvent.press(screen.getByTestId('quote-continue')); // a second press is ignored
   expect(screen.getByTestId('quote-continue-spinner')).toBeTruthy();
   act(() => jest.advanceTimersByTime(800));
   await waitFor(() => expect(screen).toHavePathname('/quote/account'));
+  await act(async () => router.back()); // one push only: back lands on the plan, not a second account
+  await waitFor(() => expect(screen).toHavePathname('/quote/plan'));
+  expect(screen.queryByTestId('quote-continue-spinner')).toBeNull();
+  expect(screen.getByTestId('quote-continue')).toBeEnabled();
   jest.useRealTimers();
 });
