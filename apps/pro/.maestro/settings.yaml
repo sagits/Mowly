@@ -1,0 +1,28 @@
+appId: com.renatoprobst.mowlypro
+---
+- runFlow: common/launch.yaml
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-settings
+- tapOn:
+    id: settings-business-profile
+- tapOn:
+    id: bp-office-phone
+- eraseText: 20
+- inputText: "5125550100"
+- tapOn:
+    id: bp-address
+- eraseText: 80
+- inputText: 1820 Maple Ridge Drive
+- swipe:
+    direction: UP
+- tapOn:
+    id: bp-bio
+- inputText: Family-run since 2012.
+- swipe:
+    direction: DOWN
+- tapOn:
+    id: bp-save
+- assertVisible:
+    id: toast

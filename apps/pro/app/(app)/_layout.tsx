@@ -26,6 +26,11 @@ export default function AppLayout() {
       <Stack.Screen name="profile/index" options={{ title: '', headerShadowVisible: false }} />
       <Stack.Screen name="profile/form" options={{ title: 'Build a profile', headerBackTitle: 'Back', headerBackButtonDisplayMode: 'default', headerShadowVisible: false }} />
       <Stack.Screen name="evaluate" options={{ title: 'Evaluate your skills' }} />
+      <Stack.Screen name="settings/business-profile" options={{ title: 'Business Profile' }} />
+      <Stack.Screen name="settings/account-info" options={{ title: 'Account Info' }} />
+      <Stack.Screen name="settings/billing" options={{ title: 'Billing' }} />
+      <Stack.Screen name="settings/notifications" options={{ title: 'Notifications' }} />
+      <Stack.Screen name="settings/account" options={{ title: 'Account Management' }} />
       <Stack.Screen name="settings/work-area" options={{ title: 'Set up your work area' }} />
       <Stack.Screen name="settings/location" options={{ title: 'Turn on your GPS' }} />
       <Stack.Screen name="settings/damage-fee" options={{ title: 'Damage Fee' }} />
