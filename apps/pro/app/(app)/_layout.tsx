@@ -27,6 +27,8 @@ export default function AppLayout() {
       <Stack.Screen name="settings/work-area" options={{ title: 'Set up your work area' }} />
       <Stack.Screen name="settings/location" options={{ title: 'Turn on your GPS' }} />
       <Stack.Screen name="settings/damage-fee" options={{ title: 'Damage Fee' }} />
+      <Stack.Screen name="settings/tax-info" options={{ title: 'Provide tax info' }} />
+      <Stack.Screen name="settings/bank" options={{ title: 'Connect your bank account' }} />
     </Stack>
   );
 }

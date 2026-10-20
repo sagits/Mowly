@@ -4,16 +4,15 @@ import type { ChecklistItemId, Pro } from '@mowly/types';
 
 export type ChecklistItem = { id: ChecklistItemId; label: string; group: 'profile' | 'paid'; href: Href };
 
-// Hrefs to routes later tasks create are cast.
 export const CHECKLIST: ChecklistItem[] = [
   { id: 'profile', label: 'Build a profile', group: 'profile', href: '/profile' },
   { id: 'skills', label: 'Add your skills', group: 'profile', href: '/skills' },
   { id: 'evaluate', label: 'Evaluate your skills', group: 'profile', href: '/evaluate' },
-  { id: 'work-area', label: 'Add your work area', group: 'profile', href: '/settings/work-area' as Href },
+  { id: 'work-area', label: 'Add your work area', group: 'profile', href: '/settings/work-area' },
   { id: 'gps', label: 'Turn on your GPS', group: 'paid', href: '/settings/location' },
   { id: 'damage-fee', label: 'Accept damage fee', group: 'paid', href: '/settings/damage-fee' },
-  { id: 'tax', label: 'Provide tax info', group: 'paid', href: '/settings/tax-info' as Href },
-  { id: 'bank', label: 'Connect your bank account', group: 'paid', href: '/settings/bank' as Href },
+  { id: 'tax', label: 'Provide tax info', group: 'paid', href: '/settings/tax-info' },
+  { id: 'bank', label: 'Connect your bank account', group: 'paid', href: '/settings/bank?from=checklist' },
 ];
 
 /** Which rows are finished, read from the Pro record. */

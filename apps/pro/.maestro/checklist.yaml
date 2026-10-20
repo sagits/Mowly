@@ -34,7 +34,6 @@ appId: com.renatoprobst.mowlypro
     id: damage-fee-accept
 - assertVisible:
     id: checklist-damage-fee-done
-- runFlow: common/launch.yaml
 - tapOn:
     id: checklist-profile
 - tapOn:
@@ -60,3 +59,52 @@ appId: com.renatoprobst.mowlypro
     id: profile-continue
 - assertVisible:
     id: screen-dashboard
+- scrollUntilVisible:
+    element:
+      id: checklist-tax
+- tapOn:
+    id: checklist-tax
+- tapOn:
+    id: tax-entity
+- tapOn:
+    id: tax-entity-option-individual
+- tapOn:
+    id: tax-legal-name
+- inputText: Mike Sullivan
+- tapOn:
+    id: tax-dob
+- inputText: 04/12/1985
+- tapOn: Tax info
+- tapOn:
+    id: tax-address
+- inputText: 1820 Maple Ridge Drive, Austin, TX 78704
+- tapOn: Tax info
+- tapOn:
+    id: tax-save
+- scrollUntilVisible:
+    element:
+      id: checklist-bank
+- tapOn:
+    id: checklist-bank
+- tapOn:
+    id: bank-link
+- assertVisible:
+    id: bank-linked
+- tapOn:
+    id: bank-done
+- assertVisible:
+    id: checklist-profile-done
+- assertVisible:
+    id: checklist-skills-done
+- assertVisible:
+    id: checklist-evaluate-done
+- assertVisible:
+    id: checklist-work-area-done
+- assertVisible:
+    id: checklist-gps-done
+- assertVisible:
+    id: checklist-damage-fee-done
+- assertVisible:
+    id: checklist-tax-done
+- assertVisible:
+    id: checklist-bank-done
