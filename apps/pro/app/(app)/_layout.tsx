@@ -37,6 +37,7 @@ export default function AppLayout() {
         />
       ))}
       {/* Pushed (app)-level screens: not drawer items, so a back button replaces the hamburger. */}
+      <Drawer.Screen name="profile" options={{ headerShown: false }} />
       <Drawer.Screen name="evaluate" options={{ title: 'Evaluate your skills', headerLeft: () => <BackButton /> }} />
     </Drawer>
   );

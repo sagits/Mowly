@@ -109,3 +109,7 @@ The pro Drawer uses `backBehavior="history"`, so `router.back()` from a step scr
 ## [pro] Dashboard fidelity differences from P06
 
 Done checklist rows show a green check (P06 is captured in an all-open state, so it has no done row), and the header shows the green centered "Dashboard" title (PRD navigation rule; P06 shows none).
+
+## [pro] Build a profile: folder with a Stack, exit through drawer history
+
+`profile/` is a folder with a native `Stack` (intro is the root, `form` is pushed). The plan's `router.dismiss(2)` cannot pop a Stack root, so saving runs `router.dismiss()` then `router.back()`: the first pops the form, the second leaves the intro through the drawer's history back to whoever opened it. The intro shows the green `BackButton` (not a drawer root). Differences from P08/P09: a leaf icon replaces the illustration, the form starts empty (the capture is prefilled), and the camera glyph is Ionicons' `camera-outline`.

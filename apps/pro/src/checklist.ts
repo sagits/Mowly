@@ -6,7 +6,7 @@ export type ChecklistItem = { id: ChecklistItemId; label: string; group: 'profil
 
 // Hrefs to routes later tasks create are cast.
 export const CHECKLIST: ChecklistItem[] = [
-  { id: 'profile', label: 'Build a profile', group: 'profile', href: '/profile' as Href },
+  { id: 'profile', label: 'Build a profile', group: 'profile', href: '/profile' },
   { id: 'skills', label: 'Add your skills', group: 'profile', href: '/skills' },
   { id: 'evaluate', label: 'Evaluate your skills', group: 'profile', href: '/evaluate' },
   { id: 'work-area', label: 'Add your work area', group: 'profile', href: '/settings/work-area' as Href },

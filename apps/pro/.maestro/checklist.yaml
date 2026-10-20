@@ -7,3 +7,26 @@ appId: com.renatoprobst.mowlypro
     id: checklist-evaluate
 - assertVisible:
     id: screen-evaluate
+- runFlow: common/launch.yaml
+- tapOn:
+    id: checklist-profile
+- tapOn:
+    id: profile-intro-continue
+- tapOn:
+    id: profile-business
+- inputText: Sullivan Lawn
+- tapOn:
+    id: profile-year
+- inputText: "2018"
+- tapOn:
+    id: profile-crew
+- inputText: "3"
+- tapOn: Customers will see this information when you’re assigned to the job.
+- tapOn:
+    id: profile-headshot
+- tapOn:
+    id: avatar-1
+- tapOn:
+    id: profile-continue
+- assertVisible:
+    id: screen-dashboard
