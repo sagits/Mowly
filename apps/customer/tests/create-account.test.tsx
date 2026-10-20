@@ -1,6 +1,6 @@
 // Tests the Create your account step and booking (C13-C15): validation gate, single booking, clean funnel.
 import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';
-import { setMockDelay } from '@mowly/mocks';
+import { getDb, setMockDelay } from '@mowly/mocks';
 import { useQuoteDraft } from '../src/stores/useQuoteDraft';
 import { renderApp } from './renderApp';
 
@@ -53,4 +53,17 @@ test('booking lands on top of My Services, once, with a clean funnel after', asy
   expect(cards).toHaveLength(3);
   expect(cards[0]).toHaveTextContent(/Leaf Removal/);
   expect(useQuoteDraft.getState()).toMatchObject({ serviceId: null, frequency: null, promoApplied: false });
+});
+
+test('a failed booking shows an error and unlocks BOOK NOW again', async () => {
+  await renderApp('/quote/account');
+  await screen.findByTestId('book-now');
+  await fill();
+  await fireEvent.press(screen.getByTestId('account-terms'));
+  await waitFor(() => expect(screen.getByTestId('book-now')).toBeEnabled());
+  getDb().addresses.length = 0; // the booking now fails: its address is gone
+  await fireEvent.press(screen.getByTestId('book-now'));
+  expect(await screen.findByTestId('book-error')).toBeTruthy();
+  await waitFor(() => expect(screen.getByTestId('book-now')).toBeEnabled());
+  expect(screen).toHavePathname('/quote/account');
 });

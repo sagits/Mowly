@@ -2,7 +2,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'expo-router';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useCreateBooking, useQuote } from '@mowly/api';
@@ -25,6 +25,7 @@ export default function QuoteAccountScreen() {
   const { data: quote } = useQuote(serviceId, contact?.addressId ?? null);
   const { mutateAsync, isPending } = useCreateBooking();
   const sent = useRef(false);
+  const [failed, setFailed] = useState(false);
   const { control, handleSubmit, formState } = useForm<AccountInput>({
     resolver: zodResolver(AccountSchema),
     mode: 'onChange',
@@ -36,11 +37,13 @@ export default function QuoteAccountScreen() {
     // a ref, because a second press can land before React re-renders with isPending
     if (sent.current || !plan || !serviceId || !frequency || !startDate || !contact) return;
     sent.current = true;
+    setFailed(false);
     try {
       const { id } = await mutateAsync({ serviceId, frequency, price: costPerService(plan.price, promoApplied), startDate, addressId: contact.addressId });
       router.replace({ pathname: '/quote/booked', params: { id } });
     } catch {
       sent.current = false;
+      setFailed(true);
     }
   });
 
@@ -112,6 +115,11 @@ export default function QuoteAccountScreen() {
             </Text>
           </Pressable>
         </ScrollView>
+        {failed ? (
+          <Text testID="book-error" className="px-4 pb-2 text-center text-base text-danger">
+            We couldn't book your service. Please try again.
+          </Text>
+        ) : null}
         <CostFooter
           testID="book-now"
           price={plan ? costPerService(plan.price, promoApplied) : 0}
