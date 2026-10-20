@@ -2,7 +2,7 @@
  * The one Tailwind preset all three apps extend. It layers the design tokens onto NativeWind's
  * preset, so a token is defined once in `@mowly/ui/tokens` and reaches every app's class names.
  */
-const { colors, radius, shadow, layout } = require('@mowly/ui/tokens');
+const { colors, radius, layout } = require('@mowly/ui/tokens');
 
 /**
  * `System` on iOS and Android (an unregistered family is rejected on iOS), Inter on web. NativeWind
@@ -37,7 +37,6 @@ module.exports = {
         micro: ['9px', { lineHeight: '12px', fontWeight: '600' }],
       },
       borderRadius: { field: `${radius.field}px`, card: `${radius.card}px` },
-      boxShadow: { card: shadow.card.boxShadow },
       maxWidth: { content: `${layout.maxContentWidth}px` },
       spacing: { sidebar: `${layout.sidebarWidth}px` },
     },

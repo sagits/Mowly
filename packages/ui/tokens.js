@@ -33,13 +33,6 @@ const colors = {
 
 const radius = { field: 4, card: 8 };
 
-/**
- * `boxShadow` because one declaration covers native and web. The `shadow*` props are not
- * deprecated — the current React Native docs still recommend them for simple shadows — so this
- * is a choice for a single cross-platform spelling, not a migration. See `DECISIONS.md`.
- */
-const shadow = { card: { boxShadow: '0px 2px 10px rgba(43, 52, 80, 0.38)' } };
-
 const layout = { sidebarWidth: 240, maxContentWidth: 720, wideBreakpoint: 768 };
 
-module.exports = { colors, radius, shadow, layout };
+module.exports = { colors, radius, layout };

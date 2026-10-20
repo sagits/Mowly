@@ -1,4 +1,4 @@
-/** A confirm dialog shown over the screen. */
+/** An iOS-alert style confirm dialog shown over the screen. */
 import { ActivityIndicator, Modal, Pressable, Text, View } from 'react-native';
 import { colors } from '../tokens';
 
@@ -16,6 +16,7 @@ export function ConfirmDialog({
   onConfirm,
   pending = false,
   spinnerTestID,
+  destructive = true,
 }: {
   visible: boolean;
   testID?: string;
@@ -30,7 +31,10 @@ export function ConfirmDialog({
   /** The confirm is a request that can be waited on. Omitted where it is synchronous and cannot be. */
   pending?: boolean;
   spinnerTestID?: string;
+  /** Colors the confirm `danger` (default) or, when false, `primary`. */
+  destructive?: boolean;
 }) {
+  const confirmInk = destructive ? 'text-danger' : 'text-primary';
   return (
     <Modal
       visible={visible}
@@ -40,18 +44,18 @@ export function ConfirmDialog({
       onRequestClose={onKeep}
     >
       <View className="flex-1 items-center justify-center bg-scrim px-8">
-        <View testID={testID} className="w-full rounded-card bg-surface px-5 py-5 shadow-card">
-          <Text className="text-lg font-semibold text-ink">{title}</Text>
-          <Text className="mt-2 text-sm leading-5 text-muted">{message}</Text>
-          <View className="mt-4 flex-row gap-3">
+        <View testID={testID} className="w-full rounded-3xl bg-pageMuted px-5 py-6">
+          <Text className="px-2 text-xl text-ink">{title}</Text>
+          {message ? <Text className="mt-2 px-2 text-sm leading-5 text-muted">{message}</Text> : null}
+          <View className="mt-5 flex-row gap-3">
             <Pressable
               testID={keepTestID}
               accessibilityRole="button"
               accessibilityLabel={keepLabel}
-              className="flex-1 items-center rounded-card border border-border py-3"
+              className="flex-1 items-center rounded-full bg-callout py-3.5"
               onPress={onKeep}
             >
-              <Text className="text-base font-semibold text-ink">{keepLabel}</Text>
+              <Text className="text-lg font-semibold text-ink">{keepLabel}</Text>
             </Pressable>
             <Pressable
               testID={confirmTestID}
@@ -59,13 +63,15 @@ export function ConfirmDialog({
               accessibilityLabel={confirmLabel}
               accessibilityState={{ disabled: pending }}
               disabled={pending}
-              className={`flex-1 flex-row items-center justify-center gap-2 rounded-card bg-danger py-3 ${
+              className={`flex-1 flex-row items-center justify-center gap-2 rounded-full bg-callout py-3.5 ${
                 pending ? 'opacity-60' : ''
               }`}
               onPress={onConfirm}
             >
-              {pending ? <ActivityIndicator testID={spinnerTestID} color={colors.surface} /> : null}
-              <Text className="text-base font-semibold text-surface">{confirmLabel}</Text>
+              {pending ? (
+                <ActivityIndicator testID={spinnerTestID} color={destructive ? colors.danger : colors.primary} />
+              ) : null}
+              <Text className={`text-lg font-semibold ${confirmInk}`}>{confirmLabel}</Text>
             </Pressable>
           </View>
         </View>

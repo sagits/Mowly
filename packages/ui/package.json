@@ -14,9 +14,12 @@
     "@mowly/types": "workspace:*"
   },
   "peerDependencies": {
+    "@expo/vector-icons": "*",
+    "expo-router": "*",
     "nativewind": "*",
     "react": "*",
     "react-hook-form": "*",
-    "react-native": "*"
+    "react-native": "*",
+    "zustand": "*"
   }
 }
