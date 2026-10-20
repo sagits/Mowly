@@ -13,6 +13,7 @@ module.exports = {
   rootDir: __dirname,
   roots: ['<rootDir>/app', '<rootDir>/src', '<rootDir>/tests', path.resolve(__dirname, '../../packages')],
   setupFilesAfterEnv: [...(expoPreset.setupFilesAfterEnv ?? []), '<rootDir>/jest.setup.ts'],
+  moduleNameMapper: { ...expoPreset.moduleNameMapper, '\\.css$': '<rootDir>/tests/styleStub.js' },
   testPathIgnorePatterns: ['/node_modules/', '/dist/'],
   modulePaths: [path.resolve(__dirname, 'node_modules'), path.resolve(__dirname, '../../node_modules')],
   testTimeout: 30_000,

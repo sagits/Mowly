@@ -1,2 +1,3 @@
 /** The Zustand stores. Everything the API cannot hold lives behind one of these. */
-export {};
+export { useSession } from './useSession';
+export type { SessionState } from './useSession';
