@@ -2,8 +2,9 @@
 import { useRouter } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 import { useBookings } from '@mowly/api';
-import { Button, HeaderBand, Screen, Skeleton } from '@mowly/ui';
+import { Button, Screen, Skeleton } from '@mowly/ui';
 import { BookingCard } from '../../src/components/BookingCard';
+import { CustomerHeader } from '../../src/components/CustomerHeader';
 import { useQuoteDraft } from '../../src/stores/useQuoteDraft';
 
 /** The My Services tab. */
@@ -13,7 +14,7 @@ export default function MyServicesScreen() {
   return (
     <View testID="screen-services" className="flex-1">
       <Screen>
-        <HeaderBand title="My Services" />
+        <CustomerHeader title="My Services" />
         {isPending ? (
           <View testID="services-loading" className="px-4 pt-4">
             <Skeleton className="mb-4 h-28 w-full" />

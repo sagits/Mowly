@@ -1,0 +1,41 @@
+appId: com.renatoprobst.mowly
+---
+# Customer half of the PRD demo: Browse -> VIEW PRICE -> quote -> book -> open the booking.
+- runFlow: common/launch.yaml
+- tapOn:
+    id: browse-view-price-leaf-removal
+- tapOn:
+    id: quote-continue
+- extendedWaitUntil:
+    visible:
+      id: plan-screen
+    timeout: 15000
+- tapOn:
+    id: quote-continue
+- tapOn:
+    id: account-first
+- inputText: Renato
+- tapOn:
+    id: account-last
+- inputText: Probst
+- tapOn:
+    id: account-email
+- inputText: renato@example.com
+- hideKeyboard
+- scroll
+- scroll
+- tapOn:
+    id: account-terms
+- tapOn:
+    id: book-now
+- extendedWaitUntil:
+    visible:
+      id: booked-screen
+    timeout: 15000
+- tapOn:
+    id: booked-go
+- assertVisible: '.*Leaf Removal.*'
+- tapOn:
+    id: 'booking-card-.*'
+- assertVisible:
+    id: service-detail
