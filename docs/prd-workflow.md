@@ -2,7 +2,7 @@
 
 ## Order
 
-1. Renato takes the screenshots of both apps (shot lists below) and puts them in `screenshots/`
+1. Renato takes the screenshots of both apps and puts them in `screenshots/` (folders below)
 2. Run the skill in this directory to generate `PRD.md` from the screenshots
 3. Renato reviews the PRD (app names, stack, scope)
 4. New repo for the clone, with the PRD and screenshots inside `poc/`
