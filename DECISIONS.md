@@ -9,13 +9,12 @@ Cloned the template at depth 1 and copied only what the PRD's Keep list names: r
 (`app.json`, babel, metro, tailwind, `global.css`, `nativewind-env.d.ts`, `tsconfig.json`,
 `app/_layout.tsx`, `app/+html.tsx`). `apps/client` became `apps/customer`; `apps/pro` stayed.
 Kept in the packages: the query client factory, `AppProviders` (query client and safe-area only),
-`WebShell`, and `ConfirmDialog`, `FormField`, `HeaderBand`, `Screen`, `StatusPill` in `packages/ui`
+`WebShell`, and `ConfirmDialog`, `FormField`, `HeaderBand`, `Screen` in `packages/ui` (`StatusPill` was kept at first and deleted in Task 6)
 with `tokens.js`, because the Tailwind preset imports the tokens and later tasks rewrite them.
 
 Dropped: `apps/both`, the parity script, every Detox file and dependency, the DummyJSON client,
 the write overlay, the Role lock, hydration gates, `packages/testing`, and every repairs screen,
-type, store and test. The packages' `index.ts` barrels export only what survived. `StatusPill`
-carries a local placeholder status type until the Mowly domain types exist. Mowly runs on Maestro
+type, store and test. The packages' `index.ts` barrels export only what survived. Mowly runs on Maestro
 (PRD) and a persisting mock database, so none of that machinery has a job here.
 
 The inherited config decisions still hold: hoisted `nodeLinker`, `autoInstallPeers: false`, ESLint
@@ -27,8 +26,7 @@ depending on `@mowly/ui` for the tokens. ESLint's resolver path now points at `a
 Each app has its own `jest.config.js`. The customer project's roots are its `app`, `src` and
 `tests` plus `../../packages`; the pro project's roots stop at its own folders. Package tests run
 once, in the customer project, which is repairs' one-project pattern applied to two apps: a second
-copy would run the same tests against the same files. The pro project sets `passWithNoTests` so
-`pnpm test` stays green until the pro app has tests of its own. The AsyncStorage Jest mock that
+copy would run the same tests against the same files. The pro project briefly set `passWithNoTests` until the pro app had tests of its own (it has them now, so the flag is gone). The AsyncStorage Jest mock that
 repairs kept in `jest.setup.js` is not carried over, because no store persists yet.
 
 ## `@expo/vector-icons` is added for the icon set
@@ -60,7 +58,7 @@ The template's `tsconfig.json` mapped `expo-router` to `./node_modules/expo-rout
 
 ## Pro drawer: `Placeholder` helper and the name source
 
-The ten drawer placeholders share `apps/pro/src/drawer/Placeholder.tsx` (title plus `screen-<segment>` testID) instead of repeating the markup. The drawer header name comes from `usePro()` (first and last name, uppercased). Pro's Jest project now stubs `*.css` and drops `passWithNoTests`; its tsconfig gained `types: ["jest","node"]`, mirroring the customer fixes. `SwitchAppLink` sits at the bottom of the drawer (renders null on native).
+The ten drawer placeholders share `apps/pro/src/drawer/Placeholder.tsx` (title plus `screen-<segment>` testID) instead of repeating the markup. The drawer header name comes from `usePro()` (first and last name, uppercased). Pro's Jest project now stubs `*.css` and has no `passWithNoTests`; its tsconfig gained `types: ["jest","node"]`, mirroring the customer fixes. `SwitchAppLink` sits at the bottom of the drawer (renders null on native).
 
 ## Maestro harness: ports, device, and three build/run findings
 
@@ -73,3 +71,23 @@ The ten drawer placeholders share `apps/pro/src/drawer/Placeholder.tsx` (title p
 - **Maestro driver host port:** `maestro` and `maestro test` 2.11.0 expose no option for the iOS driver's host port (only `--device`, `--format`, `--[no-]reinstall-driver` and similar), so `e2e.sh` cannot give each app its own driver port. Two concurrent runs on two simulators are untested.
 - **`apps/*/.gitignore` stay tracked:** `expo start` regenerates them (expo-env.d.ts entry) on every run, so deleting them leaves `git status` dirty. Kept.
 - `e2e.sh` runs Metro in its own process group and kills the group on every exit path, and refuses to start if the port already serves a Metro.
+
+## Final review fixes (foundation)
+
+- **Single test file in a package:** packages have no `test` script; their tests run in the customer Jest project. Run one with `pnpm --filter @mowly/customer test packages/<pkg>/src/<file>`. `pnpm --filter @mowly/pro test` never runs package tests. This replaces the `pnpm --filter <package> test <file>` form in `CLAUDE.md`.
+- **Content centering lives in `Screen`:** at `md` and up (`useIsWide()`), `Screen` wraps its children in a `w-full max-w-content self-center` column; `HeaderBand` stays full width because screens render it outside that column only if they choose to. Neither track re-implements centering.
+- **Maestro runs are serialized across worktrees:** Maestro 2.11 has no driver-port option, so two concurrent runs collide. `scripts/e2e.sh` takes `mkdir /tmp/mowly-maestro.lock` around the `maestro test` call only (retry every 2 s, prints "waiting for Maestro lock" once, errors after 15 minutes, released in the EXIT trap only by the process that took it). Metro and builds stay parallel. A stale lock after a crashed run is removed with `rmdir /tmp/mowly-maestro.lock`.
+- **Tailwind content globs include `./src/**`** in both apps, so classes written in app `src/` (the pro drawer) reach the built CSS.
+- **Number fields use `z.coerce.number()`:** `FormField` stores TextInput strings. An empty string coerces to 0, which still fails `.min(1)` / `.positive()` with the required message.
+- **`delay()` at 0 ms resolves without a timer,** so tests with `setMockDelay(0, 0)` need no fake timers.
+- **`getAvailableJobs` sorts by id,** so the list order is stable between reads and refetches.
+- **`useClaimJob` invalidates jobs, route and billing,** because a claim for today changes the route and a claim creates a billing entry.
+- **Photos come from Wikimedia Commons** (CC0, public domain or CC BY, credited in `packages/ui/assets/CREDITS.md`) instead of Unsplash or Pexels, which the build environment could not reach.
+- **`EXPO_PUBLIC_SEED=false` is the PRD's `SEED=false`.** Expo only inlines `EXPO_PUBLIC_` variables. Metro must be restarted (or the web/native bundle rebuilt) with the variable set.
+- **`useIsWide` renders narrow first** and switches after mount, so the hydrated tree matches the static HTML (avoids React error #418).
+- **The web `<Head>` title override is guarded off native** (`Platform.OS === 'web'`), because `Head` throws on native; on web it replaces the empty `<title>` React Navigation injects.
+- **Pro `(app)/_layout.tsx` derives `Stack.Screen` names from `href.slice(1)`.** A drawer destination whose route is nested (for example `settings/index.tsx`) must keep a name that matches, or the screen loses its title and header button.
+- **Query keys live in `packages/api/src/queryKeys.ts`,** still exported as `queryKeys` from the package, so the two tracks do not both edit `customer.ts`.
+- **Favicon:** an inline SVG data URI `<link rel="icon">` in `WebShell` and the landing page (the green M), so the browser makes no `/favicon.ico` request. Color comes from the primary token.
+- **Claimed job dates are capped at +28 days,** so they stay within the current and next month (the calendar shows two months) whatever day it is.
+- **`find` is internal** (`packages/mocks/src/find.ts`, not re-exported).

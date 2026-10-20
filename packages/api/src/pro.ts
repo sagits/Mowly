@@ -4,7 +4,7 @@ import {
   claimJob, getAvailableJobs, getBilling, getClaimedJobs, getJob, getPro, getTodayRoute, sendRecommendation, updatePro,
 } from '@mowly/mocks';
 import type { IsoDate, Pro, Recommendation } from '@mowly/types';
-import { queryKeys } from './customer';
+import { queryKeys } from './queryKeys';
 
 /** The signed-in demo pro. */
 export const usePro = () => useQuery({ queryKey: queryKeys.pro, queryFn: getPro });

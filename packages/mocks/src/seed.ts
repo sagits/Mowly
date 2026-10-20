@@ -1,4 +1,4 @@
-// The customer-side seed data. Every date is built from today().
+// The seed data for both apps. Every date is built from today().
 import { addDays, today } from '@mowly/types';
 import type { Address, Frequency, Job, Pro, Service, ServiceId } from '@mowly/types';
 import type { MockDb } from './db';
@@ -13,7 +13,6 @@ const ADDRESSES: Address[] = [
   addr('addr-cedar-crest', '9102 Cedar Crest Road', '78748'),
   addr('addr-pecan-grove', '1204 Pecan Grove Court', '78704'),
 ];
-
 
 const service = (id: ServiceId, name: string, included: string, prices: [Frequency, number][]): Service => ({
   id,
@@ -78,7 +77,8 @@ const ROWS: JobRow[] = [
 
 // Day offsets from today. Available jobs offer these dates; claimed jobs sit on the single date at their index.
 const AVAILABLE_DAYS = [[0, 1, 3], [0, 2], [1, 2, 4], [0, 1], [2, 3], [1, 3, 4], [0, 4], [3, 4], [0, 1, 2], [2, 3, 4]];
-const CLAIMED_DAYS = [0, 0, 0, 1, 2, 4, 7, 12, 16, 22, 29, 35];
+// Capped at 28: the calendar shows two months, and the next month ends at least 28 days out.
+const CLAIMED_DAYS = [0, 0, 0, 1, 2, 4, 7, 12, 16, 20, 24, 28];
 
 function buildJob(i: number): Job {
   const [street, zip, yardSqft, serviceName, frequency, price, distanceMiles, x, y] = ROWS[i]!;

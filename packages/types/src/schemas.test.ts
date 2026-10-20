@@ -1,6 +1,7 @@
+// Tests the form schemas and their error copy.
 import type { ZodType } from 'zod';
 import {
-  AccountSchema, BuildProfileSchema, BusinessProfileSchema, DEMO_CARD, QuoteContactSchema, SignUpSchema,
+  AccountSchema, BuildProfileSchema, BusinessProfileSchema, DEMO_CARD, QuoteContactSchema, RecommendSchema, SignUpSchema,
 } from './schemas';
 
 const issue = (s: ZodType, v: unknown) => s.safeParse(v).error?.issues[0]?.message;
@@ -26,4 +27,11 @@ test('sign up and profile forms', () => {
   expect(issue(SignUpSchema, { zip: '7870', email: 'a@b.co', phone: '5125550147', category: 'lawn' })).toBe('Enter a 5-digit zip code');
   expect(issue(BuildProfileSchema, { businessName: 'S', yearFounded: '2099', crewSize: 2 })).toBe('Enter a valid year');
   expect(issue(BusinessProfileSchema, { companyName: 'S', officePhone: '5125550147', businessAddress: 'x', bio: 'a'.repeat(251) })).toBe('250 characters max');
+});
+test('number fields accept the strings a text input stores', () => {
+  const profile = { businessName: 'S', yearFounded: '2018', crewSize: '2' };
+  expect(BuildProfileSchema.parse(profile).crewSize).toBe(2);
+  expect(issue(BuildProfileSchema, { ...profile, crewSize: '' })).toBe('Enter your crew size');
+  expect(RecommendSchema.parse({ price: '45', note: 'x' }).price).toBe(45);
+  expect(issue(RecommendSchema, { price: '', note: 'x' })).toBe('Enter a price');
 });

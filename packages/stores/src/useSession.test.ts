@@ -1,3 +1,4 @@
+// Tests the in-memory session store.
 import { useSession } from './useSession';
 
 test('sign out and back in', () => {

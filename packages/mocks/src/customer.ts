@@ -2,16 +2,9 @@
 import { FREQUENCY_DAYS, addDays } from '@mowly/types';
 import type { Address, Booking, BookingChange, Customer, NewBooking, PlanOption, Service, Thread } from '@mowly/types';
 import { delay } from './delay';
+import { find } from './find';
 import { getDb, resetDb } from './db';
 import { hash, lotSizeSqft, priceForLot } from './pricing';
-
-const notFound = () => new Error('Not found');
-
-export function find<T extends { id: string }>(list: T[], id: string): T {
-  const item = list.find((x) => x.id === id);
-  if (!item) throw notFound();
-  return item;
-}
 
 /** All services in catalog order. */
 export async function getServices(): Promise<Service[]> {

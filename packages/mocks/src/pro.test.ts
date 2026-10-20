@@ -1,3 +1,4 @@
+// Tests the pro resolvers and the relative seed dates.
 import { addDays, setToday, today } from '@mowly/types';
 import { claimJob, configureMocks, getAvailableJobs, getBilling, getClaimedJobs, getPro, getTodayRoute, resetDb, updatePro } from './index';
 
@@ -36,6 +37,14 @@ test('dates roll over a year boundary', async () => {
   setToday('2026-12-30'); resetDb();
   const dates = (await getAvailableJobs()).flatMap((j) => j.availableDates);
   expect(dates.some((d) => d.startsWith('2027-01'))).toBe(true);
+});
+test('claimed dates stay within the current and next month late in a month', async () => {
+  for (const [day, last] of [['2026-10-30', '2026-11-30'], ['2027-01-31', '2027-02-28']] as const) {
+    setToday(day); resetDb();
+    const claimed = await getClaimedJobs();
+    expect(claimed.every((j) => j.claimedDate! >= day && j.claimedDate! <= last)).toBe(true);
+    expect(claimed.filter((j) => j.claimedDate === day)).toHaveLength(3);
+  }
 });
 test('updatePro merges', async () => {
   await updatePro({ bankLinked: true });

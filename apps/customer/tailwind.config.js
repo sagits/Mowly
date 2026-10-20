@@ -6,6 +6,7 @@
 module.exports = {
   content: [
     './app/**/*.{js,jsx,ts,tsx}',
+    './src/**/*.{js,jsx,ts,tsx}',
     '../../packages/*/src/**/*.{js,jsx,ts,tsx}',
   ],
   presets: [require('@mowly/config/tailwind-preset')],

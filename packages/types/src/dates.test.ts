@@ -1,3 +1,4 @@
+// Tests the date helpers and formatters.
 import { addDays, formatLong, formatMoney, formatShort, nextWeekday, setToday, today, weekdayShort } from './dates';
 
 beforeEach(() => setToday('2026-10-20')); // a Tuesday

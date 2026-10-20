@@ -1,3 +1,4 @@
+// Tests the customer app shell: tabs and routing.
 import { fireEvent } from '@testing-library/react-native';
 import { screen } from 'expo-router/testing-library';
 import { renderApp } from './renderApp';

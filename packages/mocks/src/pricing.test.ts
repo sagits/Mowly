@@ -1,3 +1,4 @@
+// Tests lot size and the per-address price.
 import { DEMO_ADDRESS_ID, getQuote, lotSizeSqft } from './index';
 
 test('lot size is stable and in range', () => {

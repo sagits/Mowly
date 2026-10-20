@@ -1,3 +1,4 @@
+// Tests the customer resolvers: reads, writes and seed options.
 import {
   DEMO_ADDRESS_ID, configureMocks, createBooking, getBooking, getBookings, getNeighbors, getQuote, getServices, getThread,
   getThreads, resetDb, searchAddresses, sendMessage, updateBooking,

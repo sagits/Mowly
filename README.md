@@ -25,4 +25,3 @@ There are no `.web.tsx` files. Web behavior comes from responsive layout inside 
 Mowly is a UI and architecture study for a portfolio. It has no affiliation with and is not
 endorsed by LawnStarter.
 
-The earlier planning notes are in [docs/planning.md](docs/planning.md).

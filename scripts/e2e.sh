@@ -5,12 +5,15 @@ set -um # -m: each background job gets its own process group, so Metro dies with
 cd "$(dirname "$0")/.."
 DEVICE="${E2E_DEVICE:-iPhone 16}"
 METRO_PID=""
+LOCK=/tmp/mowly-maestro.lock # shared by every worktree: Maestro 2.11 has one driver port per machine
+HAVE_LOCK=""
 
 stop_metro() {
   [ -n "$METRO_PID" ] && { kill -- "-$METRO_PID" 2>/dev/null; wait "$METRO_PID" 2>/dev/null; }
   METRO_PID=""
 }
-trap stop_metro EXIT
+release_lock() { [ -n "$HAVE_LOCK" ] && rmdir "$LOCK" 2>/dev/null; HAVE_LOCK=""; }
+trap 'stop_metro; release_lock' EXIT
 trap 'exit 130' INT TERM
 
 run_app() {
@@ -32,8 +35,16 @@ run_app() {
   done
   # a leftover foreground app makes Maestro fail "did not stop in time" on clearState
   xcrun simctl terminate "$udid" com.renatoprobst.mowly 2>/dev/null; xcrun simctl terminate "$udid" com.renatoprobst.mowlypro 2>/dev/null
+  local waited=0
+  until mkdir "$LOCK" 2>/dev/null; do
+    [ $waited -eq 0 ] && echo "waiting for Maestro lock"
+    waited=$((waited+2)); [ $waited -gt 900 ] && { echo "gave up after 15 min: another Maestro run holds $LOCK (rmdir it if stale)"; stop_metro; return 1; }
+    sleep 2
+  done
+  HAVE_LOCK=1
   maestro --device "$udid" test --format junit --output "apps/$app/.maestro/report.xml" "${flow:-apps/$app/.maestro}"
   local code=$?
+  release_lock
   stop_metro
   return $code
 }

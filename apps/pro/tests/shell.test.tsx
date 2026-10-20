@@ -1,3 +1,4 @@
+// Tests the pro app shell: drawer and routing.
 import { fireEvent } from '@testing-library/react-native';
 import { screen } from 'expo-router/testing-library';
 import { useSession } from '@mowly/stores';

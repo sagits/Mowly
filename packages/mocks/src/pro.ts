@@ -1,8 +1,8 @@
 // Pro-side resolvers. Each waits like a network call and returns copies, never live db objects.
 import { today } from '@mowly/types';
 import type { Billing, IsoDate, Job, Pro, Recommendation } from '@mowly/types';
-import { find } from './customer';
 import { delay } from './delay';
+import { find } from './find';
 import { getDb } from './db';
 
 const byRoute = (a: Job, b: Job) => (a.routeOrder ?? 0) - (b.routeOrder ?? 0);

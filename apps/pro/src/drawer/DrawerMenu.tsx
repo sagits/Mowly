@@ -57,7 +57,7 @@ export function DrawerMenu({ settingsBadge }: { settingsBadge: number }) {
   const { open, setOpen } = useDrawer();
   if (wide) {
     return (
-      <View testID="drawer-sidebar" className="w-72 border-r border-border">
+      <View testID="drawer-sidebar" className="w-sidebar border-r border-border">
         <Items settingsBadge={settingsBadge} onNavigate={() => {}} />
       </View>
     );
@@ -65,10 +65,10 @@ export function DrawerMenu({ settingsBadge }: { settingsBadge: number }) {
   return (
     <Modal visible={open} transparent animationType="slide" onRequestClose={() => setOpen(false)}>
       <View className="flex-1 flex-row">
-        <View className="w-72 bg-surface">
+        <View className="w-sidebar bg-surface">
           <Items settingsBadge={settingsBadge} onNavigate={() => setOpen(false)} />
         </View>
-        <Pressable testID="drawer-scrim" accessibilityLabel="Close menu" className="flex-1 bg-black/40" onPress={() => setOpen(false)} />
+        <Pressable testID="drawer-scrim" accessibilityLabel="Close menu" className="flex-1 bg-scrim" onPress={() => setOpen(false)} />
       </View>
     </Modal>
   );

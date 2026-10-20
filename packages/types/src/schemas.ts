@@ -20,6 +20,7 @@ export const QuoteContactSchema = z.object({
   apt: z.string(),
   phone,
 });
+/** The validated values of the quote contact form. */
 export type QuoteContactInput = z.infer<typeof QuoteContactSchema>;
 
 /** Account creation with the demo card. */
@@ -32,6 +33,7 @@ export const AccountSchema = z.object({
   cardCvc: z.string().regex(/^\d{3}$/, { error: 'Enter the 3-digit code' }),
   acceptTerms: z.literal(true, { error: 'Accept the Terms of Service' }),
 });
+/** The validated values of the account form. */
 export type AccountInput = z.infer<typeof AccountSchema>;
 
 /** Pro sign in. */
@@ -39,6 +41,7 @@ export const SignInSchema = z.object({
   email,
   password: required('Enter your password'),
 });
+/** The validated values of the sign in form. */
 export type SignInInput = z.infer<typeof SignInSchema>;
 
 /** Pro sign up. */
@@ -48,14 +51,16 @@ export const SignUpSchema = z.object({
   phone,
   category: z.enum(['lawn', 'pool'], { error: 'Pick a category' }),
 });
+/** The validated values of the sign up form. */
 export type SignUpInput = z.infer<typeof SignUpSchema>;
 
 /** First profile step of pro setup. */
 export const BuildProfileSchema = z.object({
   businessName: required('Enter your business name'),
   yearFounded: z.string().refine((y) => /^\d{4}$/.test(y) && +y >= 1900 && +y <= +today().slice(0, 4), { error: 'Enter a valid year' }),
-  crewSize: z.number({ error: 'Enter your crew size' }).int({ error: 'Enter your crew size' }).min(1, { error: 'Enter your crew size' }),
+  crewSize: z.coerce.number({ error: 'Enter your crew size' }).int({ error: 'Enter your crew size' }).min(1, { error: 'Enter your crew size' }),
 });
+/** The validated values of the build profile form. */
 export type BuildProfileInput = z.infer<typeof BuildProfileSchema>;
 
 /** Business profile editor. */
@@ -65,6 +70,7 @@ export const BusinessProfileSchema = z.object({
   businessAddress: required('Enter your business address'),
   bio: z.string().max(250, { error: '250 characters max' }),
 });
+/** The validated values of the business profile form. */
 export type BusinessProfileInput = z.infer<typeof BusinessProfileSchema>;
 
 /** Account info editor. */
@@ -74,6 +80,7 @@ export const AccountInfoSchema = z.object({
   mobilePhone: phone,
   email,
 });
+/** The validated values of the account info form. */
 export type AccountInfoInput = z.infer<typeof AccountInfoSchema>;
 
 /** Tax info form. */
@@ -83,11 +90,13 @@ export const TaxInfoSchema = z.object({
   dateOfBirth: required('Enter your date of birth'),
   legalAddress: required('Enter your legal address'),
 });
+/** The validated values of the tax info form. */
 export type TaxInfoInput = z.infer<typeof TaxInfoSchema>;
 
 /** Recommend-a-service form. */
 export const RecommendSchema = z.object({
-  price: z.number({ error: 'Enter a price' }).positive({ error: 'Enter a price' }),
+  price: z.coerce.number({ error: 'Enter a price' }).positive({ error: 'Enter a price' }),
   note: required('Add a short note'),
 });
+/** The validated values of the recommend form. */
 export type RecommendInput = z.infer<typeof RecommendSchema>;
