@@ -1,0 +1,16 @@
+appId: com.renatoprobst.mowly
+---
+- runFlow: common/launch.yaml
+- tapOn:
+    id: tab-inbox
+- tapOn:
+    id: thread-t-greenleaf
+- tapOn:
+    id: chat-input
+- inputText: Can you come Friday?
+- tapOn:
+    id: chat-send
+- assertVisible: Can you come Friday?
+- extendedWaitUntil:
+    visible: "Thanks! We'll take care of it."
+    timeout: 10000
