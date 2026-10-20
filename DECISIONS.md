@@ -120,3 +120,7 @@ The shared `Accordion` keeps its divider lines, green chevrons and semibold ques
 Prices show whole dollars as in C09 (the plan prices are integers). The date sheet is a plain list of 14 days in a bottom sheet rather than the native iOS picker the reference opens. The promo modal is the shared `BottomSheet` with one field and APPLY, without the reference's X button. The "Code applied" text replaces the ADD A PROMO CODE link once a code is applied. The loading state is gray skeleton blocks (C08), CONTINUE swaps to the in-button spinner for 800 ms with nothing behind it (C12).
 
 The plan screen's spacing is slightly taller than the reference, so ADD A PROMO CODE sits below the fold on the 16 (the reference shows it above the footer); the page scrolls to it. The "What's included?" bullet is a small dot, and the included text is the catalog string rather than LawnStarter's. The FAQ modal's title clears the status bar (checked on the simulator), so `faq.tsx` needed no inset change.
+
+## [customer] My Services screenshot simplifications (C19)
+
+C19 is an Android screenshot, rebuilt in the iOS language of C01-C17. The header band has only the title: the gift icon and the address selector come with the shared CustomerHeader (Task 8). Cards use a hairline border instead of the Android drop shadow, and the next date reads "Sunday, October 25" (the shared long format) rather than "Sat, Nov 18". Icons are Ionicons outlines, and the empty state is a plain "No services yet" with a GET A QUOTE button (not in the references).
