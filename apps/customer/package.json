@@ -9,7 +9,8 @@
     "build:web": "expo export --platform web --output-dir dist",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit -p .",
-    "test": "jest"
+    "test": "jest",
+    "e2e:build": "RCT_METRO_PORT=8081 expo prebuild --platform ios && RCT_METRO_PORT=8081 expo run:ios --device \"${E2E_DEVICE:-iPhone 16}\" --no-bundler"
   },
   "dependencies": {
     "@expo/metro-runtime": "~57.0.16",

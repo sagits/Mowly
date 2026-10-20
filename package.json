@@ -10,10 +10,10 @@
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",
-    "e2e:build": "echo 'filled in by Task 10'",
-    "e2e": "echo 'filled in by Task 11'",
-    "e2e:customer": "echo 'filled in by Task 11'",
-    "e2e:pro": "echo 'filled in by Task 11'"
+    "e2e:build": "turbo run e2e:build --concurrency 1",
+    "e2e": "scripts/e2e.sh all",
+    "e2e:customer": "scripts/e2e.sh customer",
+    "e2e:pro": "scripts/e2e.sh pro"
   },
   "devDependencies": {
     "turbo": "^2.6.1"

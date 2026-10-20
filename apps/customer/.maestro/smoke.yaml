@@ -1,0 +1,7 @@
+appId: com.renatoprobst.mowly
+---
+- runFlow: common/launch.yaml
+- tapOn:
+    id: tab-services
+- assertVisible:
+    id: screen-services

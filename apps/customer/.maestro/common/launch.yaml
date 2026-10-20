@@ -1,0 +1,9 @@
+appId: com.renatoprobst.mowly
+---
+- launchApp:
+    appId: com.renatoprobst.mowly
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: tab-browse
+    timeout: 120000

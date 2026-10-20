@@ -1,0 +1,9 @@
+appId: com.renatoprobst.mowlypro
+---
+- launchApp:
+    appId: com.renatoprobst.mowlypro
+    clearState: true
+- extendedWaitUntil:
+    visible:
+      id: drawer-toggle
+    timeout: 120000
