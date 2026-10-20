@@ -1,12 +1,5 @@
 # LawnStarter PoC — plano
 
-Combo das ideias 1 e 2 do `07-build-to-hire.md`:
-
-1. **A skill pública** (`/Library/workspace/build-to-hire`): o pipeline da PoC da Turno empacotado como skill do Claude Code. Screenshots → PRD → tickets → build por ticket com testes → polish → web build → link.
-2. **O clone**, construído com essa skill: o app de **cliente** do LawnStarter com outro nome, universal (iOS + web do mesmo código).
-
-A vaga pede "um workflow de agente que outros times adotam" e documenta tudo internamente como skills do Claude Code. Então a skill é a prova principal, e o clone é a prova de que ela funciona. Os dois links vão juntos na candidatura.
-
 ## Ordem
 
 1. Renato tira os screenshots (roteiro abaixo) e põe em `screenshots/`
