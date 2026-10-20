@@ -1,10 +1,10 @@
 // The five sheets behind the Service detail action rows (invented; see prototype c-manage).
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { router } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 import { useQuote, useUpdateBooking } from '@mowly/api';
 import { today, type Booking, type BookingChange, type Frequency } from '@mowly/types';
-import { BottomSheet, Button, ConfirmDialog } from '@mowly/ui';
+import { BottomSheet, Button, ConfirmDialog, showToast } from '@mowly/ui';
 import { DateSheet } from './DateSheet';
 import { PlanRow } from './PlanRow';
 
@@ -19,20 +19,35 @@ function nextMonths(): string[] {
   });
 }
 
+const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
 /** Month name of a `YYYY-MM-DD` date. */
-export const monthName = (iso: string) => new Date(`${iso}T12:00:00`).toLocaleString('en-US', { month: 'long' });
+export const monthName = (iso: string) => MONTHS[Number(iso.slice(5, 7)) - 1]!;
 
 /** Renders the sheet for `open` (or nothing); each one runs its change on the booking, then closes. */
 export function ManageSheets({ booking, open, onClose }: { booking: Booking; open: ManageKind | null; onClose: () => void }) {
   const update = useUpdateBooking();
   const { data: quote } = useQuote(booking.serviceId, booking.address.id);
   const [picked, setPicked] = useState<Frequency | null>(null);
+  // A pick that was never saved must not outlive its sheet.
+  useEffect(() => {
+    if (open !== 'frequency') setPicked(null);
+  }, [open]);
+  // Close on success; on failure close too and say so (a toast would hide behind an open sheet).
   const run = (change: BookingChange, after?: () => void) =>
-    update.mutate({ id: booking.id, change }, { onSuccess: after });
-  const apply = (change: BookingChange, after?: () => void) => {
-    onClose();
-    run(change, after);
-  };
+    update.mutate(
+      { id: booking.id, change },
+      {
+        onSuccess: () => {
+          onClose();
+          after?.();
+        },
+        onError: () => {
+          onClose();
+          showToast("Couldn't update your service. Please try again.");
+        },
+      },
+    );
   const frequency = picked ?? booking.frequency;
   return (
     <>
@@ -46,7 +61,8 @@ export function ManageSheets({ booking, open, onClose }: { booking: Booking; ope
         confirmTestID="skip-confirm"
         confirmLabel="Skip service"
         destructive={false}
-        onConfirm={() => apply({ type: 'skip' })}
+        pending={update.isPending}
+        onConfirm={() => run({ type: 'skip' })}
       />
       <ConfirmDialog
         visible={open === 'cancel'}
@@ -57,7 +73,8 @@ export function ManageSheets({ booking, open, onClose }: { booking: Booking; ope
         onKeep={onClose}
         confirmTestID="cancel-confirm"
         confirmLabel="Cancel service"
-        onConfirm={() => apply({ type: 'cancel' }, () => router.back())}
+        pending={update.isPending}
+        onConfirm={() => run({ type: 'cancel' }, () => router.back())}
       />
       <DateSheet
         visible={open === 'reschedule'}
@@ -74,16 +91,18 @@ export function ManageSheets({ booking, open, onClose }: { booking: Booking; ope
           <Button
             testID="frequency-save"
             label="Save"
+            disabled={!quote || frequency === booking.frequency}
+            loading={update.isPending}
             onPress={() => {
               const plan = quote?.plans.find((p) => p.frequency === frequency);
-              if (plan) apply({ type: 'frequency', frequency, price: plan.price });
+              if (plan) run({ type: 'frequency', frequency, price: plan.price });
             }}
           />
         </View>
       </BottomSheet>
       <BottomSheet visible={open === 'pause'} onClose={onClose} testID="pause-sheet" title="Pause for the season">
         {nextMonths().map((until) => (
-          <Pressable key={until} testID={`pause-month-${until.slice(0, 7)}`} onPress={() => apply({ type: 'pause', until })} className="border-b border-border py-4">
+          <Pressable key={until} testID={`pause-month-${until.slice(0, 7)}`} onPress={() => run({ type: 'pause', until })} className="border-b border-border py-4">
             <Text className="text-lg text-ink">{`${monthName(until)} ${until.slice(0, 4)}`}</Text>
           </Pressable>
         ))}

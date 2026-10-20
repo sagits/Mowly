@@ -1,5 +1,6 @@
 // Tests the Service detail management sheets: skip, reschedule, frequency, pause, cancel.
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
+import { getDb } from '@mowly/mocks';
 import { renderApp } from './renderApp';
 
 test('skip moves the date by the frequency', async () => {
@@ -39,4 +40,24 @@ test('reschedule picks a date', async () => {
   await fireEvent.press(await screen.findByTestId('detail-reschedule'));
   await fireEvent.press(screen.getByTestId('date-option-2026-10-28'));
   expect(await screen.findByText(/Wednesday, October 28/)).toBeTruthy();
+});
+
+test('a failed update shows a message and leaves the date alone', async () => {
+  await renderApp('/service/b-mowing');
+  await fireEvent.press(await screen.findByTestId('detail-skip'));
+  getDb().bookings.length = 0; // the update now fails: the booking is gone
+  await fireEvent.press(screen.getByTestId('skip-confirm'));
+  expect(await screen.findByText("Couldn't update your service. Please try again.")).toBeTruthy();
+  expect(screen.getByText('Sunday, October 25 (Monthly)')).toBeTruthy();
+});
+
+test('an unsaved frequency pick is dropped when the sheet closes', async () => {
+  await renderApp('/service/b-mowing');
+  await fireEvent.press(await screen.findByTestId('detail-frequency'));
+  await fireEvent.press(await screen.findByTestId('frequency-weekly'));
+  expect(screen.getByTestId('frequency-weekly')).toBeSelected();
+  await fireEvent.press(screen.getByTestId('frequency-sheet-scrim'));
+  await fireEvent.press(screen.getByTestId('detail-frequency'));
+  expect(screen.getByTestId('frequency-monthly')).toBeSelected();
+  expect(screen.getByTestId('frequency-save')).toBeDisabled();
 });
