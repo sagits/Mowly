@@ -36,3 +36,13 @@ appId: com.renatoprobst.mowlypro
 - assertVisible:
     id: notif-jobs-text
     checked: false
+# Support: drawer root, Knowledge Base button toasts.
+- tapOn: Back
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-support
+- tapOn:
+    id: support-kb
+- assertVisible:
+    id: toast
