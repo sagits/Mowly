@@ -1,0 +1,16 @@
+appId: com.renatoprobst.mowly
+---
+- runFlow: common/launch.yaml
+- openLink: mowly://quote
+- runFlow:
+    when:
+      visible: 'Open in .*'
+    commands:
+      - tapOn: Open
+- tapOn:
+    id: service-tile-mowing
+- tapOn:
+    id: quote-continue
+# Task 2 replaces this with `id: quote-name`.
+- assertVisible:
+    id: details-screen

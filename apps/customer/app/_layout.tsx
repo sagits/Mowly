@@ -27,6 +27,7 @@ export default function RootLayout() {
         }}
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen name="quote" options={{ presentation: 'fullScreenModal', headerShown: false }} />
       </Stack>
     </AppProviders>
   );
