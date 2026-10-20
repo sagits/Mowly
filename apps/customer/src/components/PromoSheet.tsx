@@ -15,7 +15,7 @@ export function PromoSheet({
 }) {
   const [code, setCode] = useState('');
   return (
-    <BottomSheet visible={visible} onClose={onClose} testID="promo-sheet" title="Add Promo Code">
+    <BottomSheet visible={visible} onClose={onClose} testID="promo-sheet" title="Add Promo Code" avoidKeyboard>
       <View className="gap-4 pt-2">
         <TextField testID="promo-input" label="Promo code" value={code} onChangeText={setCode} />
         <Button

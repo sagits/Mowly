@@ -34,6 +34,18 @@ appId: com.renatoprobst.mowly
     id: plan-row-monthly
 - scrollUntilVisible:
     element:
+      id: promo-open
+- tapOn:
+    id: promo-open
+- tapOn:
+    id: promo-input
+- inputText: MOWLY5
+- tapOn:
+    id: promo-apply
+- assertVisible:
+    id: promo-applied
+- scrollUntilVisible:
+    element:
       id: plan-faq-link
 - tapOn:
     id: plan-faq-link
