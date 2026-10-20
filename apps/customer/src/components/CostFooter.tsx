@@ -2,7 +2,7 @@
 import { Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '@mowly/ui';
-import { TRUST_FEE } from '../pricing';
+import { formatPrice, TRUST_FEE } from '../pricing';
 
 /** `price` is the per-service cost in dollars. */
 export function CostFooter({
@@ -25,9 +25,9 @@ export function CostFooter({
     <View className="border-t border-border bg-surface px-4 pt-4" style={{ paddingBottom: bottom + 12 }}>
       <View className="flex-row items-center justify-between">
         <Text className="text-xl font-bold text-ink">Cost per service</Text>
-        <Text testID="cost-per-service" className="text-xl font-bold text-ink">{`$${price}`}</Text>
+        <Text testID="cost-per-service" className="text-xl font-bold text-ink">{formatPrice(price)}</Text>
       </View>
-      <Text className="mb-4 mt-1 text-base text-fee">{`+ $${TRUST_FEE} Trust & Safety Fee`}</Text>
+      <Text className="mb-4 mt-1 text-base text-fee">{`+ ${formatPrice(TRUST_FEE)} Trust & Safety Fee`}</Text>
       <Button testID={testID} label={cta} onPress={onPress} disabled={disabled} loading={loading} />
     </View>
   );

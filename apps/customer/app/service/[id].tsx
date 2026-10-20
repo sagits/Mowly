@@ -5,7 +5,7 @@ import { useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { useBooking, useService } from '@mowly/api';
 import { FREQUENCY_LABELS, formatLong, formatMoney } from '@mowly/types';
-import { Badge, ListRow, Screen, colors } from '@mowly/ui';
+import { Badge, ListRow, Screen, Skeleton, colors } from '@mowly/ui';
 import { ManageSheets, monthName, type ManageKind } from '../../src/components/ManageSheets';
 
 const ACTIONS = [
@@ -19,7 +19,7 @@ const ACTIONS = [
 /** Booking detail for `/service/<id>`. Testid `service-detail`. */
 export default function ServiceDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { data: booking } = useBooking(id);
+  const { data: booking, isError } = useBooking(id);
   const { data: service } = useService(booking?.serviceId ?? '');
   const [open, setOpen] = useState<ManageKind | null>(null);
   const paused = booking?.status === 'paused';
@@ -52,7 +52,18 @@ export default function ServiceDetailScreen() {
               <ListRow key={key} testID={`detail-${key}`} title={title} subtitle={subtitle} onPress={() => setOpen(key)} />
             ))}
           </ScrollView>
-        ) : null}
+        ) : isError ? (
+          <Text testID="service-not-found" className="p-4 text-base text-muted">
+            We couldn&apos;t find this service.
+          </Text>
+        ) : (
+          <View testID="service-loading" className="gap-3 p-4">
+            <Skeleton className="h-8 w-2/3" />
+            <Skeleton className="h-5 w-full" />
+            <Skeleton className="h-5 w-full" />
+            <Skeleton className="h-5 w-1/2" />
+          </View>
+        )}
         {booking ? (
           <ManageSheets booking={booking} open={open} onClose={() => setOpen(null)} />
         ) : null}

@@ -24,7 +24,8 @@ export default function ChatScreen() {
       { threadId: id, text: sent.trim() },
       {
         onError: () => {
-          setText(sent);
+          // give the text back, unless a new message is already being typed
+          setText((now) => (now === '' ? sent : now));
           showToast("Couldn't send your message. Please try again.");
         },
       },

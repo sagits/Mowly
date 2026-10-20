@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 import { useServices } from '@mowly/api';
 import type { ServiceId } from '@mowly/types';
-import { Screen } from '@mowly/ui';
+import { Screen, Skeleton } from '@mowly/ui';
 import { CustomerHeader } from '../../src/components/CustomerHeader';
 import { RecommendedCarousel } from '../../src/components/RecommendedCarousel';
 import { ServiceExploreRow } from '../../src/components/ServiceExploreRow';
@@ -28,9 +28,9 @@ export default function BrowseScreen() {
           <Text className="mb-4 text-title-sm text-ink">Recommended for you</Text>
           <RecommendedCarousel onQuote={quote} />
           <Text className="mb-4 mt-8 text-title-sm text-ink">Services to explore</Text>
-          {services?.map((s) => (
-            <ServiceExploreRow key={s.id} service={s} onViewPrice={() => quote(s.id)} />
-          ))}
+          {services
+            ? services.map((s) => <ServiceExploreRow key={s.id} service={s} onViewPrice={() => quote(s.id)} />)
+            : [0, 1, 2].map((i) => <Skeleton key={i} testID={i === 0 ? 'browse-loading' : undefined} className="mb-4 h-36 w-full" />)}
         </ScrollView>
       </Screen>
     </View>

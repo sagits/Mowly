@@ -1,6 +1,7 @@
 /** One frequency option: label left, price block right, optional "Recommended" tab (C09). */
 import { Pressable, Text, View } from 'react-native';
 import { FREQUENCY_LABELS, type PlanOption } from '@mowly/types';
+import { formatPrice } from '../pricing';
 
 /** Selected is a green price block on a tint; unselected is gray. */
 export function PlanRow({
@@ -33,7 +34,7 @@ export function PlanRow({
           <Text className="text-xl font-semibold text-ink">{FREQUENCY_LABELS[plan.frequency]}</Text>
         </View>
         <View className={`w-[36%] items-end justify-center px-4 ${selected ? 'bg-primary' : 'bg-priceBlock'}`}>
-          <Text className="text-3xl font-bold text-surface">{`$${plan.price}`}</Text>
+          <Text className="text-3xl font-bold text-surface">{formatPrice(plan.price)}</Text>
           <Text className="text-sm text-surface">per service</Text>
         </View>
       </Pressable>

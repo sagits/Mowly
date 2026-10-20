@@ -7,8 +7,8 @@ export function ServiceDetailTitle({ id }: { id: string }) {
   const { data: booking } = useBooking(id);
   return (
     <View>
-      <Text className="text-lg font-semibold text-white">{booking?.serviceName}</Text>
-      <Text className="text-sm text-white">{booking?.address.line1}</Text>
+      <Text className="text-lg font-semibold text-surface">{booking?.serviceName}</Text>
+      <Text className="text-sm text-surface">{booking?.address.line1}</Text>
     </View>
   );
 }
