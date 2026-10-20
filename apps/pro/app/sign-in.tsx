@@ -1,18 +1,18 @@
-/** Sign in (P02): any valid email and a non-empty password signs in. */
+/** Sign in (P02): any non-empty email and password signs in. */
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Pressable, Text, View } from 'react-native';
 import { useSession } from '@mowly/stores';
-import { SignInSchema } from '@mowly/types';
 import { Button, FormField, colors } from '@mowly/ui';
+import { ProSignInSchema } from '../src/schemas';
 
 /** The sign in form. */
 export default function SignInScreen() {
   const [show, setShow] = useState(false);
   const { control, handleSubmit } = useForm({
-    resolver: zodResolver(SignInSchema) as never,
+    resolver: zodResolver(ProSignInSchema) as never,
     defaultValues: { email: '', password: '' },
   });
   const submit = handleSubmit(() => {

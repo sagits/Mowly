@@ -44,10 +44,20 @@ test('log in with anything returns to the dashboard', async () => {
   useSession.getState().signOut();
   await renderApp('/welcome');
   await fireEvent.press(await screen.findByTestId('welcome-login'));
-  await fireEvent.changeText(await screen.findByTestId('signin-email'), 'x@y.com');
+  await fireEvent.changeText(await screen.findByTestId('signin-email'), 'x@y.z');
   await fireEvent.changeText(screen.getByTestId('signin-password'), 'x');
   await fireEvent.press(screen.getByTestId('signin-submit'));
   expect(await screen.findByTestId('screen-dashboard')).toBeTruthy();
+});
+
+test('a non-email string signs in too', async () => {
+  useSession.getState().signOut();
+  await renderApp('/sign-in');
+  await fireEvent.changeText(await screen.findByTestId('signin-email'), 'mike');
+  await fireEvent.changeText(screen.getByTestId('signin-password'), 'x');
+  await fireEvent.press(screen.getByTestId('signin-submit'));
+  expect(await screen.findByTestId('screen-dashboard')).toBeTruthy();
+  expect(useSession.getState().signedIn).toBe(true);
 });
 
 test('empty sign in shows errors', async () => {
@@ -72,7 +82,7 @@ test('after sign out and sign in, back cannot return to welcome or sign in', asy
   await fireEvent.press(await screen.findByTestId('settings-sign-out'));
   await fireEvent.press(await screen.findByTestId('sign-out-confirm'));
   await fireEvent.press(await screen.findByTestId('welcome-login'));
-  await fireEvent.changeText(await screen.findByTestId('signin-email'), 'x@y.com');
+  await fireEvent.changeText(await screen.findByTestId('signin-email'), 'x@y.z');
   await fireEvent.changeText(screen.getByTestId('signin-password'), 'x');
   await fireEvent.press(screen.getByTestId('signin-submit'));
   expect(await screen.findByTestId('screen-dashboard')).toBeTruthy();
