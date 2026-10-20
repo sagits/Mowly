@@ -97,3 +97,11 @@ The template's `tsconfig.json` mapped `expo-router` to `./node_modules/expo-rout
 The repo owner asked for `@react-navigation/drawer`. It and `react-native-gesture-handler` are added to the pro app only (`npx expo install`), which supersedes the "only two dependencies" rule for these two packages, and replace the custom Modal drawer (which slid up from the bottom, with no swipe). Reason: the left slide-in, the edge swipe and the permanent sidebar match P07 and the PRD. The Zustand `useDrawer` flag is gone; the navigator owns open and close. `GestureHandlerRootView` wraps the pro root layout. Jest mocks `react-native-reanimated` and `react-native-worklets` and loads gesture-handler's `jestSetup` in `apps/pro/jest.setup.ts`. Note: Expo Router 57 vendors its own drawer navigator (`expo-router/drawer`), so always import `Drawer` and its types from `expo-router/drawer`, never from `@react-navigation/drawer`. The package stays installed at the owner's request.
 
 **Pattern for the pro track:** a drawer screen that needs pushed screens becomes a folder with a `Stack` `_layout` (for example `settings/_layout.tsx` plus `settings/index.tsx`). In the drawer layout that screen gets `headerShown: false`, and its Stack shows the title, `DrawerButton` as `headerLeft` on the root screen, and the native back button on pushed ones.
+
+## [pro] Checklist progress is derived from the `Pro` record
+
+The PRD lists "onboarding progress in Zustand". `checklistDone(pro)` derives every row from the `Pro` record instead (`businessName`, `skills`, `equipmentAnswered`, `workAreaSaved`, `gpsEnabled`, `damageFeeAccepted`, `taxInfo`, `bankLinked`), so a settings screen that saves its step unlocks the next row with no second store to keep in sync. The Settings drawer badge (`openSettingsCount`) reads the same record.
+
+## [pro] Drawer `backBehavior="history"` and a green back button for non-drawer (app) screens
+
+The pro Drawer uses `backBehavior="history"`, so `router.back()` from a step screen returns to whoever opened it (Dashboard, Settings) rather than the first drawer route. (app)-level screens that are not drawer items (`evaluate`; later `profile`, `route`) are registered with a `Drawer.Screen` (title only, so they stay out of the custom menu) and show `BackButton` (a green back chevron calling `router.back()`) as `headerLeft` instead of the hamburger.

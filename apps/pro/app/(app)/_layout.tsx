@@ -1,8 +1,11 @@
 /** The signed-in shell: an Expo Router Drawer (left slide-in, or a permanent sidebar when wide), redirecting to welcome when signed out. */
 import { Redirect } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
+import { usePro } from '@mowly/api';
 import { useSession } from '@mowly/stores';
 import { colors, layout, useIsWide } from '@mowly/ui';
+import { openSettingsCount } from '../../src/checklist';
+import { BackButton } from '../../src/drawer/BackButton';
 import { DrawerButton } from '../../src/drawer/DrawerButton';
 import { DRAWER_ITEMS, DrawerMenu } from '../../src/drawer/DrawerMenu';
 
@@ -10,10 +13,12 @@ import { DRAWER_ITEMS, DrawerMenu } from '../../src/drawer/DrawerMenu';
 export default function AppLayout() {
   const signedIn = useSession((s) => s.signedIn);
   const wide = useIsWide();
+  const { data: pro } = usePro();
   if (!signedIn) return <Redirect href="/welcome" />;
   return (
     <Drawer
-      drawerContent={(props) => <DrawerMenu {...props} settingsBadge={0} />}
+      drawerContent={(props) => <DrawerMenu {...props} settingsBadge={pro ? openSettingsCount(pro) : 0} />}
+      backBehavior="history"
       screenOptions={{
         drawerType: wide ? 'permanent' : 'front',
         drawerStyle: { width: layout.sidebarWidth },
@@ -31,6 +36,8 @@ export default function AppLayout() {
           options={{ title: item.label }}
         />
       ))}
+      {/* Pushed (app)-level screens: not drawer items, so a back button replaces the hamburger. */}
+      <Drawer.Screen name="evaluate" options={{ title: 'Evaluate your skills', headerLeft: () => <BackButton /> }} />
     </Drawer>
   );
 }

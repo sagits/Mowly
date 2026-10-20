@@ -1,0 +1,9 @@
+appId: com.renatoprobst.mowlypro
+---
+- runFlow: common/launch.yaml
+- assertVisible:
+    id: checklist-profile-done
+- tapOn:
+    id: checklist-evaluate
+- assertVisible:
+    id: screen-evaluate
