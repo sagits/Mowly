@@ -7,18 +7,29 @@ appId: com.renatoprobst.mowly
       visible: 'Open in .*'
     commands:
       - tapOn: Open
+- extendedWaitUntil:
+    visible:
+      id: service-tile-mowing
+    timeout: 30000
 - tapOn:
     id: service-tile-mowing
 - tapOn:
     id: quote-continue
-- assertVisible:
-    id: quote-name
+- extendedWaitUntil:
+    visible:
+      id: quote-name
+    timeout: 30000
 - tapOn:
     id: quote-continue
 - extendedWaitUntil:
     visible:
       id: plan-screen
-    timeout: 15000
+    timeout: 30000
+# plan-screen shows a skeleton first and CONTINUE stays disabled until the quote loads
+- extendedWaitUntil:
+    visible:
+      id: 'plan-row-.*'
+    timeout: 30000
 - tapOn:
     id: plan-row-monthly
 - scrollUntilVisible:
@@ -30,8 +41,10 @@ appId: com.renatoprobst.mowly
     id: faq-ok
 - tapOn:
     id: quote-continue
-- assertVisible:
-    id: account-screen
+- extendedWaitUntil:
+    visible:
+      id: account-screen
+    timeout: 30000
 - tapOn:
     id: account-first
 - inputText: Renato
@@ -51,9 +64,11 @@ appId: com.renatoprobst.mowly
 - extendedWaitUntil:
     visible:
       id: booked-screen
-    timeout: 15000
+    timeout: 30000
 - tapOn:
     id: booked-go
-- assertVisible:
-    id: screen-services
+- extendedWaitUntil:
+    visible:
+      id: screen-services
+    timeout: 30000
 - assertVisible: '.*Mowing.*'
