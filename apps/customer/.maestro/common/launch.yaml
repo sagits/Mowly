@@ -1,0 +1,14 @@
+appId: com.renatoprobst.mowly
+---
+- launchApp:
+    appId: com.renatoprobst.mowly
+    clearState: true
+- runFlow:
+    when:
+      visible: 'Open in .*'
+    commands:
+      - tapOn: Cancel
+- extendedWaitUntil:
+    visible:
+      id: tab-browse
+    timeout: 120000

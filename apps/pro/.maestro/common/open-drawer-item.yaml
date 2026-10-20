@@ -1,0 +1,6 @@
+appId: com.renatoprobst.mowlypro
+---
+- tapOn:
+    id: drawer-toggle
+- tapOn:
+    id: ${ITEM}

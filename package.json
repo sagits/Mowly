@@ -1,0 +1,24 @@
+{
+  "name": "mowly",
+  "private": true,
+  "packageManager": "pnpm@12.3.4",
+  "scripts": {
+    "dev:customer": "turbo run dev --filter @mowly/customer",
+    "dev:pro": "turbo run dev --filter @mowly/pro",
+    "build": "turbo run build",
+    "build:web": "turbo run build:web && node scripts/assemble-web.mjs",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "test": "turbo run test",
+    "e2e:build": "turbo run e2e:build --concurrency 1",
+    "e2e": "scripts/e2e.sh all",
+    "e2e:customer": "scripts/e2e.sh customer",
+    "e2e:pro": "scripts/e2e.sh pro"
+  },
+  "devDependencies": {
+    "turbo": "^2.6.1"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  }
+}

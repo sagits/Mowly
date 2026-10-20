@@ -1,0 +1,12 @@
+{
+  "name": "@mowly/mocks",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@mowly/types": "workspace:*"
+  }
+}

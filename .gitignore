@@ -5,9 +5,13 @@ dist/
 ios/
 android/
 *.log
-.maestro/report.xml
+**/.maestro/report.xml
 # raw recordings: they show personal data (the extracted frames are the reference)
 screenshots/**/*.MP4
 screenshots/**/*.mp4
 .worktrees/
 .superpowers/
+.turbo/
+expo-env.d.ts
+.e2e-*.log
+.env*.local
