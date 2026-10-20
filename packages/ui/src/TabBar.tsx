@@ -1,10 +1,11 @@
 /** The tab bar for Expo Router `Tabs`: a bottom row on phones, a sidebar column when wide. */
+// Deep type-only import: expo-router does not re-export BottomTabBarProps.
 import type { BottomTabBarProps } from 'expo-router/build/react-navigation/bottom-tabs';
 import { Pressable, Text, View } from 'react-native';
 import { colors, layout } from '../tokens';
 import { useIsWide } from './useIsWide';
 
-/** Pass as `tabBar` to `Tabs`. Each screen supplies `title` and an Ionicons `tabBarIcon`; testIDs are `tab-<route>`. */
+/** Pass as `tabBar` to `Tabs`. Each screen supplies `title` and an Ionicons `tabBarIcon`; testID is `tab-<route>` unless `tabBarButtonTestID` is set. */
 export function TabBar({ state, descriptors, navigation, insets }: BottomTabBarProps) {
   const wide = useIsWide();
   return (
@@ -24,7 +25,7 @@ export function TabBar({ state, descriptors, navigation, insets }: BottomTabBarP
         return (
           <Pressable
             key={route.key}
-            testID={`tab-${route.name}`}
+            testID={options?.tabBarButtonTestID ?? `tab-${route.name}`}
             accessibilityRole="tab"
             accessibilityState={{ selected: focused }}
             className={wide ? 'flex-row items-center gap-3 px-6 py-3' : 'flex-1 items-center pb-1'}
