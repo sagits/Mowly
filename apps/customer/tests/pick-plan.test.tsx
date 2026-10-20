@@ -9,6 +9,9 @@ beforeEach(() => {
   useQuoteDraft.getState().selectService('mowing');
   useQuoteDraft.getState().setContact({ name: 'Renato Probst', addressId: 'addr-maple-ridge', addressText: '1820 Maple Ridge Drive, Austin, TX 78704', apt: '', phone: '5125550147' });
 });
+// renderApp (expo-router's renderRouter) installs fake timers; leave the next file's setup clean.
+// Advance them inside an async act: a synchronous act around the advance broke every later render in the file.
+afterEach(() => jest.useRealTimers());
 
 test('recommended weekly is preselected at $57', async () => {
   await renderApp('/quote/plan');
@@ -43,18 +46,26 @@ test('not looking goes back to service select', async () => {
   await waitFor(() => expect(screen).toHavePathname('/quote'));
 });
 
-test('continue spins, opens the account step once, and is usable again on return', async () => {
-  jest.useFakeTimers();
+test('continue spins and opens the account step once', async () => {
   await renderApp('/quote/plan');
   await screen.findByTestId('plan-row-weekly');
   await fireEvent.press(screen.getByTestId('quote-continue'));
   await fireEvent.press(screen.getByTestId('quote-continue')); // a second press is ignored
   expect(screen.getByTestId('quote-continue-spinner')).toBeTruthy();
-  act(() => jest.advanceTimersByTime(800));
+  await act(async () => jest.advanceTimersByTime(800));
   await waitFor(() => expect(screen).toHavePathname('/quote/account'));
   await act(async () => router.back()); // one push only: back lands on the plan, not a second account
   await waitFor(() => expect(screen).toHavePathname('/quote/plan'));
+});
+
+test('back from the account step, continue is usable again', async () => {
+  await renderApp('/quote/plan');
+  await screen.findByTestId('plan-row-weekly');
+  await fireEvent.press(screen.getByTestId('quote-continue'));
+  await act(async () => jest.advanceTimersByTime(800));
+  await waitFor(() => expect(screen).toHavePathname('/quote/account'));
+  await act(async () => router.back());
+  await waitFor(() => expect(screen).toHavePathname('/quote/plan'));
   expect(screen.queryByTestId('quote-continue-spinner')).toBeNull();
   expect(screen.getByTestId('quote-continue')).toBeEnabled();
-  jest.useRealTimers();
 });
