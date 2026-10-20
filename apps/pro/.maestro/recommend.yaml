@@ -1,0 +1,27 @@
+appId: com.renatoprobst.mowlypro
+---
+- runFlow: common/launch.yaml
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-calendar
+- tapOn:
+    id: day-today
+- tapOn:
+    id: day-job-job-11
+- tapOn:
+    id: job-recommend
+- tapOn:
+    id: recommend-mulching
+- tapOn:
+    id: recommend-price
+- inputText: '45'
+- hideKeyboard
+- tapOn:
+    id: recommend-note
+- inputText: Beds need fresh mulch
+- hideKeyboard
+- tapOn:
+    id: recommend-send
+- assertVisible:
+    id: toast
