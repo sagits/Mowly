@@ -5,6 +5,7 @@ import { ScrollView, Text, View } from 'react-native';
 import { usePro, useUpdatePro } from '@mowly/api';
 import type { Pro } from '@mowly/types';
 import { Button, Toggle } from '@mowly/ui';
+import { ScreenLoading } from '../../src/components/ScreenLoading';
 
 const QUESTIONS = [
   { key: 'mower', label: 'Do you own a commercial mower?' },
@@ -14,7 +15,7 @@ const QUESTIONS = [
 
 export default function EvaluateScreen() {
   const { data: pro } = usePro();
-  return pro ? <EvaluateBody pro={pro} /> : <View testID="screen-evaluate" className="flex-1 bg-surface" />;
+  return pro ? <EvaluateBody pro={pro} /> : <ScreenLoading />;
 }
 
 function EvaluateBody({ pro }: { pro: Pro }) {

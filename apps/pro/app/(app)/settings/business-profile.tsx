@@ -10,18 +10,19 @@ import type { Pro } from '@mowly/types';
 import { BusinessProfileSchema } from '@mowly/types';
 import { AVATARS, Button, FormField, colors, showToast } from '@mowly/ui';
 import { AvatarSheet } from '../../../src/components/AvatarSheet';
+import { ScreenLoading } from '../../../src/components/ScreenLoading';
 
 /** Renders once the Pro has loaded, so the form starts from the saved values. */
 export default function BusinessProfileScreen() {
   const { data: pro } = usePro();
-  return pro ? <BusinessProfileBody pro={pro} /> : null;
+  return pro ? <BusinessProfileBody pro={pro} /> : <ScreenLoading />;
 }
 
 function Circle({ testID, label, photo, onPress }: { testID: string; label: string; photo: number | null; onPress: () => void }) {
   return (
     <View className="items-center gap-2">
       <Pressable testID={testID} accessibilityRole="button" accessibilityLabel={label} onPress={onPress} className="h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-surfaceMuted">
-        {photo === null ? <Ionicons name="camera-outline" size={40} color="white" /> : <Image source={AVATARS[photo]} className="h-28 w-28" />}
+        {photo === null ? <Ionicons name="camera-outline" size={40} color={colors.surface} /> : <Image source={AVATARS[photo]} className="h-28 w-28" />}
       </Pressable>
       <Text className="text-sm text-inkProBody">{label}</Text>
     </View>

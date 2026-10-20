@@ -4,6 +4,7 @@ import { ScrollView, Text, View } from 'react-native';
 import { usePro, useUpdatePro } from '@mowly/api';
 import type { NotificationPrefs, Pro } from '@mowly/types';
 import { Toggle } from '@mowly/ui';
+import { ScreenLoading } from '../../../src/components/ScreenLoading';
 
 const SECTIONS = [
   { key: 'jobs', title: 'Job Notifications' },
@@ -18,7 +19,7 @@ const CHANNELS = [
 /** Renders once the Pro has loaded. */
 export default function NotificationsScreen() {
   const { data: pro } = usePro();
-  return pro ? <Body pro={pro} /> : null;
+  return pro ? <Body pro={pro} /> : <ScreenLoading />;
 }
 
 function Body({ pro }: { pro: Pro }) {

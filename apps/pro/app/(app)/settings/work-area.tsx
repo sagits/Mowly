@@ -6,10 +6,11 @@ import { Text, View } from 'react-native';
 import { usePro, useUpdatePro } from '@mowly/api';
 import type { Pro } from '@mowly/types';
 import { Button, colors, Radio } from '@mowly/ui';
+import { ScreenLoading } from '../../../src/components/ScreenLoading';
 
 export default function WorkAreaScreen() {
   const { data: pro } = usePro();
-  return pro ? <WorkAreaBody pro={pro} /> : <View testID="screen-work-area" className="flex-1 bg-surface" />;
+  return pro ? <WorkAreaBody pro={pro} /> : <ScreenLoading />;
 }
 
 function WorkAreaBody({ pro }: { pro: Pro }) {

@@ -8,15 +8,16 @@ import { Image, Pressable, ScrollView, Text, View } from 'react-native';
 import { usePro, useUpdatePro } from '@mowly/api';
 import type { Pro } from '@mowly/types';
 import { BuildProfileSchema } from '@mowly/types';
-import { AVATARS, Button, FormField } from '@mowly/ui';
+import { AVATARS, Button, FormField, colors } from '@mowly/ui';
 import { AvatarSheet } from '../../../src/components/AvatarSheet';
+import { ScreenLoading } from '../../../src/components/ScreenLoading';
 
 type Values = { businessName: string; yearFounded: string; crewSize: string };
 
 /** Renders once the Pro has loaded, so the form starts from the saved values (an edit must not wipe the avatar). */
 export default function ProfileForm() {
   const { data: pro } = usePro();
-  return pro ? <ProfileFormBody pro={pro} /> : null;
+  return pro ? <ProfileFormBody pro={pro} /> : <ScreenLoading />;
 }
 
 function ProfileFormBody({ pro }: { pro: Pro }) {
@@ -52,7 +53,7 @@ function ProfileFormBody({ pro }: { pro: Pro }) {
           className="h-28 w-28 items-center justify-center overflow-hidden rounded-full bg-surfaceMuted"
         >
           {avatar === null ? (
-            <Ionicons name="camera-outline" size={40} color="white" />
+            <Ionicons name="camera-outline" size={40} color={colors.surface} />
           ) : (
             <Image source={AVATARS[avatar]} className="h-28 w-28" />
           )}

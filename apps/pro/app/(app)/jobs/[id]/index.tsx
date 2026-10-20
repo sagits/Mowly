@@ -4,12 +4,13 @@ import { Text, View } from 'react-native';
 import { useJob } from '@mowly/api';
 import { formatLong, formatMoney, FREQUENCY_LABELS } from '@mowly/types';
 import { Button } from '@mowly/ui';
+import { ScreenLoading } from '../../../../src/components/ScreenLoading';
 
 /** Shows the job in the `id` param. */
 export default function JobDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { data: job } = useJob(id);
-  if (!job) return <View testID="screen-job" className="flex-1 bg-surface" />;
+  if (!job) return <ScreenLoading />;
   const { line1, city, state, zip } = job.address;
   return (
     <View testID="screen-job" className="flex-1 gap-1 bg-surface p-5">

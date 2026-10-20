@@ -7,6 +7,7 @@ import { usePro, useUpdatePro } from '@mowly/api';
 import type { Pro, TaxInfo } from '@mowly/types';
 import { TaxInfoSchema } from '@mowly/types';
 import { Badge, Button, FormField, Select, TextField } from '@mowly/ui';
+import { ScreenLoading } from '../../../src/components/ScreenLoading';
 
 const ENTITIES: { value: TaxInfo['entityType']; label: string }[] = [
   { value: 'individual', label: 'Individual' },
@@ -19,7 +20,7 @@ type Values = Partial<TaxInfo>;
 /** Renders once the Pro has loaded, so the form starts from the saved values. */
 export default function TaxInfoScreen() {
   const { data: pro } = usePro();
-  return pro ? <TaxInfoBody pro={pro} /> : null;
+  return pro ? <TaxInfoBody pro={pro} /> : <ScreenLoading />;
 }
 
 function TaxInfoBody({ pro }: { pro: Pro }) {

@@ -5,6 +5,7 @@ import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useBilling } from '@mowly/api';
 import { formatMoney, formatShort } from '@mowly/types';
 import { Card, colors } from '@mowly/ui';
+import { ScreenLoading } from '../../../src/components/ScreenLoading';
 
 const TABS = [
   { id: 'since-payout', label: 'Since last payout' },
@@ -15,7 +16,7 @@ const TABS = [
 export default function BillingScreen() {
   const { data: billing } = useBilling();
   const [tab, setTab] = useState<(typeof TABS)[number]['id']>('since-payout');
-  if (!billing) return null;
+  if (!billing) return <ScreenLoading />;
   return (
     <ScrollView testID="screen-billing" className="flex-1 bg-pageMuted" contentContainerClassName="gap-4 p-4">
       <Card className="p-5">

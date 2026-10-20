@@ -1,6 +1,6 @@
 // Tests the Calendar (P11), the day list and the job detail.
 import { fireEvent, screen, within } from '@testing-library/react-native';
-import { claimJob, getJob } from '@mowly/mocks';
+import { claimJob, getJob, setMockDelay } from '@mowly/mocks';
 import { addDays, setToday, today } from '@mowly/types';
 import { renderApp } from './renderApp';
 
@@ -54,7 +54,7 @@ test('across a month boundary: today in October, November starting on a Sunday',
   try {
     await renderApp('/calendar');
     const calendar = within(await screen.findByTestId('screen-calendar'));
-    expect(calendar.getByText('October 2026')).toBeTruthy();
+    expect(await calendar.findByText('October 2026')).toBeTruthy();
     expect(calendar.getByText('November 2026')).toBeTruthy();
     expect(within(calendar.getByTestId('month-2026-10')).getByTestId('day-today')).toBeTruthy();
     expect(within(calendar.getByTestId('month-2026-11')).queryByTestId('day-today')).toBeNull();
@@ -72,4 +72,17 @@ test('the job detail shows the job', async () => {
   await renderApp('/jobs/job-11');
   expect(await screen.findByText('3815 Speedway')).toBeTruthy();
   expect(screen.getByText('Gate code is on the side fence. Please close the latch.')).toBeTruthy();
+});
+
+test('the calendar shows a skeleton, not an empty month, while the jobs load', async () => {
+  setMockDelay(200, 200);
+  try {
+    await renderApp('/calendar');
+    expect(await screen.findByTestId('screen-loading')).toBeTruthy();
+    expect(screen.queryByTestId('month-2026-10')).toBeNull();
+    expect(await screen.findByTestId('day-today-count')).toHaveTextContent('3');
+    expect(screen.queryByTestId('screen-loading')).toBeNull();
+  } finally {
+    setMockDelay(0, 0);
+  }
 });

@@ -7,10 +7,11 @@ import { usePro, useUpdatePro } from '@mowly/api';
 import type { Pro } from '@mowly/types';
 import { Button, Toggle } from '@mowly/ui';
 import { CATEGORY_LABEL, CORE_SKILLS, kebab } from '../../../src/content/coreSkills';
+import { ScreenLoading } from '../../../src/components/ScreenLoading';
 
 export default function SkillsScreen() {
   const { data: pro } = usePro();
-  return pro ? <SkillsBody pro={pro} /> : <View testID="screen-skills" className="flex-1 bg-surface" />;
+  return pro ? <SkillsBody pro={pro} /> : <ScreenLoading />;
 }
 
 function SkillsBody({ pro }: { pro: Pro }) {

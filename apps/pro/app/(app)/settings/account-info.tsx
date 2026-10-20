@@ -7,11 +7,12 @@ import { usePro, useUpdatePro } from '@mowly/api';
 import type { Pro } from '@mowly/types';
 import { AccountInfoSchema } from '@mowly/types';
 import { Button, FormField, showToast } from '@mowly/ui';
+import { ScreenLoading } from '../../../src/components/ScreenLoading';
 
 /** Renders once the Pro has loaded, so the form starts from the saved values. */
 export default function AccountInfoScreen() {
   const { data: pro } = usePro();
-  return pro ? <AccountInfoBody pro={pro} /> : null;
+  return pro ? <AccountInfoBody pro={pro} /> : <ScreenLoading />;
 }
 
 function AccountInfoBody({ pro }: { pro: Pro }) {
