@@ -4,30 +4,34 @@
  * beside this file to drift from them.
  */
 const colors = {
-  primary: '#37D3B1',
-  primaryMuted: '#A8E9D5',
-  primaryInk: '#0E8C85',
-  accent: '#1E68BF',
-  ink: '#2B3450',
-  inkMuted: '#8A90A2',
-  slate: '#6F7C8B',
-  background: '#F1F2F6',
+  primary: '#18C058',
+  primaryHeader: '#08B460',
+  primaryTint: '#DCF4E8',
+  accent: '#F48C04',
+  surfaceMuted: '#D8D8D8',
+  priceBlock: '#A0A0A0',
+  callout: '#E0E0E4',
+  pageMuted: '#E8E8EC',
+  ink: '#111111',
+  inkSoft: '#222222',
+  inkPro: '#3A3A3A',
+  inkProBody: '#4C4C4C',
+  fee: '#575757',
+  muted: '#616161',
+  legal: '#888888',
+  disabled: '#9E9E9E',
+  placeholder: '#A6A6A6',
+  link: '#5779A6',
+  danger: '#FF3B30',
   surface: '#FFFFFF',
-  surfaceMuted: '#F8F8FB',
-  border: '#E3E5EC',
-  skeleton: '#E7E9EE',
-  mint: '#E1F3EE',
-  danger: '#E2574C',
-  warning: '#F2792A',
-  illustration: '#CDCBCF',
-  /** The dark wash a modal lays over the screen behind it. Ink at 45%, so it tints rather than greys. */
-  scrim: 'rgba(43, 52, 80, 0.45)',
-  openGround: '#E8F0FA',
-  claimedGround: '#FDF0E6',
-  doneGround: '#E1F3EE',
+  border: '#E0E0E0',
+  /** The dark wash a modal lays over the screen behind it. */
+  scrim: 'rgba(0,0,0,0.4)',
+  routeBlue: '#2F80ED',
+  calendarBlue: '#2F80ED',
 };
 
-const radius = { card: 8 };
+const radius = { field: 4, card: 8 };
 
 /**
  * `boxShadow` because one declaration covers native and web. The `shadow*` props are not
@@ -36,6 +40,6 @@ const radius = { card: 8 };
  */
 const shadow = { card: { boxShadow: '0px 2px 10px rgba(43, 52, 80, 0.38)' } };
 
-const layout = { sidebarWidth: 88, maxContentWidth: 720 };
+const layout = { sidebarWidth: 240, maxContentWidth: 720, wideBreakpoint: 768 };
 
 module.exports = { colors, radius, shadow, layout };

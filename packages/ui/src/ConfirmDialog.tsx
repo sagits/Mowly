@@ -42,7 +42,7 @@ export function ConfirmDialog({
       <View className="flex-1 items-center justify-center bg-scrim px-8">
         <View testID={testID} className="w-full rounded-card bg-surface px-5 py-5 shadow-card">
           <Text className="text-lg font-semibold text-ink">{title}</Text>
-          <Text className="mt-2 text-sm leading-5 text-inkMuted">{message}</Text>
+          <Text className="mt-2 text-sm leading-5 text-muted">{message}</Text>
           <View className="mt-4 flex-row gap-3">
             <Pressable
               testID={keepTestID}

@@ -3,7 +3,7 @@ import { ScrollViewStyleReset } from 'expo-router/html';
 import type { PropsWithChildren } from 'react';
 import { colors } from '@mowly/ui/tokens';
 
-const bodyBackground = `body { background-color: ${colors.background}; }`;
+const bodyBackground = `body { background-color: ${colors.surface}; }`;
 
 /** Sets the viewport, resets the scroll view and paints the body before the bundle parses. */
 export function WebShell({ children }: PropsWithChildren) {
