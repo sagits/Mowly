@@ -1,6 +1,7 @@
 {
   "extends": "@mowly/config/tsconfig.base.json",
   "compilerOptions": {
+    "types": ["jest", "node"],
     "paths": {
       "expo-router": [
         "../../node_modules/expo-router"
