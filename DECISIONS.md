@@ -142,3 +142,7 @@ C20 is an Android screenshot, rebuilt in the iOS language. The header uses the n
 ## [customer] Inbox screenshot simplifications (C21)
 
 C21 is an Android screenshot, rebuilt in the iOS language. The date uses the short format ("Oct 19") instead of "10/19/23", and the preview shows the last message text without the sender-name prefix ("John: ..."). The chat screen behind a row is a placeholder until Task 12.
+
+## [customer] Service management sheets (Task 11)
+
+The frequency and pause sheets have no subtitle line and no "Keep as is" outline button (the prototype has both); closing is by scrim or back. Frequency reuses `PlanRow`, the same cards as the plan screen. Skip, cancel and pause apply on tap and close the sheet immediately; reschedule reuses `DateSheet` (title "Preferred start date").

@@ -1,12 +1,13 @@
 // Service detail (C20): the upcoming service block, what's included and the five action rows.
 import { Ionicons } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
+import { useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { useBooking, useService } from '@mowly/api';
 import { FREQUENCY_LABELS, formatLong, formatMoney } from '@mowly/types';
 import { Badge, ListRow, Screen, colors } from '@mowly/ui';
+import { ManageSheets, monthName, type ManageKind } from '../../src/components/ManageSheets';
 
-// Sheets for these rows arrive in Task 11; until then onPress is a no-op.
 const ACTIONS = [
   ['skip', 'Skip', 'Skip your upcoming service'],
   ['reschedule', 'One-time reschedule', 'Move the date for your next service'],
@@ -20,6 +21,7 @@ export default function ServiceDetailScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { data: booking } = useBooking(id);
   const { data: service } = useService(booking?.serviceId ?? '');
+  const [open, setOpen] = useState<ManageKind | null>(null);
   const paused = booking?.status === 'paused';
   return (
     <View testID="service-detail" className="flex-1">
@@ -29,7 +31,7 @@ export default function ServiceDetailScreen() {
             <View className="gap-3 border-b border-border p-4">
               <View className="flex-row items-center justify-between">
                 <Text className="text-title-sm text-ink">Upcoming Service</Text>
-                <Badge label={paused ? 'Paused' : 'Scheduled'} tone={paused ? 'gray' : 'green'} />
+                <Badge label={paused ? (booking.pausedUntil ? `Paused until ${monthName(booking.pausedUntil)}` : 'Paused') : 'Scheduled'} tone={paused ? 'gray' : 'green'} />
               </View>
               {[
                 ['calendar-outline', `${formatLong(booking.nextDate)} (${FREQUENCY_LABELS[booking.frequency]})`],
@@ -47,9 +49,12 @@ export default function ServiceDetailScreen() {
               <Text className="mt-2 text-base text-ink">{service?.included}</Text>
             </View>
             {ACTIONS.map(([key, title, subtitle]) => (
-              <ListRow key={key} testID={`detail-${key}`} title={title} subtitle={subtitle} onPress={() => {}} />
+              <ListRow key={key} testID={`detail-${key}`} title={title} subtitle={subtitle} onPress={() => setOpen(key)} />
             ))}
           </ScrollView>
+        ) : null}
+        {booking ? (
+          <ManageSheets booking={booking} open={open} onClose={() => setOpen(null)} />
         ) : null}
       </Screen>
     </View>
