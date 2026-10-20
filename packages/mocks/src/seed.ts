@@ -80,13 +80,16 @@ const AVAILABLE_DAYS = [[0, 1, 3], [0, 2], [1, 2, 4], [0, 1], [2, 3], [1, 3, 4],
 // Capped at 28: the calendar shows two months, and the next month ends at least 28 days out.
 const CLAIMED_DAYS = [0, 0, 0, 1, 2, 4, 7, 12, 16, 20, 24, 28];
 
+// Claimed jobs cycle through the prototype's past customers.
+const PAST_CUSTOMERS = ['Renato Probst', 'Jane Kim', 'Tom Reyes'];
+
 function buildJob(i: number): Job {
   const [street, zip, yardSqft, serviceName, frequency, price, distanceMiles, x, y] = ROWS[i]!;
   const claimed = i >= 10;
   const dates = claimed ? [addDays(today(), CLAIMED_DAYS[i - 10]!)] : AVAILABLE_DAYS[i]!.map((n) => addDays(today(), n));
   const todayCount = CLAIMED_DAYS.filter((n) => n === 0).length;
   return {
-    id: `job-${String(i + 1).padStart(2, '0')}`, customerName: 'Austin homeowner', address: addr(`addr-job-${i + 1}`, street, zip),
+    id: `job-${String(i + 1).padStart(2, '0')}`, customerName: claimed ? PAST_CUSTOMERS[(i - 10) % 3]! : 'Austin homeowner', address: addr(`addr-job-${i + 1}`, street, zip),
     yardSqft, serviceName, frequency, price, availableDates: claimed ? [] : dates, claimedDate: claimed ? dates[0]! : null,
     distanceMiles, pin: { x, y }, routeOrder: claimed && i - 10 < todayCount ? i - 9 : null,
     notes: 'Gate code is on the side fence. Please close the latch.',

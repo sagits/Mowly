@@ -9,3 +9,4 @@
   - `packages/api/src/queryKeys.ts`: new keys `crew`, `performance`, `proThreads`.
   - `packages/api/src/pro.ts`: new hooks `useCrew`, `usePerformance`, `useProThreads`.
   - `packages/mocks/src/pro-extras.test.ts`: new test file.
+- Task 15 fix: `packages/mocks/src/seed.ts`: claimed jobs' `customerName` now cycles Renato Probst, Jane Kim, Tom Reyes (available jobs keep 'Austin homeowner'). Value-only; nothing in the customer app reads `customerName`.

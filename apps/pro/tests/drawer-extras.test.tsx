@@ -1,16 +1,20 @@
 // Tests the invented drawer screens: Crews, Customer Search, Performance, Inbox.
 import { fireEvent, screen } from '@testing-library/react-native';
-import { getDb } from '@mowly/mocks';
 import { renderApp } from './renderApp';
 
 test('customer search filters claimed jobs by customer name', async () => {
-  getDb().jobs.find((j) => j.id === 'job-12')!.customerName = 'Tom Reyes';
   await renderApp('/customers');
   expect(await screen.findByTestId('customer-job-11')).toBeTruthy();
+  await fireEvent.changeText(screen.getByTestId('customers-search'), 'jane');
   expect(screen.getByTestId('customer-job-12')).toBeTruthy();
-  await fireEvent.changeText(screen.getByTestId('customers-search'), 'a');
-  expect(screen.getByTestId('customer-job-11')).toBeTruthy();
-  expect(screen.queryByTestId('customer-job-12')).toBeNull();
+  expect(screen.queryByTestId('customer-job-11')).toBeNull();
+  expect(screen.queryByTestId('customer-job-13')).toBeNull();
+});
+test('customer search with no match shows no rows', async () => {
+  await renderApp('/customers');
+  expect(await screen.findByTestId('customer-job-11')).toBeTruthy();
+  await fireEvent.changeText(screen.getByTestId('customers-search'), 'zzz');
+  expect(screen.queryAllByTestId(/^customer-/)).toHaveLength(0);
 });
 test('crews lists the crew', async () => {
   await renderApp('/crews');
