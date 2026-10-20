@@ -10,3 +10,7 @@
   - `packages/api/src/pro.ts`: new hooks `useCrew`, `usePerformance`, `useProThreads`.
   - `packages/mocks/src/pro-extras.test.ts`: new test file.
 - Task 15 fix: `packages/mocks/src/seed.ts`: claimed jobs' `customerName` now cycles Renato Probst, Jane Kim, Tom Reyes (available jobs keep 'Austin homeowner'). Value-only; nothing in the customer app reads `customerName`.
+- Task 17 (additive; customer tests pass):
+  - `packages/ui/src/ListRow.tsx`: new optional `focusable` prop; `focusable={false}` sets `tabIndex={-1}` (react-native-web's Pressable ignores `focusable`). Omitted, behavior is unchanged.
+  - `packages/ui/src/SwitchAppLink.tsx`: same optional `focusable` prop (the signature gains an optional props object).
+  - `packages/ui/src/overlays.test.tsx`: new test `ListRow focusable={false} leaves the tab order`.

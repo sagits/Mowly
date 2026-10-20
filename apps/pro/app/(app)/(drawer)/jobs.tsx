@@ -43,11 +43,11 @@ export default function JobsScreen() {
         ) : (
           <>
             <View className="flex-row items-center justify-between border-b border-border px-4 py-3">
-              <Pressable testID="pager-prev" accessibilityLabel="Previous job" hitSlop={12} disabled={index === 0} onPress={() => go(index - 1)}>
+              <Pressable testID="pager-prev" accessibilityRole="button" accessibilityLabel="Previous job" hitSlop={12} disabled={index === 0} onPress={() => go(index - 1)}>
                 <Ionicons name="chevron-back" size={26} color={index === 0 ? colors.disabled : colors.primary} />
               </Pressable>
               <Text testID="pager-label" className="text-xl text-inkPro">{`${index + 1} of ${jobs.length} jobs`}</Text>
-              <Pressable testID="pager-next" accessibilityLabel="Next job" hitSlop={12} disabled={index === jobs.length - 1} onPress={() => go(index + 1)}>
+              <Pressable testID="pager-next" accessibilityRole="button" accessibilityLabel="Next job" hitSlop={12} disabled={index === jobs.length - 1} onPress={() => go(index + 1)}>
                 <Ionicons name="chevron-forward" size={26} color={index === jobs.length - 1 ? colors.disabled : colors.primary} />
               </Pressable>
             </View>
