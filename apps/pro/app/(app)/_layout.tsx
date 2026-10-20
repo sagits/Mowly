@@ -1,6 +1,8 @@
 /** The signed-in shell: a native Stack whose first screen is the drawer; step screens push above it. Redirects to welcome when signed out. */
 import { Redirect, Stack } from 'expo-router';
 import { useSession } from '@mowly/stores';
+import { formatLong } from '@mowly/types';
+import type { IsoDate } from '@mowly/types';
 import { colors } from '@mowly/ui';
 
 /** A step opened directly (deep link, web refresh) still gets the drawer underneath, so back and save have somewhere to go. */
@@ -29,6 +31,10 @@ export default function AppLayout() {
       <Stack.Screen name="settings/damage-fee" options={{ title: 'Damage Fee' }} />
       <Stack.Screen name="settings/tax-info" options={{ title: 'Provide tax info' }} />
       <Stack.Screen name="settings/bank" options={{ title: 'Connect your bank account' }} />
+      <Stack.Screen name="calendar/[date]" options={({ route }) => ({ title: formatLong((route.params as { date: IsoDate }).date) })} />
+      <Stack.Screen name="jobs/[id]/index" options={{ title: 'Job Details' }} />
+      <Stack.Screen name="jobs/[id]/recommend" options={{ title: 'Service Quote' }} />
+      <Stack.Screen name="route" options={{ title: 'Route' }} />
     </Stack>
   );
 }
