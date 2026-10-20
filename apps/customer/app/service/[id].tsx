@@ -45,7 +45,7 @@ export default function ServiceDetailScreen() {
               ))}
             </View>
             <View className="border-b border-border p-4">
-              <Text className="text-base font-semibold text-ink">What's included?</Text>
+              <Text className="text-base font-semibold text-ink">What&apos;s included?</Text>
               <Text className="mt-2 text-base text-ink">{service?.included}</Text>
             </View>
             {ACTIONS.map(([key, title, subtitle]) => (

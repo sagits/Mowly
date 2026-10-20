@@ -21,7 +21,7 @@ export default function QuoteBookedScreen() {
         <View className="h-28 w-28 items-center justify-center rounded-full bg-primary">
           <Ionicons name="checkmark" size={64} color={colors.surface} />
         </View>
-        <Text className="mt-6 text-3xl font-bold text-ink">You're booked!</Text>
+        <Text className="mt-6 text-3xl font-bold text-ink">You&apos;re booked!</Text>
         <Text className="mt-3 text-center text-lg text-muted">
           {`${service?.name ?? ''}, ${frequency ? FREQUENCY_LABELS[frequency] : ''}. First service on ${startDate ? formatPlanDate(startDate) : ''}. We'll match you with a pro and message you in the Inbox.`}
         </Text>

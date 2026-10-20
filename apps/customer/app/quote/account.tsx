@@ -33,7 +33,7 @@ export default function QuoteAccountScreen() {
   });
   const plan = quote?.plans.find((p) => p.frequency === frequency);
 
-  const book = handleSubmit(async () => {
+  const onBook = async () => {
     // a ref, because a second press can land before React re-renders with isPending
     if (sent.current || !plan || !serviceId || !frequency || !startDate || !contact) return;
     sent.current = true;
@@ -45,7 +45,8 @@ export default function QuoteAccountScreen() {
       sent.current = false;
       setFailed(true);
     }
-  });
+  };
+  const book = () => handleSubmit(onBook)();
 
   return (
     <Screen>
@@ -66,7 +67,7 @@ export default function QuoteAccountScreen() {
               <Text className="ml-3 flex-1 text-xl font-semibold text-primary">Inspect First, Pay Later Promise</Text>
             </View>
             <Text className="mt-3 text-lg text-ink">
-              Your card won't be charged for 3 full days after service, giving you time to inspect the work and ensure you're 100% satisfied.
+              Your card won&apos;t be charged for 3 full days after service, giving you time to inspect the work and ensure you&apos;re 100% satisfied.
             </Text>
           </View>
           <View className="mt-6 rounded-card border border-border px-4 py-4">
@@ -117,7 +118,7 @@ export default function QuoteAccountScreen() {
         </ScrollView>
         {failed ? (
           <Text testID="book-error" className="px-4 pb-2 text-center text-base text-danger">
-            We couldn't book your service. Please try again.
+            We couldn&apos;t book your service. Please try again.
           </Text>
         ) : null}
         <CostFooter

@@ -1,5 +1,5 @@
 // The five sheets behind the Service detail action rows (invented; see prototype c-manage).
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { router } from 'expo-router';
 import { Pressable, Text, View } from 'react-native';
 import { useQuote, useUpdateBooking } from '@mowly/api';
@@ -29,10 +29,12 @@ export function ManageSheets({ booking, open, onClose }: { booking: Booking; ope
   const update = useUpdateBooking();
   const { data: quote } = useQuote(booking.serviceId, booking.address.id);
   const [picked, setPicked] = useState<Frequency | null>(null);
-  // A pick that was never saved must not outlive its sheet.
-  useEffect(() => {
+  // A pick that was never saved must not outlive its sheet (reset during render, not in an effect).
+  const [shown, setShown] = useState(open);
+  if (shown !== open) {
+    setShown(open);
     if (open !== 'frequency') setPicked(null);
-  }, [open]);
+  }
   // Close on success; on failure close too and say so (a toast would hide behind an open sheet).
   const run = (change: BookingChange, after?: () => void) =>
     update.mutate(

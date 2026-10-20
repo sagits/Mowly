@@ -106,7 +106,7 @@ export default function QuotePlanScreen() {
               <View className="flex-row items-center bg-callout px-4 py-4">
                 <Ionicons name="bulb-outline" size={28} color={colors.inkPro} />
                 <Text className="ml-4 text-xl text-inkPro">
-                  What's included?
+                  What&apos;s included?
                 </Text>
               </View>
               <View className="flex-row px-4 py-4">
