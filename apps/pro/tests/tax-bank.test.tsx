@@ -44,5 +44,5 @@ test('from the checklist, CONTINUE returns to the dashboard', async () => {
   await fireEvent.press(await screen.findByTestId('checklist-bank'));
   await fireEvent.press(await screen.findByTestId('bank-link'));
   await fireEvent.press(await screen.findByTestId('bank-done'));
-  expect(await screen.findByTestId('checklist-bank-done')).toBeTruthy();
+  expect(await screen.findByTestId('checklist-complete')).toBeTruthy();
 });

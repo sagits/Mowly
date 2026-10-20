@@ -93,18 +93,6 @@ appId: com.renatoprobst.mowlypro
 - tapOn:
     id: bank-done
 - assertVisible:
-    id: checklist-profile-done
+    id: checklist-complete
 - assertVisible:
-    id: checklist-skills-done
-- assertVisible:
-    id: checklist-evaluate-done
-- assertVisible:
-    id: checklist-work-area-done
-- assertVisible:
-    id: checklist-gps-done
-- assertVisible:
-    id: checklist-damage-fee-done
-- assertVisible:
-    id: checklist-tax-done
-- assertVisible:
-    id: checklist-bank-done
+    id: dash-route
