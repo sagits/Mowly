@@ -201,3 +201,4 @@ P11 differences kept on purpose: the page background is `pageMuted` (P11 uses a 
 
 ## [pro] Final review fixes
 - [pro] Auth guard: the root Stack wraps `(app)` in `Stack.Protected guard={signedIn}` and `welcome`/`sign-in`/`sign-up` in `Stack.Protected guard={!signedIn}`. Flipping the session swaps the stack, so after sign out then sign in, back (edge swipe, Android back, browser Back) cannot reach Welcome or Sign in, and a signed-in deep link to `/welcome` lands on the Dashboard. This replaces the `Redirect` in `(app)/_layout.tsx` and the `router.replace` calls after `signIn`/`signOut`.
+- [pro] Notifications: the switches render from local state seeded from the Pro record (the screen's source of truth while mounted), and each change sets that state and saves. Rendering the query data made RN's `Switch` snap back until the save and the refetch landed.

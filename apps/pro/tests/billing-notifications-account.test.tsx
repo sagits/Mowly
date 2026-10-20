@@ -23,7 +23,7 @@ test('billing lists past claimed jobs under both tabs', async () => {
   }
 });
 
-test('two quick toggles in one section both persist and keep the third', async () => {
+test('two quick toggles in one section flip at once, both persist and keep the third', async () => {
   const before = await getPro();
   await renderApp('/settings/notifications');
   const text = await screen.findByTestId('notif-jobs-text');
@@ -32,7 +32,11 @@ test('two quick toggles in one section both persist and keep the third', async (
   setMockDelay(150, 150);
   try {
     await fireEvent(text, 'valueChange', false);
+    // The switch shows the new value right away, before the save and refetch land.
+    expect(screen.getByTestId('notif-jobs-text')).toHaveProp('value', false);
     await fireEvent(push, 'valueChange', false);
+    expect(screen.getByTestId('notif-jobs-push')).toHaveProp('value', false);
+    expect(screen.getByTestId('notif-jobs-text')).toHaveProp('value', false);
     setMockDelay(0, 0); // so the checks below do not wait on the slow mock
     await waitFor(async () => {
       const { notifications } = await getPro();

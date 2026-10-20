@@ -1,5 +1,5 @@
 /** Notifications (P23): each toggle saves at once. */
-import { useRef } from 'react';
+import { useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { usePro, useUpdatePro } from '@mowly/api';
 import type { NotificationPrefs, Pro } from '@mowly/types';
@@ -23,13 +23,13 @@ export default function NotificationsScreen() {
 
 function Body({ pro }: { pro: Pro }) {
   const { mutate } = useUpdatePro();
-  // Seeded once: prefs don't change elsewhere while this screen is mounted.
-  // Merge against the last value we sent, not the query data, which lags until the refetch lands.
-  const latest = useRef<NotificationPrefs>(pro.notifications);
-  const prefs = pro.notifications;
+  // Seeded once and rendered from local state, so a switch flips at once instead of waiting on the save and refetch.
+  // Prefs don't change elsewhere while this screen is mounted.
+  const [prefs, setPrefs] = useState<NotificationPrefs>(pro.notifications);
   const change = (section: 'jobs' | 'messages', channel: 'email' | 'text' | 'push', value: boolean) => {
-    latest.current = { ...latest.current, [section]: { ...latest.current[section], [channel]: value } };
-    mutate({ notifications: latest.current });
+    const next = { ...prefs, [section]: { ...prefs[section], [channel]: value } };
+    setPrefs(next);
+    mutate({ notifications: next });
   };
   return (
     <ScrollView testID="screen-notifications" className="flex-1 bg-surface" contentContainerClassName="px-5 pb-8">
