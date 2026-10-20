@@ -26,3 +26,14 @@ appId: com.renatoprobst.mowlypro
     id: bp-save
 - assertVisible:
     id: toast
+- tapOn:
+    id: settings-notifications
+- tapOn:
+    id: notif-jobs-text
+- tapOn:
+    point: 8%,11%
+- tapOn:
+    id: settings-notifications
+- assertVisible:
+    id: notif-jobs-text
+    checked: false

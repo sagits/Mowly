@@ -160,3 +160,7 @@ P11 differences kept on purpose: the page background is `pageMuted` (P11 uses a 
 - The bio counter sits below the field (`bp-bio-count`), not inline with the label as in P16.
 - Rows use the shared `ListRow` padding, tighter than P15's, and have full-width dividers instead of inset ones.
 - The business-profile save sends `avatar` and `truckPhoto` along with the form fields, because `businessProfileComplete` needs both and the circles live outside the form.
+- [pro] Billing (P20): the Filter button is inert; the card has a thin border and no soft shadow; the segmented control is a plain row of pills with the selected one white (no shadow); the top-left shows the green chevron without the "Back" label (the shared Stack uses minimal back buttons). Rows (`billing-row-<jobId>`) are invented, as P20 only shows the empty state.
+- [pro] Notifications (P23): switches are the native iOS `Switch` through the shared `Toggle` (solid green track, white thumb), not P23's pale track with a dark outline; the row dividers also run under the last row of each section.
+- [pro] Account management (P24): the Account Deletion row is the shared `ListRow` (inset padding, full-width divider underneath), not P24's divider-less row. The confirm dialog is invented (P24 does not show it); Delete only closes it and shows a "Not in this demo" toast.
+- [pro] Billing test is split in two (empty state, then listed rows under both tabs): a second `renderApp` inside one test leaves overlapping act() scopes that break the next test in the file.
