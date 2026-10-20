@@ -375,6 +375,9 @@ importers:
 
   packages/api:
     dependencies:
+      '@mowly/mocks':
+        specifier: workspace:*
+        version: link:../mocks
       '@mowly/stores':
         specifier: workspace:*
         version: link:../stores
