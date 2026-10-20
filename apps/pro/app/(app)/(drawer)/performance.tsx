@@ -1,5 +1,5 @@
 /** Placeholder Performance screen until the pro track builds it. */
-import { Placeholder } from '../../src/drawer/Placeholder';
+import { Placeholder } from '../../../src/drawer/Placeholder';
 
 /** The Performance screen. */
 export default function PerformanceScreen() {

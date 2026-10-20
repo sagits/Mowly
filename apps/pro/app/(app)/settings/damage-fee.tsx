@@ -1,7 +1,7 @@
 /** Damage Fee (P17). The opted-in state is P17; the accept state before it is invented. */
+import { router } from 'expo-router';
 import { Text, View } from 'react-native';
 import { usePro, useUpdatePro } from '@mowly/api';
-import { leaveStep } from '../../../src/drawer/BackButton';
 import { Button } from '@mowly/ui';
 
 export default function DamageFeeScreen() {
@@ -33,7 +33,7 @@ export default function DamageFeeScreen() {
             loading={isPending}
             onPress={async () => {
               await updatePro({ damageFeeAccepted: true });
-              leaveStep();
+              router.back();
             }}
           />
         </View>

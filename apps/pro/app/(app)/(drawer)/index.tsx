@@ -3,8 +3,8 @@ import { router } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 import { usePro } from '@mowly/api';
 import { Spinner } from '@mowly/ui';
-import { CHECKLIST, checklistDone, rowStates, type ChecklistItem } from '../../src/checklist';
-import { ChecklistRow } from '../../src/components/ChecklistRow';
+import { CHECKLIST, checklistDone, rowStates, type ChecklistItem } from '../../../src/checklist';
+import { ChecklistRow } from '../../../src/components/ChecklistRow';
 
 const GROUPS: { group: ChecklistItem['group']; title: string }[] = [
   { group: 'profile', title: 'Build a winning profile' },

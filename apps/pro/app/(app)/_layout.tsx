@@ -1,44 +1,29 @@
-/** The signed-in shell: an Expo Router Drawer (left slide-in, or a permanent sidebar when wide), redirecting to welcome when signed out. */
-import { Redirect } from 'expo-router';
-import { Drawer } from 'expo-router/drawer';
-import { usePro } from '@mowly/api';
+/** The signed-in shell: a native Stack whose first screen is the drawer; step screens push above it. Redirects to welcome when signed out. */
+import { Redirect, Stack } from 'expo-router';
 import { useSession } from '@mowly/stores';
-import { colors, layout, useIsWide } from '@mowly/ui';
-import { openSettingsCount } from '../../src/checklist';
-import { BackButton } from '../../src/drawer/BackButton';
-import { DrawerButton } from '../../src/drawer/DrawerButton';
-import { DRAWER_ITEMS, DrawerMenu } from '../../src/drawer/DrawerMenu';
+import { colors } from '@mowly/ui';
 
-/** Layout for every signed-in screen. The pro track computes the real settings badge. */
+/** Layout for every signed-in screen. Pushed screens get the native back button, tinted green. */
 export default function AppLayout() {
   const signedIn = useSession((s) => s.signedIn);
-  const wide = useIsWide();
-  const { data: pro } = usePro();
   if (!signedIn) return <Redirect href="/welcome" />;
   return (
-    <Drawer
-      drawerContent={(props) => <DrawerMenu {...props} settingsBadge={pro ? openSettingsCount(pro) : 0} />}
-      backBehavior="history"
+    <Stack
       screenOptions={{
-        drawerType: wide ? 'permanent' : 'front',
-        drawerStyle: { width: layout.sidebarWidth },
-        overlayColor: colors.scrim,
         headerTintColor: colors.primary,
         headerTitleAlign: 'center',
         headerTitleStyle: { color: colors.primary },
-        headerLeft: () => <DrawerButton />,
+        // Chevron only: the previous title would read "(drawer)", the group's route name.
+        headerBackButtonDisplayMode: 'minimal',
       }}
     >
-      {DRAWER_ITEMS.map((item) => (
-        <Drawer.Screen
-          key={item.testID}
-          name={item.href === '/' ? 'index' : String(item.href).slice(1)}
-          options={{ title: item.label, ...(item.href === '/settings' && { headerShown: false }) }}
-        />
-      ))}
-      {/* Pushed (app)-level screens: not drawer items, so a back button replaces the hamburger. */}
-      <Drawer.Screen name="profile" options={{ headerShown: false }} />
-      <Drawer.Screen name="evaluate" options={{ title: 'Evaluate your skills', headerLeft: () => <BackButton /> }} />
-    </Drawer>
+      <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
+      <Stack.Screen name="profile/index" options={{ title: '', headerShadowVisible: false }} />
+      <Stack.Screen name="profile/form" options={{ title: 'Build a profile', headerBackTitle: 'Back', headerBackButtonDisplayMode: 'default', headerShadowVisible: false }} />
+      <Stack.Screen name="evaluate" options={{ title: 'Evaluate your skills' }} />
+      <Stack.Screen name="settings/work-area" options={{ title: 'Set up your work area' }} />
+      <Stack.Screen name="settings/location" options={{ title: 'Turn on your GPS' }} />
+      <Stack.Screen name="settings/damage-fee" options={{ title: 'Damage Fee' }} />
+    </Stack>
   );
 }

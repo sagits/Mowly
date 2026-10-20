@@ -30,9 +30,8 @@ function ProfileFormBody({ pro }: { pro: Pro }) {
 
   const save = handleSubmit(async ({ businessName, yearFounded, crewSize }) => {
     await updatePro({ businessName, yearFounded, crewSize: Number(crewSize), avatar });
-    // Pop the form, then leave the intro (the stack root) through the drawer history, back to the opener.
-    router.dismiss();
-    router.back();
+    // Pop the form and the intro, back to whoever opened the intro.
+    router.dismiss(2);
   });
 
   return (

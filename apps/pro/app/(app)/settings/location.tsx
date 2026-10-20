@@ -1,8 +1,8 @@
 /** Turn on your GPS (P22). ENABLE GPS only flips a flag: no OS permission prompt. */
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 import { usePro, useUpdatePro } from '@mowly/api';
-import { leaveStep } from '../../../src/drawer/BackButton';
 import { Accordion, Button, colors } from '@mowly/ui';
 
 const FAQ = [
@@ -42,7 +42,7 @@ export default function LocationScreen() {
             loading={isPending}
             onPress={async () => {
               await updatePro({ gpsEnabled: true });
-              leaveStep();
+              router.back();
             }}
           />
         )}
