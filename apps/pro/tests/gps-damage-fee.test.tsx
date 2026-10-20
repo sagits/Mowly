@@ -16,7 +16,7 @@ test('accepting the damage fee marks the row done', async () => {
 test('opted-in state from settings', async () => {
   await updatePro({ damageFeeAccepted: true });
   await renderApp('/settings/damage-fee');
-  expect(await screen.findByText("You're opted into Mowly's damage fee policy.")).toBeTruthy();
+  expect(await screen.findByText('You’re opted into Mowly’s damage fee policy.')).toBeTruthy();
   expect(screen.queryByTestId('damage-fee-accept')).toBeNull();
 });
 

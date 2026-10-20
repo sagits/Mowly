@@ -21,7 +21,7 @@ function WorkAreaBody({ pro }: { pro: Pro }) {
       <View className="flex-1 gap-4 p-5">
         <Text className="text-2xl font-bold text-inkPro">Set your work area</Text>
         <Text className="text-base text-inkProBody">
-          Choose where you'll begin your day. Tell us your starting point so we can find you the best jobs nearby.
+          Choose where you’ll begin your day. Tell us your starting point so we can find you the best jobs nearby.
         </Text>
         <Text className="mt-2 text-xl font-bold text-inkPro">Main Crew</Text>
         <View className="flex-row items-center gap-3 border-y border-border py-4">

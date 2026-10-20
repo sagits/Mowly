@@ -23,7 +23,7 @@ export default function LocationScreen() {
         </View>
         <Text className="text-center text-xl font-bold text-inkPro">Enable your GPS</Text>
         <Text className="mt-4 text-center text-lg text-inkProBody">
-          Keeping your GPS tracking <Text className="font-bold">"ON"</Text> while using Mowly will help us optimize your experience.
+          Keeping your GPS tracking <Text className="font-bold">“ON”</Text> while using Mowly will help us optimize your experience.
         </Text>
         <Text className="mb-2 mt-8 text-xl font-bold text-primary">Frequently Asked Questions</Text>
         {FAQ.map(([q, a], i) => (

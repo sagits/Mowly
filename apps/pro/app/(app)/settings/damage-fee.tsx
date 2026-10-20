@@ -12,7 +12,7 @@ export default function DamageFeeScreen() {
     <View testID="screen-damage-fee" className="flex-1 bg-surface">
       <View className="flex-1 p-5">
         {pro && accepted ? (
-          <Text className="mb-4 text-2xl font-bold text-primary">You're opted into Mowly's damage fee policy.</Text>
+          <Text className="mb-4 text-2xl font-bold text-primary">You’re opted into Mowly’s damage fee policy.</Text>
         ) : null}
         {pro ? (
           <>

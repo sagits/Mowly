@@ -3,6 +3,9 @@ import { Redirect, Stack } from 'expo-router';
 import { useSession } from '@mowly/stores';
 import { colors } from '@mowly/ui';
 
+/** A step opened directly (deep link, web refresh) still gets the drawer underneath, so back and save have somewhere to go. */
+export const unstable_settings = { initialRouteName: '(drawer)' };
+
 /** Layout for every signed-in screen. Pushed screens get the native back button, tinted green. */
 export default function AppLayout() {
   const signedIn = useSession((s) => s.signedIn);

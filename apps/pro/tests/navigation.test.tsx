@@ -41,11 +41,18 @@ test('the hamburger opens the drawer from the settings list', async () => {
   expect(await screen.findByTestId('drawer-dashboard')).toBeTruthy();
 });
 
-test('signed out, a pushed step redirects to welcome', async () => {
-  useSession.getState().signOut();
+test('a step opened directly (deep link, web refresh) has the dashboard underneath', async () => {
+  await renderApp('/settings/location');
+  await fireEvent.press(await screen.findByTestId('gps-enable'));
+  await waitFor(() => expect(screen).toHavePathname('/'));
+  expect(await screen.findByTestId('screen-dashboard')).toBeTruthy();
+});
+
+test('signing out on a pushed step redirects to welcome', async () => {
+  await renderApp('/settings/work-area');
+  expect(await screen.findByTestId('screen-work-area')).toBeTruthy();
   try {
-    await renderApp('/welcome');
-    await act(async () => router.push('/settings/work-area'));
+    await act(async () => useSession.getState().signOut());
     await waitFor(() => expect(screen).toHavePathname('/welcome'));
     expect(screen.queryByTestId('screen-work-area')).toBeNull();
   } finally {
