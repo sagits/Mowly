@@ -46,3 +46,28 @@ appId: com.renatoprobst.mowlypro
     id: support-kb
 - assertVisible:
     id: toast
+# Invented drawer screens: the first row of each.
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-crews
+- assertVisible:
+    id: crew-crew-mike
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-customers
+- assertVisible:
+    id: customer-job-11
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-performance
+- assertVisible:
+    id: stat-0
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-inbox
+- assertVisible:
+    id: pro-thread-pt-renato

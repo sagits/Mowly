@@ -127,5 +127,18 @@ export function createSeed(): MockDb {
     pro: structuredClone(PRO),
     jobs: ROWS.map((_, i) => buildJob(i)),
     recommendations: [],
+    crew: [{ id: 'crew-mike', name: 'Mike Sullivan', role: 'Owner' }, { id: 'crew-dan', name: 'Dan Ortiz', role: 'Crew member' }],
+    performance: [{ label: 'Rating', value: '4.9' }, { label: 'Jobs completed', value: '126' }, { label: 'On-time rate', value: '97%' }],
+    // The customer-facing Thread type is reused: proName holds the customer's name.
+    proThreads: [
+      {
+        id: 'pt-renato', proName: 'Renato Probst', initials: 'RP', serviceName: 'Lawn Mowing',
+        messages: [{ id: 'pm-1', from: 'customer', text: 'Great, the gate code is 4417.', sentAt: now - 2 * hour }],
+      },
+      {
+        id: 'pt-jane', proName: 'Jane Kim', initials: 'JK', serviceName: 'Leaf Removal',
+        messages: [{ id: 'pm-2', from: 'customer', text: 'Can you come Friday instead?', sentAt: now - 5 * hour }],
+      },
+    ],
   };
 }

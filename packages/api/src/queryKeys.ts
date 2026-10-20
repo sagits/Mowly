@@ -19,4 +19,7 @@ export const queryKeys = {
   job: (id: string) => ['jobs', id] as const,
   route: ['route'] as const,
   billing: ['billing'] as const,
+  crew: ['crew'] as const,
+  performance: ['performance'] as const,
+  proThreads: ['proThreads'] as const,
 };

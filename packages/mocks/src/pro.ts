@@ -1,9 +1,10 @@
 // Pro-side resolvers. Each waits like a network call and returns copies, never live db objects.
 import { today } from '@mowly/types';
-import type { Billing, IsoDate, Job, Pro, Recommendation } from '@mowly/types';
+import type { Billing, IsoDate, Job, Pro, Recommendation, Thread } from '@mowly/types';
 import { delay } from './delay';
 import { find } from './find';
 import { getDb } from './db';
+import type { CrewMember, PerformanceStat } from './db';
 
 const byRoute = (a: Job, b: Job) => (a.routeOrder ?? 0) - (b.routeOrder ?? 0);
 
@@ -76,4 +77,22 @@ export async function sendRecommendation(input: Omit<Recommendation, 'id'>): Pro
   const rec: Recommendation = { ...input, id: `rec-${db.recommendations.length + 1}` };
   db.recommendations.push(rec);
   return structuredClone(rec);
+}
+
+/** The pro's crew. */
+export async function getCrew(): Promise<CrewMember[]> {
+  await delay();
+  return structuredClone(getDb().crew);
+}
+
+/** The pro's headline performance numbers. */
+export async function getPerformance(): Promise<PerformanceStat[]> {
+  await delay();
+  return structuredClone(getDb().performance);
+}
+
+/** The pro's inbox: customer threads (`proName` holds the customer's name). */
+export async function getProThreads(): Promise<Thread[]> {
+  await delay();
+  return structuredClone(getDb().proThreads);
 }
