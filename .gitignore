@@ -1,0 +1,13 @@
+.DS_Store
+node_modules/
+dist/
+.expo/
+ios/
+android/
+*.log
+.maestro/report.xml
+# raw recordings: they show personal data (the extracted frames are the reference)
+screenshots/**/*.MP4
+screenshots/**/*.mp4
+.worktrees/
+.superpowers/
