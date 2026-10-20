@@ -15,6 +15,16 @@ test('today shows 3 jobs and opens the day, then a job', async () => {
   expect(screen.getByTestId('screen-recommend')).toBeTruthy();
 });
 
+test('a day with no jobs is inert', async () => {
+  // Seed claimed jobs sit on Oct 20, 21, 22, 24, 27 and later, so Oct 1 is empty.
+  await renderApp('/calendar');
+  const calendar = within(await screen.findByTestId('screen-calendar'));
+  await calendar.findByTestId('day-today-count');
+  expect(calendar.queryByTestId('day-2026-10-01-count')).toBeNull();
+  await fireEvent.press(calendar.getByTestId('day-2026-10-01'));
+  expect(screen).toHavePathname('/calendar');
+});
+
 test('the day view opens the route', async () => {
   await renderApp(`/calendar/${today()}`);
   await fireEvent.press(await screen.findByTestId('day-view-route'));

@@ -31,7 +31,7 @@ export default function AppLayout() {
       <Stack.Screen name="settings/damage-fee" options={{ title: 'Damage Fee' }} />
       <Stack.Screen name="settings/tax-info" options={{ title: 'Provide tax info' }} />
       <Stack.Screen name="settings/bank" options={{ title: 'Connect your bank account' }} />
-      <Stack.Screen name="calendar/[date]" options={({ route }) => ({ title: formatLong((route.params as { date: IsoDate }).date) })} />
+      <Stack.Screen name="calendar/[date]" options={({ route }) => ({ title: (route.params as { date?: IsoDate } | undefined)?.date ? formatLong((route.params as { date: IsoDate }).date) : 'Day' })} />
       <Stack.Screen name="jobs/[id]/index" options={{ title: 'Job Details' }} />
       <Stack.Screen name="jobs/[id]/recommend" options={{ title: 'Service Quote' }} />
       <Stack.Screen name="route" options={{ title: 'Route' }} />

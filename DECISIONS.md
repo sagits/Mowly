@@ -145,3 +145,5 @@ P10 shows a back button because the screenshot was taken after opening the scree
 
 ## [pro] Calendar: past-day counts are gray, and the day list and job detail are pushed Stack screens
 P11 shows past days with a gray count and future days blue, so `MonthGrid` does the same. `calendar/[date]` and `jobs/[id]/index` sit directly in `(app)/` next to the drawer roots `calendar.tsx` and `jobs.tsx` (no `_layout.tsx`); Expo Router accepts both. `route.tsx` and `jobs/[id]/recommend.tsx` are placeholders for Tasks 8 and 13.
+
+P11 differences kept on purpose: the page background is `pageMuted` (P11 uses a lighter gray-green), the palette is the shared Pro tokens (`priceBlock` tabs, `calendarBlue` counts, `primary` outline), fonts are the system font, and dates are the live months instead of June and July 2021.
