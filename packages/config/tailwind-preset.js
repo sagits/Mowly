@@ -2,16 +2,15 @@
  * The one Tailwind preset all three apps extend. It layers the design tokens onto NativeWind's
  * preset, so a token is defined once in `@mowly/ui/tokens` and reaches every app's class names.
  */
-const { platformSelect } = require('nativewind/theme');
 const { colors, radius, shadow, layout } = require('@mowly/ui/tokens');
 
 /**
- * `System` on iOS (an unregistered family is rejected there), Inter on web. The web stack holds
- * commas, which NativeWind's native `platformSelect` string cannot carry, so native never sees it.
+ * `System` on iOS and Android (an unregistered family is rejected on iOS), Inter on web. NativeWind
+ * sets `NATIVEWIND_OS` to the bundle's platform ("web" included), so the gate names the native ones.
+ * Plain values, no `platformSelect`: the config is evaluated once per platform bundle.
  */
-const sans = process.env.NATIVEWIND_OS
-  ? platformSelect({ ios: 'System', default: 'System' })
-  : platformSelect({ web: 'Inter, system-ui, sans-serif', default: 'System' });
+const native = ['ios', 'android'].includes(process.env.NATIVEWIND_OS ?? '');
+const sans = native ? ['System'] : ['Inter', 'system-ui', 'sans-serif'];
 
 module.exports = {
   presets: [require('nativewind/preset')],
