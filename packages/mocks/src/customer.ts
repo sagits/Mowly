@@ -1,5 +1,5 @@
 // Customer-side resolvers. Each waits like a network call and returns copies, never live db objects.
-import { FREQUENCY_DAYS } from '@mowly/types';
+import { FREQUENCY_DAYS, addDays } from '@mowly/types';
 import type { Address, Booking, BookingChange, Customer, NewBooking, PlanOption, Service, Thread } from '@mowly/types';
 import { delay } from './delay';
 import { getDb, resetDb } from './db';
@@ -7,7 +7,7 @@ import { hash, lotSizeSqft, priceForLot } from './pricing';
 
 const notFound = () => new Error('Not found');
 
-function find<T extends { id: string }>(list: T[], id: string): T {
+export function find<T extends { id: string }>(list: T[], id: string): T {
   const item = list.find((x) => x.id === id);
   if (!item) throw notFound();
   return item;
@@ -36,6 +36,7 @@ export async function searchAddresses(query: string): Promise<Address[]> {
 export async function getQuote(serviceId: string, addressId: string): Promise<{ plans: PlanOption[]; lotSqft: number }> {
   await delay();
   const service = find(getDb().services, serviceId);
+  find(getDb().addresses, addressId);
   const lotSqft = lotSizeSqft(addressId);
   return { plans: service.plans.map((p) => ({ ...p, price: priceForLot(p.price, lotSqft) })), lotSqft };
 }
@@ -85,9 +86,7 @@ export async function updateBooking(id: string, change: BookingChange): Promise<
   const b = find(getDb().bookings, id);
   switch (change.type) {
     case 'skip': {
-      const [y = 0, m = 1, d = 1] = b.nextDate.split('-').map(Number);
-      const next = new Date(y, m - 1, d + FREQUENCY_DAYS[b.frequency]);
-      b.nextDate = `${next.getFullYear()}-${String(next.getMonth() + 1).padStart(2, '0')}-${String(next.getDate()).padStart(2, '0')}`;
+      b.nextDate = addDays(b.nextDate, FREQUENCY_DAYS[b.frequency]);
       break;
     }
     case 'reschedule': b.nextDate = change.date; break;

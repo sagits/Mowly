@@ -1,6 +1,6 @@
 // The customer-side seed data. Every date is built from today().
 import { addDays, today } from '@mowly/types';
-import type { Address, Frequency, Pro, Service, ServiceId } from '@mowly/types';
+import type { Address, Frequency, Job, Pro, Service, ServiceId } from '@mowly/types';
 import type { MockDb } from './db';
 
 const addr = (id: string, line1: string, zip = '78704'): Address => ({ id, line1, city: 'Austin', state: 'TX', zip });
@@ -36,18 +36,62 @@ const SERVICES: Service[] = [
   service('weeding', 'Weeding', 'Weeds removed from lawn edges, walkways and driveway cracks.', [['one-time', 69], ['monthly', 59]]),
 ];
 
-// Task 4 replaces this with the real Mike Sullivan seed.
-const PLACEHOLDER_PRO: Pro = {
-  firstName: 'Placeholder', lastName: 'Pro', businessName: 'Placeholder Lawn Care', yearFounded: '2020', crewSize: 1,
-  city: 'Austin', customersServed: 0, email: 'pro@example.com', mobilePhone: '', officePhone: '', businessAddress: '', bio: '',
-  avatar: null, truckPhoto: null, category: 'lawn', skills: [], equipment: { mower: false, trimmer: false, blower: false },
-  equipmentAnswered: false, startingPoint: ADDRESSES[0]!, workAreaMode: 'one', workAreaSaved: false, gpsEnabled: false,
-  damageFeeAccepted: false, taxInfo: null, bankLinked: false,
+const PRO: Pro = {
+  firstName: 'Mike', lastName: 'Sullivan', businessName: 'Sullivan Lawn Care', yearFounded: '2018', crewSize: 2,
+  city: 'Austin', customersServed: 1291, email: 'mike@sullivanlawncare.example', mobilePhone: '(512) 555-0188', officePhone: '',
+  businessAddress: '', bio: '', avatar: null, truckPhoto: null, category: 'lawn', skills: ['Mowing', 'Edging', 'Blowing'],
+  equipment: { mower: false, trimmer: false, blower: false }, equipmentAnswered: false, startingPoint: ADDRESSES[0]!,
+  workAreaMode: 'one', workAreaSaved: false, gpsEnabled: false, damageFeeAccepted: false, taxInfo: null, bankLinked: false,
   notifications: {
     jobs: { email: true, text: true, push: true },
     messages: { email: true, text: true, push: true },
   },
 };
+
+// [street, zip, yardSqft, service, frequency, price, miles from previous job, pin x, pin y]
+type JobRow = [string, string, number, string, Frequency, number, number, number, number];
+
+const ROWS: JobRow[] = [
+  ['1402 Rutland Drive', '78758', 5200, 'Lawn mowing', 'weekly', 34.99, 1.2, 0.22, 0.31],
+  ['908 Kenwood Avenue', '78704', 4100, 'Lawn mowing', 'every-2-weeks', 29.99, 0.8, 0.41, 0.58],
+  ['2210 Stratford Lane', '78746', 7800, 'Lawn mowing', 'weekly', 40.99, 2.4, 0.68, 0.24],
+  ['515 Chicon Street', '78702', 3600, 'Leaf Removal', 'one-time', 36.99, 1.9, 0.52, 0.44],
+  ['3307 Duval Road', '78759', 6100, 'Bush Trimming', 'one-time', 38.99, 3.1, 0.15, 0.72],
+  ['1189 Brodie Lane', '78748', 5600, 'Lawn mowing', 'every-2-weeks', 32.99, 2.7, 0.8, 0.66],
+  ['724 Bluebonnet Trail', '78745', 4800, 'Leaf Removal', 'one-time', 35.99, 1.5, 0.35, 0.85],
+  ['4620 Hyridge Drive', '78731', 8300, 'Bush Trimming', 'one-time', 39.99, 3.6, 0.88, 0.14],
+  ['2905 Guadalupe Street', '78705', 3900, 'Lawn mowing', 'weekly', 30.99, 0.6, 0.58, 0.78],
+  ['6011 Burnet Road', '78757', 5000, 'Lawn mowing', 'every-2-weeks', 33.99, 2.1, 0.12, 0.5],
+  ['3815 Speedway', '78751', 4400, 'Lawn mowing', 'weekly', 31.99, 1.1, 0.3, 0.2],
+  ['1620 Enfield Road', '78703', 6700, 'Lawn mowing', 'every-2-weeks', 37.99, 1.8, 0.46, 0.36],
+  ['2501 Windsor Road', '78703', 5900, 'Bush Trimming', 'one-time', 36.99, 0.9, 0.62, 0.52],
+  ['918 Bouldin Avenue', '78704', 3800, 'Leaf Removal', 'one-time', 34.99, 1.4, 0.74, 0.7],
+  ['4402 Avenue F', '78751', 4700, 'Lawn mowing', 'weekly', 32.99, 1.0, 0.2, 0.62],
+  ['7305 Shoal Creek Boulevard', '78757', 6400, 'Lawn mowing', 'every-2-weeks', 38.99, 2.2, 0.84, 0.4],
+  ['1104 Westover Road', '78703', 5300, 'Bush Trimming', 'one-time', 35.99, 1.6, 0.28, 0.46],
+  ['3003 Hancock Drive', '78731', 7100, 'Lawn mowing', 'weekly', 39.99, 2.0, 0.56, 0.18],
+  ['2118 Cedar Avenue', '78704', 4200, 'Lawn mowing', 'every-2-weeks', 30.99, 0.7, 0.38, 0.8],
+  ['5207 Teakwood Drive', '78745', 5800, 'Leaf Removal', 'one-time', 33.99, 2.5, 0.7, 0.86],
+  ['1912 Ridgelea Drive', '78704', 4600, 'Lawn mowing', 'weekly', 31.99, 1.3, 0.5, 0.64],
+  ['8110 Spicewood Springs Road', '78759', 7500, 'Lawn mowing', 'every-2-weeks', 40.99, 3.3, 0.9, 0.28],
+];
+
+// Day offsets from today. Available jobs offer these dates; claimed jobs sit on the single date at their index.
+const AVAILABLE_DAYS = [[0, 1, 3], [0, 2], [1, 2, 4], [0, 1], [2, 3], [1, 3, 4], [0, 4], [3, 4], [0, 1, 2], [2, 3, 4]];
+const CLAIMED_DAYS = [0, 0, 0, 1, 2, 4, 7, 12, 16, 22, 29, 35];
+
+function buildJob(i: number): Job {
+  const [street, zip, yardSqft, serviceName, frequency, price, distanceMiles, x, y] = ROWS[i]!;
+  const claimed = i >= 10;
+  const dates = claimed ? [addDays(today(), CLAIMED_DAYS[i - 10]!)] : AVAILABLE_DAYS[i]!.map((n) => addDays(today(), n));
+  const todayCount = CLAIMED_DAYS.filter((n) => n === 0).length;
+  return {
+    id: `job-${String(i + 1).padStart(2, '0')}`, customerName: 'Austin homeowner', address: addr(`addr-job-${i + 1}`, street, zip),
+    yardSqft, serviceName, frequency, price, availableDates: claimed ? [] : dates, claimedDate: claimed ? dates[0]! : null,
+    distanceMiles, pin: { x, y }, routeOrder: claimed && i - 10 < todayCount ? i - 9 : null,
+    notes: 'Gate code is on the side fence. Please close the latch.',
+  };
+}
 
 /** Builds a fresh database with the full seed. Dates are relative to `today()`. */
 export function createSeed(): MockDb {
@@ -80,8 +124,8 @@ export function createSeed(): MockDb {
         ],
       },
     ],
-    pro: PLACEHOLDER_PRO,
-    jobs: [],
+    pro: structuredClone(PRO),
+    jobs: ROWS.map((_, i) => buildJob(i)),
     recommendations: [],
   };
 }

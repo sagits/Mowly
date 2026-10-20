@@ -1,7 +1,15 @@
 import {
-  DEMO_ADDRESS_ID, configureMocks, createBooking, getBooking, getBookings, getNeighbors, getServices, getThread,
+  DEMO_ADDRESS_ID, configureMocks, createBooking, getBooking, getBookings, getNeighbors, getQuote, getServices, getThread,
   getThreads, resetDb, searchAddresses, sendMessage, updateBooking,
 } from './index';
+import { setToday } from '@mowly/types';
+
+afterEach(() => {
+  jest.useRealTimers();
+  configureMocks({ seed: true });
+  setToday('2026-10-20');
+  resetDb();
+});
 
 test('catalog and seed', async () => {
   expect((await getServices()).map((s) => s.name)[0]).toBe('Mowing');
@@ -36,3 +44,4 @@ test('SEED=false empties the lists but keeps the catalog', async () => {
   configureMocks({ seed: true });
 });
 test('unknown ids reject', () => expect(getBooking('nope')).rejects.toThrow('Not found'));
+test('a quote for an unknown address rejects', () => expect(getQuote('mowing', 'nope')).rejects.toThrow('Not found'));
