@@ -1,10 +1,10 @@
-/** The pro app's navigation menu: a sliding modal on narrow screens, a permanent sidebar on wide ones. */
+/** The pro app's drawer items and the `drawerContent` the Expo Router Drawer renders. */
 import { Ionicons } from '@expo/vector-icons';
 import { router, usePathname, type Href } from 'expo-router';
-import { Modal, Pressable, ScrollView, Text, View } from 'react-native';
+import type { DrawerContentComponentProps } from 'expo-router/drawer';
+import { ScrollView, Text, View } from 'react-native';
 import { usePro } from '@mowly/api';
-import { Badge, colors, ListRow, SwitchAppLink, useIsWide } from '@mowly/ui';
-import { useDrawer } from './useDrawer';
+import { Badge, colors, ListRow, SwitchAppLink } from '@mowly/ui';
 
 type IoniconName = keyof typeof Ionicons.glyphMap;
 
@@ -22,12 +22,17 @@ export const DRAWER_ITEMS: { href: Href; label: string; icon: IoniconName; testI
   { href: '/settings', label: 'Settings', icon: 'settings-outline', testID: 'drawer-settings' },
 ];
 
-function Items({ settingsBadge, onNavigate }: { settingsBadge: number; onNavigate: () => void }) {
+/**
+ * The drawer's content: the pro's name, one row per destination and the app switch link.
+ * `settingsBadge` is the count of open settings items; the badge hides at 0.
+ * Tapping a row navigates and closes the drawer (a no-op when it is a permanent sidebar).
+ */
+export function DrawerMenu({ navigation, settingsBadge }: DrawerContentComponentProps & { settingsBadge: number }) {
   const { data: pro } = usePro();
   const pathname = usePathname();
   const name = pro ? `${pro.firstName} ${pro.lastName}`.toUpperCase() : '';
   return (
-    <ScrollView className="flex-1 bg-surface" contentContainerClassName="pt-16 md:pt-6">
+    <ScrollView testID="drawer-sidebar" className="flex-1 bg-surface" contentContainerClassName="pt-16 md:pt-6">
       <Text testID="drawer-name" className="px-4 pb-4 text-lg font-bold text-primary">{name}</Text>
       {DRAWER_ITEMS.map((item) => {
         const active = item.href === '/' ? pathname === '/' : pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -40,7 +45,7 @@ function Items({ settingsBadge, onNavigate }: { settingsBadge: number; onNavigat
             left={<Ionicons name={item.icon} size={24} color={active ? colors.primary : colors.muted} />}
             right={item.testID === 'drawer-settings' && settingsBadge > 0 ? <Badge testID="drawer-settings-badge" label={String(settingsBadge)} /> : undefined}
             onPress={() => {
-              onNavigate();
+              navigation.closeDrawer();
               router.navigate(item.href);
             }}
           />
@@ -48,28 +53,5 @@ function Items({ settingsBadge, onNavigate }: { settingsBadge: number; onNavigat
       })}
       <View className="items-center py-4"><SwitchAppLink /></View>
     </ScrollView>
-  );
-}
-
-/** The drawer. `settingsBadge` is the count of open settings items; the badge hides at 0. */
-export function DrawerMenu({ settingsBadge }: { settingsBadge: number }) {
-  const wide = useIsWide();
-  const { open, setOpen } = useDrawer();
-  if (wide) {
-    return (
-      <View testID="drawer-sidebar" className="w-sidebar border-r border-border">
-        <Items settingsBadge={settingsBadge} onNavigate={() => {}} />
-      </View>
-    );
-  }
-  return (
-    <Modal visible={open} transparent animationType="slide" onRequestClose={() => setOpen(false)}>
-      <View className="flex-1 flex-row">
-        <View className="w-sidebar bg-surface">
-          <Items settingsBadge={settingsBadge} onNavigate={() => setOpen(false)} />
-        </View>
-        <Pressable testID="drawer-scrim" accessibilityLabel="Close menu" className="flex-1 bg-scrim" onPress={() => setOpen(false)} />
-      </View>
-    </Modal>
   );
 }

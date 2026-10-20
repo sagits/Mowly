@@ -1,7 +1,8 @@
-/** The root layout: loads the NativeWind stylesheet and wraps the navigation Stack in the app providers. */
+/** The root layout: loads the NativeWind stylesheet and wraps the navigation Stack in the app providers and the gesture root. */
 import { Stack } from 'expo-router';
 import Head from 'expo-router/head';
 import { Platform } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AppProviders } from '@mowly/features';
 import { configureMocks } from '@mowly/mocks';
 import { colors } from '@mowly/ui';
@@ -13,22 +14,24 @@ configureMocks({ seed: process.env.EXPO_PUBLIC_SEED !== 'false' });
 export default function RootLayout() {
   return (
     <AppProviders>
-      {/* Head throws on native; on web it replaces the empty <title> React Navigation injects. */}
-      {Platform.OS === 'web' && (
-        <Head>
-          <title>Mowly Pro</title>
-        </Head>
-      )}
-      <Stack
-        screenOptions={{
-          headerTintColor: colors.primary,
-          headerTitleAlign: 'center',
-          headerTitleStyle: { color: colors.primary },
-        }}
-      >
-        <Stack.Screen name="(app)" options={{ headerShown: false }} />
-        <Stack.Screen name="welcome" options={{ headerShown: false }} />
-      </Stack>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        {/* Head throws on native; on web it replaces the empty <title> React Navigation injects. */}
+        {Platform.OS === 'web' && (
+          <Head>
+            <title>Mowly Pro</title>
+          </Head>
+        )}
+        <Stack
+          screenOptions={{
+            headerTintColor: colors.primary,
+            headerTitleAlign: 'center',
+            headerTitleStyle: { color: colors.primary },
+          }}
+        >
+          <Stack.Screen name="(app)" options={{ headerShown: false }} />
+          <Stack.Screen name="welcome" options={{ headerShown: false }} />
+        </Stack>
+      </GestureHandlerRootView>
     </AppProviders>
   );
 }
