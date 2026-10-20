@@ -110,7 +110,7 @@ export default function QuoteAccountScreen() {
               ))}
             </View>
           </View>
-          <Pressable testID="account-faq-link" onPress={() => router.push('/quote/faq')} className="mt-8 items-center">
+          <Pressable testID="account-faq-link" accessibilityRole="link" onPress={() => router.push('/quote/faq')} className="mt-8 items-center">
             <Text className="text-lg text-ink">
               Read our <Text className="text-link underline">Frequently Asked Questions</Text>
             </Text>

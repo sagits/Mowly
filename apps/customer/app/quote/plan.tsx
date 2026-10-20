@@ -76,6 +76,7 @@ export default function QuotePlanScreen() {
             </Text>
             <Pressable
               testID="plan-start-date"
+              accessibilityRole="button"
               onPress={() => setDateOpen(true)}
               className="rounded-field border border-border px-4 py-4"
             >
@@ -85,6 +86,7 @@ export default function QuotePlanScreen() {
             </Pressable>
             <Pressable
               testID="promo-open"
+              accessibilityRole="button"
               onPress={() => setPromoOpen(true)}
               className="mt-8 items-center"
             >
@@ -117,12 +119,12 @@ export default function QuotePlanScreen() {
               </View>
             </View>
             <Text className="mt-12 text-center text-xl text-inkPro">Have additional questions?</Text>
-            <Pressable testID="plan-faq-link" onPress={() => router.push('/quote/faq')} className="items-center">
+            <Pressable testID="plan-faq-link" accessibilityRole="link" onPress={() => router.push('/quote/faq')} className="items-center">
               <Text className="text-xl text-inkPro">
                 Read our <Text className="text-link underline">Frequently Asked Questions</Text>
               </Text>
             </Pressable>
-            <Pressable testID="plan-not-looking" onPress={() => router.replace('/quote')} className="mt-12 items-center">
+            <Pressable testID="plan-not-looking" accessibilityRole="link" onPress={() => router.replace('/quote')} className="mt-12 items-center">
               <Text className="text-xl text-link underline">{`I'm not looking for ${name}`}</Text>
             </Pressable>
           </ScrollView>

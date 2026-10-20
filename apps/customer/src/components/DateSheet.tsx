@@ -31,6 +31,7 @@ export function DateSheet({
           <Pressable
             key={d}
             testID={`date-option-${d}`}
+            accessibilityRole="button"
             onPress={() => {
               onPick(d);
               onClose();

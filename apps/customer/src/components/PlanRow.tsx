@@ -25,6 +25,7 @@ export function PlanRow({
         testID={testID}
         accessibilityRole="radio"
         accessibilityState={{ selected }}
+        aria-checked={selected} // react-native-web reads aria-*, not accessibilityState
         onPress={onPress}
         className={`h-[56px] flex-row overflow-hidden rounded-card ${selected ? 'border-2 border-primary bg-primaryTint' : 'bg-surfaceMuted'}`}
       >

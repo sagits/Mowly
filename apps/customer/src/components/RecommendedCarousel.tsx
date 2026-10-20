@@ -32,7 +32,8 @@ export function RecommendedCarousel({ onQuote }: { onQuote: (id: ServiceId) => v
                   <Button testID={`browse-reco-${r.id}-quote`} label="Get a quote" size="sm" onPress={() => onQuote(r.id)} />
                 </View>
               </View>
-              <Image source={serviceImage(r.id)} className="h-28 w-28 rounded-lg" resizeMode="cover" />
+              {/* size in style: on web an Image with only className takes the asset's intrinsic size */}
+              <Image source={serviceImage(r.id)} style={{ width: 112, height: 112 }} className="rounded-lg" resizeMode="cover" />
             </View>
           </View>
         ))}

@@ -104,7 +104,7 @@ export function ManageSheets({ booking, open, onClose }: { booking: Booking; ope
       </BottomSheet>
       <BottomSheet visible={open === 'pause'} onClose={onClose} testID="pause-sheet" title="Pause for the season">
         {nextMonths().map((until) => (
-          <Pressable key={until} testID={`pause-month-${until.slice(0, 7)}`} onPress={() => run({ type: 'pause', until })} className="border-b border-border py-4">
+          <Pressable key={until} testID={`pause-month-${until.slice(0, 7)}`} accessibilityRole="button" onPress={() => run({ type: 'pause', until })} className="border-b border-border py-4">
             <Text className="text-lg text-ink">{`${monthName(until)} ${until.slice(0, 4)}`}</Text>
           </Pressable>
         ))}

@@ -7,7 +7,8 @@ import { Button, serviceImage } from '@mowly/ui';
 export function ServiceExploreRow({ service, onViewPrice }: { service: Service; onViewPrice: () => void }) {
   return (
     <View testID={`browse-service-${service.id}`} className="mb-4 flex-row overflow-hidden rounded-xl border border-border bg-surface">
-      <Image source={serviceImage(service.id)} className="h-36 w-36" resizeMode="cover" />
+      {/* size in style: on web an Image with only className takes the asset's intrinsic size */}
+      <Image source={serviceImage(service.id)} style={{ width: 144, height: 144 }} resizeMode="cover" />
       <View className="flex-1 justify-between p-3">
         <View>
           <Text className="text-lg font-semibold text-ink">{service.name}</Text>
