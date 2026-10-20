@@ -122,3 +122,6 @@ Done checklist rows show a green check (P06 is captured in an all-open state, so
 
 ## [pro] Fidelity of skills, evaluate and work area
 Not compared against a live screenshot (the simulator was stuck on an "Open in Mowly Pro" system dialog after a deep-link attempt). Built from P21 and P05 by inspection: work-area copy, "Main Crew", Mon-Sun row with pencil, radios, startingPoint address with pencil, full-width green Save. The pool category list and the callout header are transcribed/invented as in the prototype.
+
+## [pro] Work area fidelity differences from P21
+Checked on the simulator. Work area has a green chevron `BackButton` (not the native "Back" text) because opened from the Dashboard its stack has one screen and no native back; it works both from the Dashboard and from Settings. The Settings stack shows the header hairline like P21. P21 renders the radio labels bold with a black ring; the shared `Radio` is left unchanged (customer app uses it), so labels are regular weight and the ring is grey/green. The address is the seed's Austin address, not the screenshot's Bellevue one.
