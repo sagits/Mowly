@@ -20,6 +20,8 @@ export default function AppLayout() {
         headerTitleStyle: { color: colors.primary },
         // Chevron only: the previous title would read "(drawer)", the group's route name.
         headerBackButtonDisplayMode: 'minimal',
+        // Gives Maestro a stable text to tap (`tapOn: Back`) without changing the native look.
+        headerBackTitle: 'Back',
       }}
     >
       <Stack.Screen name="(drawer)" options={{ headerShown: false }} />

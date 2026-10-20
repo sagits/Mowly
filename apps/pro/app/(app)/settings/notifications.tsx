@@ -23,6 +23,7 @@ export default function NotificationsScreen() {
 
 function Body({ pro }: { pro: Pro }) {
   const { mutate } = useUpdatePro();
+  // Seeded once: prefs don't change elsewhere while this screen is mounted.
   // Merge against the last value we sent, not the query data, which lags until the refetch lands.
   const latest = useRef<NotificationPrefs>(pro.notifications);
   const prefs = pro.notifications;

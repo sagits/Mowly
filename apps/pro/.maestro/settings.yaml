@@ -30,8 +30,7 @@ appId: com.renatoprobst.mowlypro
     id: settings-notifications
 - tapOn:
     id: notif-jobs-text
-- tapOn:
-    point: 8%,11%
+- tapOn: Back
 - tapOn:
     id: settings-notifications
 - assertVisible:

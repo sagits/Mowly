@@ -1,6 +1,6 @@
 // Tests Billing, Notifications and Account management.
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
-import { getPro } from '@mowly/mocks';
+import { getPro, setMockDelay } from '@mowly/mocks';
 import { setToday } from '@mowly/types';
 import { renderApp } from './renderApp';
 
@@ -23,20 +23,30 @@ test('billing lists past claimed jobs under both tabs', async () => {
   }
 });
 
-test('a notification toggle persists and keeps the others', async () => {
+test('two quick toggles in one section both persist and keep the third', async () => {
   const before = await getPro();
   await renderApp('/settings/notifications');
-  await fireEvent(await screen.findByTestId('notif-jobs-text'), 'valueChange', false);
-  await fireEvent(screen.getByTestId('notif-messages-push'), 'valueChange', false);
-  await waitFor(async () => {
+  const text = await screen.findByTestId('notif-jobs-text');
+  const push = screen.getByTestId('notif-jobs-push');
+  // Slow mocks keep the first save and its refetch in flight, so the second toggle sees stale `pro`.
+  setMockDelay(150, 150);
+  try {
+    await fireEvent(text, 'valueChange', false);
+    await fireEvent(push, 'valueChange', false);
+    setMockDelay(0, 0); // so the checks below do not wait on the slow mock
+    await waitFor(async () => {
+      const { notifications } = await getPro();
+      expect(notifications.jobs.text).toBe(false);
+      expect(notifications.jobs.push).toBe(false);
+    });
     const { notifications } = await getPro();
-    expect(notifications.jobs.text).toBe(false);
-    expect(notifications.messages.push).toBe(false);
-  });
-  const { notifications } = await getPro();
-  expect(notifications.jobs.email).toBe(before.notifications.jobs.email);
-  expect(notifications.messages.email).toBe(before.notifications.messages.email);
-  await waitFor(() => expect(screen.getByTestId('notif-jobs-text')).toHaveProp('value', false));
+    expect(notifications.jobs.email).toBe(before.notifications.jobs.email);
+    expect(notifications.messages).toEqual(before.notifications.messages);
+    await waitFor(() => expect(screen.getByTestId('notif-jobs-push')).toHaveProp('value', false));
+    await waitFor(() => expect(screen.getByTestId('notif-jobs-text')).toHaveProp('value', false));
+  } finally {
+    setMockDelay(0, 0);
+  }
 });
 
 test('account deletion is inert', async () => {
