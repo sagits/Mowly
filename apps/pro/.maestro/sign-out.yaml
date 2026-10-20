@@ -1,0 +1,26 @@
+appId: com.renatoprobst.mowlypro
+---
+- runFlow: common/launch.yaml
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-settings
+- tapOn:
+    id: settings-sign-out
+- tapOn:
+    id: sign-out-confirm
+- tapOn:
+    id: welcome-login
+- tapOn:
+    id: signin-email
+- inputText: pro@mowly.test
+# A secure field drops Maestro's typed text on iOS, so reveal the password first.
+- tapOn:
+    id: signin-eye
+- tapOn:
+    id: signin-password
+- inputText: secret123
+- tapOn:
+    id: signin-submit
+- assertVisible:
+    id: screen-dashboard

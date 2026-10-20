@@ -30,6 +30,8 @@ export default function RootLayout() {
         >
           <Stack.Screen name="(app)" options={{ headerShown: false }} />
           <Stack.Screen name="welcome" options={{ headerShown: false }} />
+          <Stack.Screen name="sign-in" options={{ title: 'Sign In', headerBackTitle: 'Back', headerBackButtonDisplayMode: 'default' }} />
+          <Stack.Screen name="sign-up" options={{ title: 'Sign Up', headerBackTitle: 'Back', headerBackButtonDisplayMode: 'default' }} />
         </Stack>
       </GestureHandlerRootView>
     </AppProviders>

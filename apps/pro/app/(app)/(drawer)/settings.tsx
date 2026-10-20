@@ -1,8 +1,10 @@
 /** The Settings list (P15). */
 import { router } from 'expo-router';
+import { useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { usePro } from '@mowly/api';
-import { Button, ListRow } from '@mowly/ui';
+import { useSession } from '@mowly/stores';
+import { Button, ConfirmDialog, ListRow } from '@mowly/ui';
 import { businessProfileComplete } from '../../../src/checklist';
 
 const ROWS = [
@@ -21,6 +23,7 @@ const ROWS = [
 /** The Settings screen: one row per sub-page, the business profile row badged while incomplete. */
 export default function SettingsScreen() {
   const { data: pro } = usePro();
+  const [confirming, setConfirming] = useState(false);
   return (
     <View testID="screen-settings" className="flex-1 bg-surface">
       <ScrollView>
@@ -34,11 +37,26 @@ export default function SettingsScreen() {
           />
         ))}
         <Text className="mt-6 text-center text-micro text-muted">Mowly Pro - v1.0.0</Text>
-        {/* Wired in Task 11. */}
         <View className="p-5">
-          <Button testID="settings-sign-out" label="SIGN OUT" onPress={() => {}} />
+          <Button testID="settings-sign-out" label="SIGN OUT" onPress={() => setConfirming(true)} />
         </View>
       </ScrollView>
+      <ConfirmDialog
+        visible={confirming}
+        title="Are you sure you want to sign out?"
+        message=""
+        destructive={false}
+        keepTestID="sign-out-cancel"
+        keepLabel="Cancel"
+        onKeep={() => setConfirming(false)}
+        confirmTestID="sign-out-confirm"
+        confirmLabel="Sign out"
+        onConfirm={() => {
+          setConfirming(false);
+          useSession.getState().signOut();
+          router.replace('/welcome');
+        }}
+      />
     </View>
   );
 }

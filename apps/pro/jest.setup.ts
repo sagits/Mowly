@@ -1,11 +1,15 @@
 /** Jest setup for this app's test project: instant mock delay, fixed date, fresh mock database per test. */
 import 'react-native-gesture-handler/jestSetup';
 import { setMockDelay, resetDb } from '@mowly/mocks';
+import { useSession } from '@mowly/stores';
 import { setToday } from '@mowly/types';
 
 setMockDelay(0, 0);
 setToday('2026-10-20');
-beforeEach(() => resetDb());
+beforeEach(() => {
+  resetDb();
+  useSession.getState().signIn();
+});
 
 // The drawer needs gesture-handler and reanimated, which have no native side under Jest.
 jest.mock('react-native-reanimated', () => jest.requireActual('react-native-reanimated/mock'));
