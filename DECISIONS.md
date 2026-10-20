@@ -69,3 +69,7 @@ The ten drawer placeholders share `apps/pro/src/drawer/Placeholder.tsx` (title p
 - **Never start Metro with `--ios`/`--ios=false`:** Expo parses `--ios=false` as true and opens Expo Go with an "Open in Mowly?" system dialog over the app. Metro starts with `--port` only; the Debug build already points at it.
 - **Maestro `clearState` fails with "did not stop in time"** when the other app was left in the foreground by the previous flow. `e2e.sh` terminates both apps before each Maestro run.
 - Both builds took about 7 minutes together on this machine.
+
+- **Maestro driver host port:** `maestro` and `maestro test` 2.11.0 expose no option for the iOS driver's host port (only `--device`, `--format`, `--[no-]reinstall-driver` and similar), so `e2e.sh` cannot give each app its own driver port. Two concurrent runs on two simulators are untested.
+- **`apps/*/.gitignore` stay tracked:** `expo start` regenerates them (expo-env.d.ts entry) on every run, so deleting them leaves `git status` dirty. Kept.
+- `e2e.sh` runs Metro in its own process group and kills the group on every exit path, and refuses to start if the port already serves a Metro.
