@@ -146,3 +146,7 @@ C21 is an Android screenshot, rebuilt in the iOS language. The date uses the sho
 ## [customer] Service management sheets (Task 11)
 
 The frequency and pause sheets have no subtitle line and no "Keep as is" outline button (the prototype has both); closing is by scrim or back. Frequency reuses `PlanRow`, the same cards as the plan screen. Skip, cancel and pause apply on tap and close the sheet immediately; reschedule reuses `DateSheet` (title "Preferred start date").
+
+## [customer] Chat simplifications (prototype)
+
+The chat is an invented screen. Against `prototype/index.html`: the header is the native stack header (green chevron, green pro name) instead of the prototype's dark title bar; the send button is the app's primary green circle, not the prototype's dark header-colour pill; the canned reply reads "Thanks! We'll take care of it." (the mocks' text) instead of "Thanks! Noted for the next visit."

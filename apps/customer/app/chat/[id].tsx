@@ -1,24 +1,34 @@
 // Chat with a pro (invented screen): message bubbles and a composer.
 import { Ionicons } from '@expo/vector-icons';
 import { Stack, useLocalSearchParams } from 'expo-router';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { FlatList, KeyboardAvoidingView, Platform, Pressable, Text, TextInput, View } from 'react-native';
 import { useSendMessage, useThread } from '@mowly/api';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { colors } from '@mowly/ui';
+import { colors, showToast } from '@mowly/ui';
 
 /** Customer bubbles on the right in `primary`, pro bubbles on the left in `callout`. */
 export default function ChatScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { data: thread } = useThread(id);
   const send = useSendMessage();
+  const listRef = useRef<FlatList>(null);
   const insets = useSafeAreaInsets();
   const [text, setText] = useState('');
   const blank = text.trim() === '';
 
   const submit = () => {
     if (blank) return;
-    send.mutate({ threadId: id, text: text.trim() });
+    const sent = text;
+    send.mutate(
+      { threadId: id, text: sent.trim() },
+      {
+        onError: () => {
+          setText(sent);
+          showToast("Couldn't send your message. Please try again.");
+        },
+      },
+    );
     setText('');
   };
 
@@ -31,6 +41,8 @@ export default function ChatScreen() {
     >
       <Stack.Screen options={{ title: thread?.proName ?? '', headerBackButtonDisplayMode: 'minimal' }} />
       <FlatList
+        ref={listRef}
+        onContentSizeChange={() => listRef.current?.scrollToEnd({ animated: true })}
         data={thread?.messages ?? []}
         keyExtractor={(m) => m.id}
         contentContainerStyle={{ padding: 16, gap: 8 }}
