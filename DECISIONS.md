@@ -150,3 +150,7 @@ The frequency and pause sheets have no subtitle line and no "Keep as is" outline
 ## [customer] Chat simplifications (prototype)
 
 The chat is an invented screen. Against `prototype/index.html`: the header is the native stack header (green chevron, green pro name) instead of the prototype's dark title bar; the send button is the app's primary green circle, not the prototype's dark header-colour pill; the canned reply reads "Thanks! We'll take care of it." (the mocks' text) instead of "Thanks! Noted for the next visit."
+
+## [customer] Profile simplifications (invented screen)
+
+Profile reuses the shared `ListRow`, so against P15's list style the dividers run edge to edge in the neutral border colour (P15 insets them and tints them green) and rows are slightly shorter. The header is the green customer header, not P15's white bar. Name and email sit in a block above the rows (prototype c-profile). Reset demo asks to confirm, then shows the "Demo reset" toast; a failure shows an error toast.
