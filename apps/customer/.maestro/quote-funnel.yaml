@@ -15,5 +15,7 @@ appId: com.renatoprobst.mowly
     id: quote-name
 - tapOn:
     id: quote-continue
-- assertVisible:
-    id: sizing-screen
+- extendedWaitUntil:
+    visible:
+      id: plan-screen
+    timeout: 15000
