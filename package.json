@@ -6,7 +6,7 @@
     "dev:customer": "turbo run dev --filter @mowly/customer",
     "dev:pro": "turbo run dev --filter @mowly/pro",
     "build": "turbo run build",
-    "build:web": "turbo run build:web",
+    "build:web": "turbo run build:web && node scripts/assemble-web.mjs",
     "lint": "turbo run lint",
     "typecheck": "turbo run typecheck",
     "test": "turbo run test",

@@ -1,0 +1,31 @@
+<!doctype html>
+<!-- Landing page for the web build: two cards that open the customer and pro apps. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mowly</title>
+<style>
+/* Hex values are copied from packages/ui/tokens.js: this page has no build step. */
+:root { --primary: #18C058; --primary-tint: #DCF4E8; --ink: #111111; --muted: #616161; --surface: #FFFFFF; --border: #E0E0E0; --page: #E8E8EC; }
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; padding: 24px; background: var(--page); color: var(--ink); font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif; }
+h1 { margin: 0; font-size: 40px; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+.cards { display: flex; gap: 24px; width: 100%; max-width: 720px; }
+.card { flex: 1; display: block; padding: 40px 24px; border: 1px solid var(--border); border-radius: 8px; background: var(--surface); color: var(--ink); text-decoration: none; text-align: center; font-size: 20px; font-weight: 700; }
+.card:hover, .card:focus-visible { border-color: var(--primary); background: var(--primary-tint); outline: none; }
+.card small { display: block; margin-top: 8px; font-size: 14px; font-weight: 400; color: var(--muted); }
+p { margin: 0; font-size: 14px; color: var(--muted); text-align: center; }
+@media (max-width: 767px) { .cards { flex-direction: column; } }
+</style>
+</head>
+<body>
+<h1>Mowly</h1>
+<div class="cards">
+  <a class="card" href="/customer/">I need lawn care<small>Open the customer app</small></a>
+  <a class="card" href="/pro/">I'm a lawn pro<small>Open the pro app</small></a>
+</div>
+<p>Both apps run on mock data. Nothing is saved to a server.</p>
+</body>
+</html>
