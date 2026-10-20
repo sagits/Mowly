@@ -125,3 +125,12 @@ Not compared against a live screenshot (the simulator was stuck on an "Open in M
 
 ## [pro] Work area fidelity differences from P21
 Checked on the simulator. Work area has a green chevron `BackButton` (not the native "Back" text) because opened from the Dashboard its stack has one screen and no native back; it works both from the Dashboard and from Settings. The Settings stack shows the header hairline like P21. P21 renders the radio labels bold with a black ring; the shared `Radio` is left unchanged (customer app uses it), so labels are regular weight and the ring is grey/green. The address is the seed's Austin address, not the screenshot's Bellevue one.
+
+## [pro] Damage fee pre-accept state is invented
+P17 only shows the opted-in state. Before accepting, the screen shows the same two paragraphs (first one reworded to "Accepting adds security...", fee amount omitted as in P17) and an ACCEPT button (damage-fee-accept) that sets damageFeeAccepted and goes back. Once accepted it shows the P17 green title and paragraphs, no button. Brand reads Mowly, not LawnStarter.
+
+## [pro] Settings steps exit with leaveStep, not back()
+A Settings step opened from the Dashboard stays in the Settings stack after back() (it only unwinds the drawer history), so the next step opened and then backed out landed on the stale one (work area under GPS). Steps now exit with `leaveStep()` (`router.navigate("/")`), also on the header back chevron. Work area still uses back() for its own save. When Settings list rows start opening these steps, revisit so they return to the list.
+
+## [pro] GPS and damage fee fidelity
+Checked on the simulator against P22 and P17. Differences: native-looking green chevron instead of "Back" text, Ionicons location pin instead of the check-pin illustration, FAQ bodies collapsed by default (P22 shows them faded), brand text reads Mowly, no fee amount in the damage-fee copy.

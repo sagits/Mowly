@@ -10,8 +10,8 @@ export const CHECKLIST: ChecklistItem[] = [
   { id: 'skills', label: 'Add your skills', group: 'profile', href: '/skills' },
   { id: 'evaluate', label: 'Evaluate your skills', group: 'profile', href: '/evaluate' },
   { id: 'work-area', label: 'Add your work area', group: 'profile', href: '/settings/work-area' as Href },
-  { id: 'gps', label: 'Turn on your GPS', group: 'paid', href: '/settings/location' as Href },
-  { id: 'damage-fee', label: 'Accept damage fee', group: 'paid', href: '/settings/damage-fee' as Href },
+  { id: 'gps', label: 'Turn on your GPS', group: 'paid', href: '/settings/location' },
+  { id: 'damage-fee', label: 'Accept damage fee', group: 'paid', href: '/settings/damage-fee' },
   { id: 'tax', label: 'Provide tax info', group: 'paid', href: '/settings/tax-info' as Href },
   { id: 'bank', label: 'Connect your bank account', group: 'paid', href: '/settings/bank' as Href },
 ];
