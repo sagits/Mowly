@@ -101,3 +101,12 @@ The repo owner asked for `@react-navigation/drawer`. It and `react-native-gestur
 ## [customer] Service select (C01-C03) screenshot simplifications
 
 The "Mowly" wordmark is the shared `Wordmark` (smaller than the LawnStarter logo, no registered mark), so the heading "Get started with Mowly!" fits on one line where the reference wraps. The phone icon is a plain Ionicons `call` in a bordered circle. Tiles use the `card` radius (8) and a lighter gray from the tokens. The reference's top scroll indicator and fade above CONTINUE are not reproduced.
+
+## [customer] Quote form screenshot simplifications (C04-C06)
+
+The form keeps C04-C06's copy, order and green focus border, but drops the red-asterisk required marks, the
+label-less "Apartment/Suite Number" placeholder (the field keeps a visible label), the raw-digit phone display
+(the demo phone shows formatted), the thicker grey borders and focus glow, the full marketing consent paragraph
+(shortened to one sentence with the two links), and the title wrapping onto two lines (it follows the type
+scale of the other funnel screens). The address dropdown renders inline under the field rather than floating
+over the next one, so it pushes the form down instead of overlapping it.

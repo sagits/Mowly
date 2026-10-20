@@ -11,6 +11,9 @@ appId: com.renatoprobst.mowly
     id: service-tile-mowing
 - tapOn:
     id: quote-continue
-# Task 2 replaces this with `id: quote-name`.
 - assertVisible:
-    id: details-screen
+    id: quote-name
+- tapOn:
+    id: quote-continue
+- assertVisible:
+    id: sizing-screen
