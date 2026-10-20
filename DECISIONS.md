@@ -119,7 +119,7 @@ The shared `Accordion` keeps its divider lines, green chevrons and semibold ques
 
 Prices show whole dollars as in C09 (the plan prices are integers). The date sheet is a plain list of 14 days in a bottom sheet rather than the native iOS picker the reference opens. The promo modal is the shared `BottomSheet` with one field and APPLY, without the reference's X button. The "Code applied" text replaces the ADD A PROMO CODE link once a code is applied. The loading state is gray skeleton blocks (C08), CONTINUE swaps to the in-button spinner for 800 ms with nothing behind it (C12).
 
-The plan screen's spacing is slightly taller than the reference, so ADD A PROMO CODE sits below the fold on the 16 (the reference shows it above the footer); the page scrolls to it. The "What's included?" bullet is a small dot, and the included text is the catalog string rather than LawnStarter's. The FAQ modal's title clears the status bar (checked on the simulator), so `faq.tsx` needed no inset change.
+Plan rows are 56 pt high with the reference's 8 pt gap, so ADD A PROMO CODE sits above the footer as in C09 (Task 14 sweep). The "What's included?" bullet is a small dot, and the included text is the catalog string rather than LawnStarter's. The FAQ modal's title clears the status bar (checked on the simulator), so `faq.tsx` needed no inset change.
 
 ## [customer] My Services screenshot simplifications (C19)
 
@@ -154,3 +154,35 @@ The chat is an invented screen. Against `prototype/index.html`: the header is th
 ## [customer] Profile simplifications (invented screen)
 
 Profile reuses the shared `ListRow`, so against P15's list style the dividers run edge to edge in the neutral border colour (P15 insets them and tints them green) and rows are slightly shorter. The header is the green customer header, not P15's white bar. Name and email sit in a block above the rows (prototype c-profile). Reset demo asks to confirm, then shows the "Demo reset" toast; a failure shows an error toast.
+
+## [customer] Fidelity sweep, remaining differences (Task 14)
+
+The Task 14 re-shoot of C01-C21 fixed the tile, plan-row and footer sizes, the sizing ring size and the Browse pill size (the compact `Button size="sm"`). What is left, on purpose:
+
+- The funnel header (wordmark and address) stays fixed while the page scrolls; in C02, C05 and C06 it scrolls away with the content.
+- C08 shows a lone spinner under the header; Mowly shows the skeleton blocks and the cost footer at $0 with a disabled CONTINUE.
+- C12 keeps the CONTINUE label beside its spinner; the shared `Button` replaces the label with the spinner (changing that would change the pro app's buttons too).
+- C11 is a full-screen modal with an X and a large title; Mowly's promo sheet is the shared bottom sheet, which now rises above the keyboard (`avoidKeyboard`).
+- C14's card block has a "Card" heading with an icon; Mowly goes straight to the fields.
+- C16 and C17 are a full-screen sheet with larger, darker answer text; Mowly's FAQ is the iOS page-sheet modal with the shared `Accordion`.
+- Browse service summaries stay clamped to one line (C18 shows two).
+
+## [customer] Web build notes (Task 14)
+
+No `.web.tsx` files: every screen renders on web from the same source. Web-only adjustments live inline:
+
+- Service photos on Browse set their size in `style`, not `className`: on web an `Image` with only a size class takes the asset's intrinsic size and broke the cards.
+- The FAQ, sizing and chat screens use `Screen`, so at `md` and above they sit in the centered column like the rest of the funnel.
+- Pressables that open something carry `accessibilityRole` (`button` or `link`), and the checkbox and plan rows set `aria-checked`, because react-native-web reads `aria-*` props and ignores `accessibilityState`.
+- The "Switch app" link sits once, in the strip above the tabs (it was also in the green header, where its blue text was unreadable). Funnel screens do not show it.
+
+Known web limitations, recorded rather than fixed:
+
+- The shared `HeaderBand` keeps its 64 px top padding (meant for the iOS status bar) on web.
+- Pushed screens (service detail, chat, account) use the full-width stack header, so the back arrow sits at the far left outside the centered column, and the left tab sidebar is hidden while they are open.
+- The checkbox toggles with Enter but not Space: react-native-web only maps Space to a press for the `button` role.
+- The back link's accessible name is the previous route's name ("(tabs), back", "plan, back").
+- Deep links to dynamic routes (`/customer/chat/<id>`, `/customer/service/<id>`) 404 on a plain static server; they need the host rewrites that are deferred to the integration ticket. Static routes such as `/customer/services` load directly.
+- The mock database is in memory, so a full page reload brings back the seed.
+- Chrome logs "Blocked aria-hidden on an element because its descendant retained focus" when a press pushes a screen: React Navigation hides the previous screen while the pressed button still has focus. No errors and no react-native-web prop warnings.
+
