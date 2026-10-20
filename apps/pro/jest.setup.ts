@@ -1,4 +1,4 @@
-/** Jest setup for this app's test project: instant mock delay, fixed date, fresh mock database per test. */
+/** Jest setup for this app's test project: instant mock delay, fixed date, fresh mock database and a signed-in session per test. */
 import 'react-native-gesture-handler/jestSetup';
 import { setMockDelay, resetDb } from '@mowly/mocks';
 import { useSession } from '@mowly/stores';

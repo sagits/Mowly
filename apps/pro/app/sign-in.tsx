@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form';
 import { Pressable, Text, View } from 'react-native';
 import { useSession } from '@mowly/stores';
 import { SignInSchema } from '@mowly/types';
-import { Button, FormField } from '@mowly/ui';
+import { Button, FormField, colors } from '@mowly/ui';
 
 /** The sign in form. */
 export default function SignInScreen() {
@@ -34,7 +34,7 @@ export default function SignInScreen() {
           secureTextEntry={!show}
           right={
             <Pressable testID="signin-eye" accessibilityLabel="Show password" onPress={() => setShow((v) => !v)}>
-              <Ionicons name={show ? 'eye-off' : 'eye'} size={26} color="#000" />
+              <Ionicons name={show ? 'eye-off' : 'eye'} size={26} color={colors.ink} />
             </Pressable>
           }
         />

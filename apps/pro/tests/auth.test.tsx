@@ -4,6 +4,28 @@ import { router } from 'expo-router';
 import { useSession } from '@mowly/stores';
 import { renderApp } from './renderApp';
 
+test('sign out lands on welcome and cannot go back in', async () => {
+  await renderApp('/settings');
+  await fireEvent.press(await screen.findByTestId('settings-sign-out'));
+  await fireEvent.press(await screen.findByTestId('sign-out-confirm'));
+  await waitFor(() => expect(screen).toHavePathname('/welcome'));
+  expect(useSession.getState().signedIn).toBe(false);
+
+  await act(async () => {
+    router.push('/settings');
+  });
+  expect(screen).toHavePathname('/welcome');
+  expect(useSession.getState().signedIn).toBe(false);
+
+  // Back must not reveal the signed-in stack either.
+  await act(async () => {
+    if (router.canGoBack()) router.back();
+  });
+  expect(screen).toHavePathname('/welcome');
+  expect(screen.queryByTestId('screen-settings')).toBeNull();
+  expect(screen.queryByTestId('screen-dashboard')).toBeNull();
+});
+
 test('cancel keeps the session', async () => {
   await renderApp('/settings');
   await fireEvent.press(await screen.findByTestId('settings-sign-out'));
@@ -43,14 +65,4 @@ test('sign up is a placeholder', async () => {
   await renderApp('/welcome');
   await fireEvent.press(await screen.findByTestId('welcome-signup'));
   expect(await screen.findByTestId('screen-sign-up')).toBeTruthy();
-});
-
-// Last: it leaves the router on /welcome with a pending push, which the next render in this file would inherit.
-test('sign out lands on welcome and cannot go back in', async () => {
-  await renderApp('/settings');
-  await fireEvent.press(await screen.findByTestId('settings-sign-out'));
-  await fireEvent.press(await screen.findByTestId('sign-out-confirm'));
-  await waitFor(() => expect(screen).toHavePathname('/welcome'));
-  act(() => router.push('/settings'));
-  await waitFor(() => expect(screen).toHavePathname('/welcome'));
 });
