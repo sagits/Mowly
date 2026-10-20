@@ -19,3 +19,16 @@ appId: com.renatoprobst.mowly
     visible:
       id: plan-screen
     timeout: 15000
+- tapOn:
+    id: plan-row-monthly
+- scrollUntilVisible:
+    element:
+      id: plan-faq-link
+- tapOn:
+    id: plan-faq-link
+- tapOn:
+    id: faq-ok
+- tapOn:
+    id: quote-continue
+- assertVisible:
+    id: account-screen

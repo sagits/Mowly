@@ -111,4 +111,12 @@ label-less "Apartment/Suite Number" placeholder (the field keeps a visible label
 scale of the other funnel screens). The address dropdown renders inline under the field rather than floating
 over the next one, so it pushes the form down instead of overlapping it.
 
-[customer] Policy FAQ (C16, C17) screenshot simplifications: the shared `Accordion` keeps its divider lines, green chevrons and semibold questions (the reference has no dividers, black chevrons and bolder questions), answers render as plain paragraphs without the bullet dot, and the title is a step smaller. Only the first three answers are fully readable in the references (the others are faded behind the transition), so the wording of questions 4 to 7 is written to match the visible fragments, with the Mowly name and no phone number.
+## [customer] Policy FAQ screenshot simplifications (C16, C17)
+
+The shared `Accordion` keeps its divider lines, green chevrons and semibold questions (the reference has no dividers, black chevrons and bolder questions), answers render as plain paragraphs without the bullet dot, and the title is a step smaller. Only the first three answers are fully readable in the references (the others are faded behind the transition), so the wording of questions 4 to 7 is written to match the visible fragments, with the Mowly name and no phone number.
+
+## [customer] Pick your plan screenshot simplifications (C08-C12)
+
+Prices show whole dollars as in C09 (the plan prices are integers). The date sheet is a plain list of 14 days in a bottom sheet rather than the native iOS picker the reference opens. The promo modal is the shared `BottomSheet` with one field and APPLY, without the reference's X button. The "Code applied" text replaces the ADD A PROMO CODE link once a code is applied. The loading state is gray skeleton blocks (C08), CONTINUE swaps to the in-button spinner for 800 ms with nothing behind it (C12).
+
+The plan screen's spacing is slightly taller than the reference, so ADD A PROMO CODE sits below the fold on the 16 (the reference shows it above the footer); the page scrolls to it. The "What's included?" bullet is a small dot, and the included text is the catalog string rather than LawnStarter's. The FAQ modal's title clears the status bar (checked on the simulator), so `faq.tsx` needed no inset change.
