@@ -60,7 +60,7 @@ export default function QuotePlanScreen() {
               Select the frequency for your following services, you can always
               change this later.
             </Text>
-            <View className="gap-3">
+            <View className="gap-2">
               {quote.plans.map((p) => (
                 <PlanRow
                   key={p.frequency}
@@ -71,13 +71,13 @@ export default function QuotePlanScreen() {
                 />
               ))}
             </View>
-            <Text className="mb-2 mt-10 text-lg text-ink">
+            <Text className="mb-2 mt-8 text-lg text-ink">
               Preferred start date
             </Text>
             <Pressable
               testID="plan-start-date"
               onPress={() => setDateOpen(true)}
-              className="rounded-field border border-border px-4 py-5"
+              className="rounded-field border border-border px-4 py-4"
             >
               <Text className="text-lg text-ink">
                 {startDate ? formatPlanDate(startDate) : ''}
@@ -86,7 +86,7 @@ export default function QuotePlanScreen() {
             <Pressable
               testID="promo-open"
               onPress={() => setPromoOpen(true)}
-              className="mt-10 items-center"
+              className="mt-8 items-center"
             >
               {promoApplied ? (
                 <Text

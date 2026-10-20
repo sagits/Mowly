@@ -24,8 +24,8 @@ export function CostFooter({
   return (
     <View className="border-t border-border bg-surface px-4 pt-4" style={{ paddingBottom: bottom + 12 }}>
       <View className="flex-row items-center justify-between">
-        <Text className="text-2xl font-semibold text-ink">Cost per service</Text>
-        <Text testID="cost-per-service" className="text-2xl font-semibold text-ink">{`$${price}`}</Text>
+        <Text className="text-xl font-bold text-ink">Cost per service</Text>
+        <Text testID="cost-per-service" className="text-xl font-bold text-ink">{`$${price}`}</Text>
       </View>
       <Text className="mb-4 mt-1 text-base text-fee">{`+ $${TRUST_FEE} Trust & Safety Fee`}</Text>
       <Button testID={testID} label={cta} onPress={onPress} disabled={disabled} loading={loading} />

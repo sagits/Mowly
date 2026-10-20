@@ -27,7 +27,7 @@ export default function QuoteSizingScreen() {
       {data !== undefined && (
         <Text className="mt-6 text-center text-xl text-inkSoft">
           <Text testID="sizing-neighbors">
-            Join <Text className="font-bold text-primary">{data} neighbors</Text> in {zip}
+            Join <Text className="text-primary">{data} neighbors</Text> in {zip}
           </Text>{' '}
           who&apos;ve booked Mowly
         </Text>

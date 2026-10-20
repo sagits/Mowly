@@ -30,7 +30,7 @@ export default function ServiceSelectScreen() {
                 accessibilityRole="button"
                 accessibilityState={{ selected }}
                 onPress={() => selectService(s.id)}
-                className={`mb-3 items-center justify-center rounded-card py-6 ${
+                className={`mb-2 items-center justify-center rounded-card py-5 ${
                   selected ? 'border border-primary bg-primaryTint' : 'bg-surfaceMuted'
                 }`}
               >

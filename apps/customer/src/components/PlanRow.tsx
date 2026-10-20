@@ -26,7 +26,7 @@ export function PlanRow({
         accessibilityRole="radio"
         accessibilityState={{ selected }}
         onPress={onPress}
-        className={`h-[66px] flex-row overflow-hidden rounded-card ${selected ? 'border-2 border-primary bg-primaryTint' : 'bg-surfaceMuted'}`}
+        className={`h-[56px] flex-row overflow-hidden rounded-card ${selected ? 'border-2 border-primary bg-primaryTint' : 'bg-surfaceMuted'}`}
       >
         <View className="flex-1 justify-center px-5">
           <Text className="text-xl font-semibold text-ink">{FREQUENCY_LABELS[plan.frequency]}</Text>

@@ -14,7 +14,7 @@ export function ServiceExploreRow({ service, onViewPrice }: { service: Service; 
           <Text numberOfLines={1} className="mt-1 text-sm text-ink">{service.included}</Text>
         </View>
         <View className="self-end">
-          <Button testID={`browse-view-price-${service.id}`} label="View price" variant="outline" onPress={onViewPrice} />
+          <Button testID={`browse-view-price-${service.id}`} label="View price" variant="outline" size="sm" onPress={onViewPrice} />
         </View>
       </View>
     </View>

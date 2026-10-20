@@ -6,7 +6,7 @@ import Svg, { Circle } from 'react-native-svg';
 import { AERIAL_IMAGE, colors } from '@mowly/ui';
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
-const SIZE = 260;
+const SIZE = 250;
 const STROKE = 10;
 const RADIUS = (SIZE - STROKE) / 2;
 const CIRCUMFERENCE = 2 * Math.PI * RADIUS;
