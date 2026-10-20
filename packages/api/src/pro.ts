@@ -34,12 +34,13 @@ export const useTodayRoute = () => useQuery({ queryKey: queryKeys.route, queryFn
 /** Earnings and payout summary. */
 export const useBilling = () => useQuery({ queryKey: queryKeys.billing, queryFn: getBilling });
 
-/** Claims a job for a date and refreshes every jobs list. */
+/** Claims a job for a date and refreshes the jobs lists, today's route and billing. */
 export const useClaimJob = () => {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: ({ id, date }: { id: string; date: IsoDate }) => claimJob(id, date),
-    onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.jobs }),
+    onSuccess: () =>
+      Promise.all([queryKeys.jobs, queryKeys.route, queryKeys.billing].map((queryKey) => qc.invalidateQueries({ queryKey }))),
   });
 };
 
