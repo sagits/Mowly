@@ -14,12 +14,15 @@ appId: com.renatoprobst.mowlypro
     id: profile-intro-continue
 - tapOn:
     id: profile-business
+- eraseText: 40
 - inputText: Sullivan Lawn
 - tapOn:
     id: profile-year
+- eraseText: 40
 - inputText: "2018"
 - tapOn:
     id: profile-crew
+- eraseText: 40
 - inputText: "3"
 - tapOn: Customers will see this information when you’re assigned to the job.
 - tapOn:

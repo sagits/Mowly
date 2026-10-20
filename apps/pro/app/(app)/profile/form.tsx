@@ -5,20 +5,27 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Image, Pressable, ScrollView, Text, View } from 'react-native';
-import { useUpdatePro } from '@mowly/api';
+import { usePro, useUpdatePro } from '@mowly/api';
+import type { Pro } from '@mowly/types';
 import { BuildProfileSchema } from '@mowly/types';
 import { AVATARS, Button, FormField } from '@mowly/ui';
 import { AvatarSheet } from '../../../src/components/AvatarSheet';
 
 type Values = { businessName: string; yearFounded: string; crewSize: string };
 
+/** Renders once the Pro has loaded, so the form starts from the saved values (an edit must not wipe the avatar). */
 export default function ProfileForm() {
+  const { data: pro } = usePro();
+  return pro ? <ProfileFormBody pro={pro} /> : null;
+}
+
+function ProfileFormBody({ pro }: { pro: Pro }) {
   const { mutateAsync: updatePro, isPending } = useUpdatePro();
-  const [avatar, setAvatar] = useState<number | null>(null);
+  const [avatar, setAvatar] = useState<number | null>(pro.avatar);
   const [sheet, setSheet] = useState(false);
   const { control, handleSubmit } = useForm<Values>({
     resolver: zodResolver(BuildProfileSchema) as never,
-    defaultValues: { businessName: '', yearFounded: '', crewSize: '' },
+    defaultValues: { businessName: pro.businessName, yearFounded: pro.yearFounded, crewSize: pro.crewSize > 0 ? String(pro.crewSize) : '' },
   });
 
   const save = handleSubmit(async ({ businessName, yearFounded, crewSize }) => {
