@@ -9,7 +9,7 @@ let override: IsoDate | null = null;
 const pad = (n: number) => String(n).padStart(2, '0');
 const toIso = (d: Date): IsoDate => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 const parse = (date: IsoDate): Date => {
-  const [y, m, d] = date.split('-').map(Number);
+  const [y = 0, m = 1, d = 1] = date.split('-').map(Number);
   return new Date(y, m - 1, d);
 };
 
@@ -40,18 +40,18 @@ export function nextWeekday(from: IsoDate = today()): IsoDate {
 /** 'Sunday, October 25' */
 export function formatLong(date: IsoDate): string {
   const d = parse(date);
-  return `${WEEKDAYS[d.getDay()]}, ${MONTHS[d.getMonth()]} ${d.getDate()}`;
+  return `${WEEKDAYS[d.getDay()]!}, ${MONTHS[d.getMonth()]!} ${d.getDate()}`;
 }
 
 /** 'Oct 25' */
 export function formatShort(date: IsoDate): string {
   const d = parse(date);
-  return `${MONTHS[d.getMonth()].slice(0, 3)} ${d.getDate()}`;
+  return `${MONTHS[d.getMonth()]!.slice(0, 3)} ${d.getDate()}`;
 }
 
 /** 'Sun' */
 export function weekdayShort(date: IsoDate): string {
-  return WEEKDAYS[parse(date).getDay()].slice(0, 3);
+  return WEEKDAYS[parse(date).getDay()]!.slice(0, 3);
 }
 
 /** '$53.00' */
