@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Mowly",
+    "slug": "mowly",
+    "scheme": "mowly",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "bundleIdentifier": "com.renatoprobst.mowly",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.renatoprobst.mowly"
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "plugins": [
+      "expo-router"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "baseUrl": "/customer"
+    }
+  }
+}

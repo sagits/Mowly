@@ -1,0 +1,22 @@
+{
+  "name": "@mowly/ui",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./tokens": "./tokens.js"
+  },
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@mowly/types": "workspace:*"
+  },
+  "peerDependencies": {
+    "nativewind": "*",
+    "react": "*",
+    "react-hook-form": "*",
+    "react-native": "*"
+  }
+}

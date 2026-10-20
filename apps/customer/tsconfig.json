@@ -1,0 +1,25 @@
+{
+  "extends": "@mowly/config/tsconfig.base.json",
+  "compilerOptions": {
+    "paths": {
+      "expo-router": [
+        "./node_modules/expo-router"
+      ],
+      "expo-router/*": [
+        "./node_modules/expo-router/*"
+      ]
+    }
+  },
+  "include": [
+    "app",
+    "*.ts",
+    "*.tsx",
+    "*.d.ts",
+    ".expo/types/**/*.ts",
+    "../../packages/*/src",
+    "nativewind-env.d.ts",
+    "expo-env.d.ts",
+    "tests",
+    "src"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "@mowly/features",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@mowly/api": "workspace:*",
+    "@mowly/stores": "workspace:*",
+    "@mowly/types": "workspace:*",
+    "@mowly/ui": "workspace:*"
+  },
+  "peerDependencies": {
+    "@hookform/resolvers": "*",
+    "@tanstack/react-query": "*",
+    "expo-router": "*",
+    "nativewind": "*",
+    "react": "*",
+    "react-hook-form": "*",
+    "react-native": "*"
+  }
+}

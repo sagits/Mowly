@@ -1,0 +1,18 @@
+{
+  "name": "@mowly/api",
+  "version": "0.0.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@mowly/stores": "workspace:*",
+    "@mowly/types": "workspace:*"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "*",
+    "react": "*",
+    "zod": "*"
+  }
+}
