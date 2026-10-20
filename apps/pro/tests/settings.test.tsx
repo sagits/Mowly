@@ -41,3 +41,14 @@ test('account info validates the phone', async () => {
   expect(await screen.findByText('Enter a 10-digit phone number')).toBeTruthy();
   expect(screen).toHavePathname('/settings/account-info');
 });
+
+test('account info saves a phone change without touching the other fields', async () => {
+  await renderApp('/settings');
+  await fireEvent.press(await screen.findByTestId('settings-account-info'));
+  await fireEvent.changeText(await screen.findByTestId('ai-phone'), '(512) 555-0199');
+  await fireEvent.press(screen.getByTestId('ai-save'));
+  await waitFor(() => expect(screen).toHavePathname('/settings'));
+  const pro = await getPro();
+  expect(pro.mobilePhone).toBe('5125550199');
+  expect([pro.firstName, pro.lastName, pro.email]).toEqual(['Mike', 'Sullivan', 'mike@sullivanlawncare.example']);
+});

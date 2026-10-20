@@ -152,3 +152,11 @@ P11 differences kept on purpose: the page background is `pageMuted` (P11 uses a 
 `MapPin` takes `variant: 'price' | 'number'` (default `price`, so Available Jobs is unchanged); `number` is a 28px round pin centred on its point. The route polyline is a `Polyline` in a 0..100 `Svg` laid over `CityMap` (same space as the pins, `preserveAspectRatio="none"`). `CityMap` keeps its "Austin" label. P13 differences kept: illustrated map instead of satellite tiles, round numbered pins instead of teardrops, no orange start marker, plain tinted banner without the calendar icon, no distance arrow icon, "mi" instead of "miles".
 
 [pro] The damage fee unlocks only in order, so `demo.yaml` completes evaluate, work area and GPS first, then damage fee, then claims a job for today (`day-today` before the date) and opens the route, which must show stop 4.
+
+## [pro] Settings list and Business profile: fidelity differences kept
+- Row titles follow the Task 9 brief ("Starting Point", "Notifications"), not P15's "Starting Point (original service area)" and "Notification Preferences".
+- The "1" badge is the shared `Badge` (a pill, a circle at one digit), not P15's rounded square.
+- P16 puts the photo labels above the circles ("Profile Photo", "Truck Photo"); ours sit below them.
+- The bio counter sits below the field (`bp-bio-count`), not inline with the label as in P16.
+- Rows use the shared `ListRow` padding, tighter than P15's, and have full-width dividers instead of inset ones.
+- The business-profile save sends `avatar` and `truckPhoto` along with the form fields, because `businessProfileComplete` needs both and the circles live outside the form.
