@@ -1,6 +1,6 @@
 /** Quote step 4: pick a frequency, start date and promo (C08-C12). */
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useQuote, useService } from '@mowly/api';
@@ -12,7 +12,7 @@ import { FunnelHeader } from '../../src/components/FunnelHeader';
 import { PlanRow } from '../../src/components/PlanRow';
 import { PromoSheet } from '../../src/components/PromoSheet';
 import { costPerService } from '../../src/pricing';
-import { useQuoteDraft } from '../../src/stores/useQuoteDraft';
+import { missingStep, useQuoteDraft } from '../../src/stores/useQuoteDraft';
 
 /** The plan step. */
 export default function QuotePlanScreen() {
@@ -40,6 +40,8 @@ export default function QuotePlanScreen() {
 
   const chosen = quote?.plans.find((p) => p.frequency === frequency);
   const name = service?.name ?? '';
+  const missing = missingStep({ serviceId, contact, frequency, startDate }, 'plan');
+  if (missing) return <Redirect href={missing} />;
 
   return (
     <Screen>
@@ -124,7 +126,7 @@ export default function QuotePlanScreen() {
                 Read our <Text className="text-link underline">Frequently Asked Questions</Text>
               </Text>
             </Pressable>
-            <Pressable testID="plan-not-looking" accessibilityRole="link" onPress={() => router.replace('/quote')} className="mt-12 items-center">
+            <Pressable testID="plan-not-looking" accessibilityRole="link" onPress={() => router.dismissTo('/quote')} className="mt-12 items-center">
               <Text className="text-xl text-link underline">{`I'm not looking for ${name}`}</Text>
             </Pressable>
           </ScrollView>

@@ -1,7 +1,7 @@
 /** Quote funnel step 2: contact details with address autocomplete (C04-C06). */
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 import { Controller, useForm } from 'react-hook-form';
 import { ScrollView, Text, View } from 'react-native';
 import { useCustomer, useService } from '@mowly/api';
@@ -9,12 +9,14 @@ import { Button, colors, FormField, Screen, Spinner } from '@mowly/ui';
 import { QuoteContactSchema, type QuoteContactInput } from '@mowly/types';
 import { AddressAutocomplete } from '../../src/components/AddressAutocomplete';
 import { FunnelHeader } from '../../src/components/FunnelHeader';
-import { useQuoteDraft } from '../../src/stores/useQuoteDraft';
+import { missingStep, useQuoteDraft } from '../../src/stores/useQuoteDraft';
 
 /** The quote form step. */
 export default function QuoteDetailsScreen() {
   const { data: customer } = useCustomer();
   const draft = useQuoteDraft((s) => s.contact);
+  const missing = useQuoteDraft((s) => missingStep(s, 'details'));
+  if (missing) return <Redirect href={missing} />;
   if (!customer) return <Spinner testID="details-spinner" />;
   const a = customer.address;
   return (

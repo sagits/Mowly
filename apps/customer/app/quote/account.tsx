@@ -1,7 +1,7 @@
 /** Quote step 5: create your account with the demo card and BOOK NOW (C13-C15). */
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 import { useRef, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Pressable, ScrollView, Text, View } from 'react-native';
@@ -10,7 +10,7 @@ import { AccountSchema, DEMO_CARD, type AccountInput } from '@mowly/types';
 import { Checkbox, colors, FormField, Screen } from '@mowly/ui';
 import { CostFooter } from '../../src/components/CostFooter';
 import { costPerService } from '../../src/pricing';
-import { useQuoteDraft } from '../../src/stores/useQuoteDraft';
+import { missingStep, useQuoteDraft } from '../../src/stores/useQuoteDraft';
 
 const POLICY = [
   "Tell us within 5 days if anything's off and we'll redo it or refund.",
@@ -47,6 +47,8 @@ export default function QuoteAccountScreen() {
     }
   };
   const book = () => handleSubmit(onBook)();
+  const missing = missingStep({ serviceId, contact, frequency, startDate }, 'account');
+  if (missing) return <Redirect href={missing} />;
 
   return (
     <Screen>

@@ -1,6 +1,6 @@
 /** Booking confirmation: "You're booked!" with the service, plan and first date. */
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { Redirect, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Text, View } from 'react-native';
 import { useService } from '@mowly/api';
@@ -15,6 +15,8 @@ export default function QuoteBookedScreen() {
   // read once: GO TO MY SERVICES clears the draft before the screen is gone
   const [{ serviceId, frequency, startDate }] = useState(() => useQuoteDraft.getState());
   const { data: service } = useService(serviceId ?? '');
+  // a reload empties the draft: there is nothing to confirm, so show the bookings instead
+  if (!serviceId) return <Redirect href="/services" />;
   return (
     <Screen>
       <View testID="booked-screen" className="flex-1 items-center justify-center px-6">

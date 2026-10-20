@@ -31,3 +31,18 @@ export const useQuoteDraft = create<QuoteDraft>((set) => ({
   applyPromo: () => set({ promoApplied: true }),
   reset: () => set(EMPTY),
 }));
+
+/** A funnel step and what it needs from the earlier steps. */
+export type FunnelStep = 'details' | 'plan' | 'account';
+
+/**
+ * Where `step` must send the user when the draft lacks what the earlier steps collect (after a web reload
+ * or a deep link the draft is empty), or `null` when the step can render.
+ */
+export function missingStep(draft: Pick<QuoteDraft, 'serviceId' | 'contact' | 'frequency' | 'startDate'>, step: FunnelStep) {
+  if (!draft.serviceId) return '/quote' as const;
+  if (step === 'details') return null;
+  if (!draft.contact) return '/quote/details' as const;
+  if (step === 'plan') return null;
+  return draft.frequency && draft.startDate ? null : ('/quote/plan' as const);
+}
