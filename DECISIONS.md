@@ -186,3 +186,12 @@ Known web limitations, recorded rather than fixed:
 - The mock database is in memory, so a full page reload brings back the seed.
 - Chrome logs "Blocked aria-hidden on an element because its descendant retained focus" when a press pushes a screen: React Navigation hides the previous screen while the pressed button still has focus. No errors and no react-native-web prop warnings.
 
+## [customer] Final review fixes
+
+- **Leaving the funnel.** The funnel screens' header starts with an X (`funnel-close`, label "Close"), and the account step has it as the native header's right button. It closes the quote modal and keeps the draft, so VIEW PRICE again resumes where the user left. With nothing under the modal (a web reload or deep link) it replaces to Browse. The LawnStarter references have no X; without one, VIEW PRICE from Browse left no way out on iOS.
+- **Empty draft.** A funnel step whose earlier steps are missing from the draft redirects to the first missing one (`missingStep` in `useQuoteDraft.ts`): no service → service select, no contact → the form, no plan → the plan step. The confirmation with nothing in the draft shows My Services. The draft lives in memory, so a web reload always lands on service select.
+- **Prices.** Funnel prices show whole dollars as in C09 ("$57") and cents only when there are some ("$3.99"), through `formatPrice` in `src/pricing.ts`; Service detail keeps `formatMoney` ("$53.00 per service") as in C20.
+- **Change frequency** in the manage sheet saves the plan's full price for the new frequency. A promo applied at booking is not carried over.
+- **Typecheck** passes without Metro (the committed `types.d.ts` covers what Expo's generated files would), but typed routes are only enforced once Metro has generated `.expo/types/router.d.ts`; until then `Href` accepts any string.
+- **Tests and timers.** `renderApp` (expo-router's `renderRouter`) installs Jest fake timers itself. Tests advance them inside an async `act`: a synchronous `act(() => jest.advanceTimersByTime(...))` left the next render in the same file blank, which was the order-dependent failure first seen in Task 5.
+
