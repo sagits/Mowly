@@ -1,4 +1,4 @@
-/** A status as a pill: a label on a tinted ground. The label carries the status; the color is decoration only. */
+/** A status shown as a pill. */
 import { Text, View } from 'react-native';
 
 /** Placeholder lifecycle until the Mowly domain types land. */
@@ -10,6 +10,7 @@ const PILLS: Record<JobStatus, { label: string; ground: string; ink: string }> =
   done: { label: 'Done', ground: 'bg-doneGround', ink: 'text-primaryInk' },
 };
 
+/** A status as a label on a tinted ground. The label carries the status; the color is decoration. */
 export function StatusPill({ status }: { status: JobStatus }) {
   const pill = PILLS[status];
 

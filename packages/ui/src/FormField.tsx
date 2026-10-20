@@ -1,8 +1,9 @@
-/** One form field: its label, its input and the line that carries its error message. Generic over the form values; uses `Controller` because React Native has no DOM refs for `register`. */
+/** A labelled form field. */
 import { Controller, type Control, type FieldPath, type FieldValues } from 'react-hook-form';
 import { Text, TextInput, View, type TextInputProps } from 'react-native';
 import { colors } from '../tokens';
 
+/** One field: label, input and error line. Uses `Controller` because React Native has no DOM refs for `register`. */
 export function FormField<TValues extends FieldValues>({
   control,
   name,

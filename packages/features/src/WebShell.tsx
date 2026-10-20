@@ -1,8 +1,9 @@
 /** The web shell: the HTML document Expo Router wraps each statically exported page in. Never renders on a device. */
 import { ScrollViewStyleReset } from 'expo-router/html';
 import type { PropsWithChildren } from 'react';
+import { colors } from '@mowly/ui/tokens';
 
-const bodyBackground = `body { background-color: #F1F2F6; }`;
+const bodyBackground = `body { background-color: ${colors.background}; }`;
 
 /** Sets the viewport, resets the scroll view and paints the body before the bundle parses. */
 export function WebShell({ children }: PropsWithChildren) {

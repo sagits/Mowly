@@ -1,7 +1,8 @@
-/** The colored band across the top of a screen, with the title and optional `leading` and `action` slots. `pt-16` because the band runs under the status bar. */
+/** The colored band at the top of a screen. */
 import { Text, View } from 'react-native';
 import type { ReactNode } from 'react';
 
+/** Band with the title and optional `leading` and `action` slots. `pt-16` so it runs under the status bar. */
 export function HeaderBand({
   title,
   leading,

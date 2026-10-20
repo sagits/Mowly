@@ -1,7 +1,8 @@
-/** The question a destructive action asks first, over the screen. A `Modal`, not `Alert.alert`, so tests can see and drive it. `onKeep` is also `onRequestClose`, and there is no tap-outside-to-dismiss. */
+/** A confirm dialog shown over the screen. */
 import { ActivityIndicator, Modal, Pressable, Text, View } from 'react-native';
 import { colors } from '../tokens';
 
+/** Asks before a destructive action, in a `Modal` so tests can see it. `onKeep` doubles as `onRequestClose`; tapping the scrim does not dismiss. */
 export function ConfirmDialog({
   visible,
   testID,
