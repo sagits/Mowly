@@ -1,0 +1,55 @@
+appId: com.renatoprobst.mowlypro
+---
+# The pro half of the PRD demo: finish the checklist steps in order, claim a job for today, see it on the route.
+- runFlow: common/launch.yaml
+- tapOn:
+    id: checklist-evaluate
+- tapOn:
+    id: equipment-mower
+- tapOn:
+    id: evaluate-save
+- assertVisible:
+    id: checklist-evaluate-done
+- tapOn:
+    id: checklist-work-area
+- tapOn:
+    id: work-area-by-day
+- tapOn:
+    id: work-area-save
+- assertVisible:
+    id: checklist-work-area-done
+- tapOn:
+    id: checklist-gps
+- tapOn:
+    id: gps-enable
+- scrollUntilVisible:
+    element:
+      id: checklist-damage-fee
+- tapOn:
+    id: checklist-damage-fee
+- tapOn:
+    id: damage-fee-accept
+- assertVisible:
+    id: checklist-damage-fee-done
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-jobs
+- tapOn:
+    id: day-today
+- tapOn:
+    id: "job-date-.*"
+- tapOn:
+    id: claim-confirm
+- assertVisible:
+    id: toast
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-calendar
+- tapOn:
+    id: day-today
+- tapOn:
+    id: day-view-route
+- assertVisible:
+    id: route-stop-4

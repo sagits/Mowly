@@ -147,3 +147,8 @@ P10 shows a back button because the screenshot was taken after opening the scree
 P11 shows past days with a gray count and future days blue, so `MonthGrid` does the same. `calendar/[date]` and `jobs/[id]/index` sit directly in `(app)/` next to the drawer roots `calendar.tsx` and `jobs.tsx` (no `_layout.tsx`); Expo Router accepts both. `route.tsx` and `jobs/[id]/recommend.tsx` are placeholders for Tasks 8 and 13.
 
 P11 differences kept on purpose: the page background is `pageMuted` (P11 uses a lighter gray-green), the palette is the shared Pro tokens (`priceBlock` tabs, `calendarBlue` counts, `primary` outline), fonts are the system font, and dates are the live months instead of June and July 2021.
+
+## [pro] Route Map and the demo flow
+`MapPin` takes `variant: 'price' | 'number'` (default `price`, so Available Jobs is unchanged); `number` is a 28px round pin centred on its point. The route polyline is a `Polyline` in a 0..100 `Svg` laid over `CityMap` (same space as the pins, `preserveAspectRatio="none"`). `CityMap` keeps its "Austin" label. P13 differences kept: illustrated map instead of satellite tiles, round numbered pins instead of teardrops, no orange start marker, plain tinted banner without the calendar icon, no distance arrow icon, "mi" instead of "miles".
+
+[pro] The damage fee unlocks only in order, so `demo.yaml` completes evaluate, work area and GPS first, then damage fee, then claims a job for today (`day-today` before the date) and opens the route, which must show stop 4.

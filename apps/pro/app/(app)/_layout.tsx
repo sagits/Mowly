@@ -34,7 +34,7 @@ export default function AppLayout() {
       <Stack.Screen name="calendar/[date]" options={({ route }) => ({ title: (route.params as { date?: IsoDate } | undefined)?.date ? formatLong((route.params as { date: IsoDate }).date) : 'Day' })} />
       <Stack.Screen name="jobs/[id]/index" options={{ title: 'Job Details' }} />
       <Stack.Screen name="jobs/[id]/recommend" options={{ title: 'Service Quote' }} />
-      <Stack.Screen name="route" options={{ title: 'Route' }} />
+      <Stack.Screen name="route" options={{ title: 'Route Map' }} />
     </Stack>
   );
 }
