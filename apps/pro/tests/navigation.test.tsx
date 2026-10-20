@@ -51,11 +51,8 @@ test('a step opened directly (deep link, web refresh) has the dashboard undernea
 test('signing out on a pushed step redirects to welcome', async () => {
   await renderApp('/settings/work-area');
   expect(await screen.findByTestId('screen-work-area')).toBeTruthy();
-  try {
-    await act(async () => useSession.getState().signOut());
-    await waitFor(() => expect(screen).toHavePathname('/welcome'));
-    expect(screen.queryByTestId('screen-work-area')).toBeNull();
-  } finally {
-    useSession.getState().signIn();
-  }
+  // jest.setup signs back in before the next test.
+  await act(async () => useSession.getState().signOut());
+  await waitFor(() => expect(screen).toHavePathname('/welcome'));
+  expect(screen.queryByTestId('screen-work-area')).toBeNull();
 });

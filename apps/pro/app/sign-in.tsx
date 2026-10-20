@@ -1,7 +1,6 @@
 /** Sign in (P02): any valid email and a non-empty password signs in. */
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { router } from 'expo-router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Pressable, Text, View } from 'react-native';
@@ -18,7 +17,6 @@ export default function SignInScreen() {
   });
   const submit = handleSubmit(() => {
     useSession.getState().signIn();
-    router.replace('/');
   });
 
   return (

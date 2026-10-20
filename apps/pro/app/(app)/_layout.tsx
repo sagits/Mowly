@@ -1,6 +1,5 @@
-/** The signed-in shell: a native Stack whose first screen is the drawer; step screens push above it. Redirects to welcome when signed out. */
-import { Redirect, Stack } from 'expo-router';
-import { useSession } from '@mowly/stores';
+/** The signed-in shell: a native Stack whose first screen is the drawer; step screens push above it. The root layout's Stack.Protected keeps it unreachable when signed out. */
+import { Stack } from 'expo-router';
 import { formatLong } from '@mowly/types';
 import type { IsoDate } from '@mowly/types';
 import { colors } from '@mowly/ui';
@@ -10,8 +9,6 @@ export const unstable_settings = { initialRouteName: '(drawer)' };
 
 /** Layout for every signed-in screen. Pushed screens get the native back button, tinted green. */
 export default function AppLayout() {
-  const signedIn = useSession((s) => s.signedIn);
-  if (!signedIn) return <Redirect href="/welcome" />;
   return (
     <Stack
       screenOptions={{

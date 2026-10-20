@@ -60,9 +60,33 @@ test('empty sign in shows errors', async () => {
   expect(useSession.getState().signedIn).toBe(false);
 });
 
-test('sign up is a placeholder', async () => {
+test('welcome sign up opens the sign up form', async () => {
   useSession.getState().signOut();
   await renderApp('/welcome');
   await fireEvent.press(await screen.findByTestId('welcome-signup'));
   expect(await screen.findByTestId('screen-sign-up')).toBeTruthy();
+});
+
+test('after sign out and sign in, back cannot return to welcome or sign in', async () => {
+  await renderApp('/settings');
+  await fireEvent.press(await screen.findByTestId('settings-sign-out'));
+  await fireEvent.press(await screen.findByTestId('sign-out-confirm'));
+  await fireEvent.press(await screen.findByTestId('welcome-login'));
+  await fireEvent.changeText(await screen.findByTestId('signin-email'), 'x@y.com');
+  await fireEvent.changeText(screen.getByTestId('signin-password'), 'x');
+  await fireEvent.press(screen.getByTestId('signin-submit'));
+  expect(await screen.findByTestId('screen-dashboard')).toBeTruthy();
+
+  await act(async () => {
+    if (router.canGoBack()) router.back();
+  });
+  expect(screen).toHavePathname('/');
+  expect(screen.queryByTestId('screen-welcome')).toBeNull();
+  expect(screen.queryByTestId('screen-sign-in')).toBeNull();
+});
+
+test('a signed-in deep link to welcome lands in the app', async () => {
+  await renderApp('/welcome');
+  expect(await screen.findByTestId('screen-dashboard')).toBeTruthy();
+  expect(screen.queryByTestId('screen-welcome')).toBeNull();
 });

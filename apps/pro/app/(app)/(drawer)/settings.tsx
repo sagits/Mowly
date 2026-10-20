@@ -54,7 +54,6 @@ export default function SettingsScreen() {
         onConfirm={() => {
           setConfirming(false);
           useSession.getState().signOut();
-          router.replace('/welcome');
         }}
       />
     </View>

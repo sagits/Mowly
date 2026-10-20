@@ -1,7 +1,6 @@
 /** Sign up (P03, P04, P05): contact details and a category, then straight into the app. */
 import { Ionicons } from '@expo/vector-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { router } from 'expo-router';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { ScrollView, Text, View } from 'react-native';
 import { useUpdatePro } from '@mowly/api';
@@ -24,7 +23,6 @@ export default function SignUpScreen() {
     const { category: picked } = values as { category: 'lawn' | 'pool' };
     await updatePro({ category: picked });
     useSession.getState().signIn();
-    router.replace('/');
   });
 
   return (

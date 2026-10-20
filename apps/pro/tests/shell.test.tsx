@@ -16,5 +16,4 @@ test('signed out goes to welcome', async () => {
   useSession.getState().signOut();
   await renderApp('/settings');
   expect(screen).toHavePathname('/welcome');
-  useSession.getState().signIn();
 });
