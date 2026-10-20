@@ -9,10 +9,6 @@
 5. Add the superpowers skill set to the repo and init `CLAUDE.md` with information about using it
 6. Renato works inside the repo with superpowers to break `PRD.md` into tickets and implementation plans, which generate GitHub issues
 7. Renato uses superpowers to implement the tickets and build the project, with e2e and integration tests
-8. Polish, with each request written down word for word in `FEATURES.md`
-9. Web deploy on Vercel, a short Loom video, and a README with the no-affiliation notice
-10. Publish the skill (public repo and a post) and apply on Workable with both links
-11. Find an EM or engineer at LawnStarter on LinkedIn and send them the link directly
 
 ## Screenshot shot list
 
