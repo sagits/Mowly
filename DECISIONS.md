@@ -110,3 +110,5 @@ label-less "Apartment/Suite Number" placeholder (the field keeps a visible label
 (shortened to one sentence with the two links), and the title wrapping onto two lines (it follows the type
 scale of the other funnel screens). The address dropdown renders inline under the field rather than floating
 over the next one, so it pushes the form down instead of overlapping it.
+
+[customer] Policy FAQ (C16, C17) screenshot simplifications: the shared `Accordion` keeps its divider lines, green chevrons and semibold questions (the reference has no dividers, black chevrons and bolder questions), answers render as plain paragraphs without the bullet dot, and the title is a step smaller. Only the first three answers are fully readable in the references (the others are faded behind the transition), so the wording of questions 4 to 7 is written to match the visible fragments, with the Mowly name and no phone number.
