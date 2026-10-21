@@ -14,7 +14,7 @@ const tabs: { name: string; title: string; icon: IconName; testID: string }[] = 
   { name: 'profile', title: 'Profile', icon: 'person-outline', testID: 'tab-profile' },
 ];
 
-/** Tab layout. The web-only "Switch to Mowly Pro" link sits in a strip above the tabs. */
+/** Tab layout. The web-only "Switch to provider app" link sits in a strip above the tabs. */
 export default function TabsLayout() {
   return (
     <View className="flex-1 bg-surface">
