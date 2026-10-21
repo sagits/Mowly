@@ -5,7 +5,7 @@ import { Pressable, Text, View } from 'react-native';
 import { colors } from '../tokens';
 import { Badge } from './Badge';
 
-/** Settings-style row. `disabled` grays the text and chevron and ignores presses. */
+/** Settings-style row. `disabled` grays the text and chevron and ignores presses. `focusable={false}` drops it from the web tab order. */
 export function ListRow({
   title,
   testID,
@@ -16,6 +16,7 @@ export function ListRow({
   disabled = false,
   chevron = true,
   badge,
+  focusable,
 }: {
   title: string;
   testID: string;
@@ -26,6 +27,7 @@ export function ListRow({
   disabled?: boolean;
   chevron?: boolean;
   badge?: string;
+  focusable?: boolean;
 }) {
   return (
     <Pressable
@@ -33,6 +35,7 @@ export function ListRow({
       accessibilityRole="button"
       accessibilityState={{ disabled }}
       disabled={disabled}
+      tabIndex={focusable === false ? -1 : undefined}
       className="flex-row items-center border-b border-border px-4 py-4"
       onPress={disabled ? undefined : onPress}
     >

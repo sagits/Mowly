@@ -38,7 +38,7 @@ const SERVICES: Service[] = [
 const PRO: Pro = {
   firstName: 'Mike', lastName: 'Sullivan', businessName: 'Sullivan Lawn Care', yearFounded: '2018', crewSize: 2,
   city: 'Austin', customersServed: 1291, email: 'mike@sullivanlawncare.example', mobilePhone: '(512) 555-0188', officePhone: '',
-  businessAddress: '', bio: '', avatar: null, truckPhoto: null, category: 'lawn', skills: ['Mowing', 'Edging', 'Blowing'],
+  businessAddress: '', bio: '', avatar: null, truckPhoto: null, category: 'lawn', skills: ['Lawn Mowing', 'Leaf Removal', 'Cleanup'],
   equipment: { mower: false, trimmer: false, blower: false }, equipmentAnswered: false, startingPoint: ADDRESSES[0]!,
   workAreaMode: 'one', workAreaSaved: false, gpsEnabled: false, damageFeeAccepted: false, taxInfo: null, bankLinked: false,
   notifications: {
@@ -80,13 +80,16 @@ const AVAILABLE_DAYS = [[0, 1, 3], [0, 2], [1, 2, 4], [0, 1], [2, 3], [1, 3, 4],
 // Capped at 28: the calendar shows two months, and the next month ends at least 28 days out.
 const CLAIMED_DAYS = [0, 0, 0, 1, 2, 4, 7, 12, 16, 20, 24, 28];
 
+// Claimed jobs cycle through the prototype's past customers.
+const PAST_CUSTOMERS = ['Renato Probst', 'Jane Kim', 'Tom Reyes'];
+
 function buildJob(i: number): Job {
   const [street, zip, yardSqft, serviceName, frequency, price, distanceMiles, x, y] = ROWS[i]!;
   const claimed = i >= 10;
   const dates = claimed ? [addDays(today(), CLAIMED_DAYS[i - 10]!)] : AVAILABLE_DAYS[i]!.map((n) => addDays(today(), n));
   const todayCount = CLAIMED_DAYS.filter((n) => n === 0).length;
   return {
-    id: `job-${String(i + 1).padStart(2, '0')}`, customerName: 'Austin homeowner', address: addr(`addr-job-${i + 1}`, street, zip),
+    id: `job-${String(i + 1).padStart(2, '0')}`, customerName: claimed ? PAST_CUSTOMERS[(i - 10) % 3]! : 'Austin homeowner', address: addr(`addr-job-${i + 1}`, street, zip),
     yardSqft, serviceName, frequency, price, availableDates: claimed ? [] : dates, claimedDate: claimed ? dates[0]! : null,
     distanceMiles, pin: { x, y }, routeOrder: claimed && i - 10 < todayCount ? i - 9 : null,
     notes: 'Gate code is on the side fence. Please close the latch.',
@@ -127,5 +130,18 @@ export function createSeed(): MockDb {
     pro: structuredClone(PRO),
     jobs: ROWS.map((_, i) => buildJob(i)),
     recommendations: [],
+    crew: [{ id: 'crew-mike', name: 'Mike Sullivan', role: 'Owner' }, { id: 'crew-dan', name: 'Dan Ortiz', role: 'Crew member' }],
+    performance: [{ label: 'Rating', value: '4.9' }, { label: 'Jobs completed', value: '126' }, { label: 'On-time rate', value: '97%' }],
+    // The customer-facing Thread type is reused: proName holds the customer's name.
+    proThreads: [
+      {
+        id: 'pt-renato', proName: 'Renato Probst', initials: 'RP', serviceName: 'Lawn Mowing',
+        messages: [{ id: 'pm-1', from: 'customer', text: 'Great, the gate code is 4417.', sentAt: now - 2 * hour }],
+      },
+      {
+        id: 'pt-jane', proName: 'Jane Kim', initials: 'JK', serviceName: 'Leaf Removal',
+        messages: [{ id: 'pm-2', from: 'customer', text: 'Can you come Friday instead?', sentAt: now - 5 * hour }],
+      },
+    ],
   };
 }

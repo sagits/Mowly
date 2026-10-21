@@ -1,7 +1,7 @@
 // Pro-side query hooks: one per resolver in @mowly/mocks.
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
-  claimJob, getAvailableJobs, getBilling, getClaimedJobs, getJob, getPro, getTodayRoute, sendRecommendation, updatePro,
+  claimJob, getAvailableJobs, getBilling, getClaimedJobs, getCrew, getJob, getPerformance, getPro, getProThreads, getTodayRoute, sendRecommendation, updatePro,
 } from '@mowly/mocks';
 import type { IsoDate, Pro, Recommendation } from '@mowly/types';
 import { queryKeys } from './queryKeys';
@@ -47,3 +47,12 @@ export const useClaimJob = () => {
 /** Sends a recommendation to a neighbor. */
 export const useSendRecommendation = () =>
   useMutation({ mutationFn: (input: Omit<Recommendation, 'id'>) => sendRecommendation(input) });
+
+/** The pro's crew members. */
+export const useCrew = () => useQuery({ queryKey: queryKeys.crew, queryFn: getCrew });
+
+/** The pro's performance stats. */
+export const usePerformance = () => useQuery({ queryKey: queryKeys.performance, queryFn: getPerformance });
+
+/** The pro's customer threads. */
+export const useProThreads = () => useQuery({ queryKey: queryKeys.proThreads, queryFn: getProThreads });

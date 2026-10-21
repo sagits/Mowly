@@ -1,0 +1,11 @@
+appId: com.renatoprobst.mowlypro
+---
+# Signs out from the dashboard and ends on the welcome screen.
+- runFlow:
+    file: open-drawer-item.yaml
+    env:
+      ITEM: drawer-settings
+- tapOn:
+    id: settings-sign-out
+- tapOn:
+    id: sign-out-confirm

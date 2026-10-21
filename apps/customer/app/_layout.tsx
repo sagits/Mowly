@@ -5,7 +5,7 @@ import Head from 'expo-router/head';
 import { LogBox, Platform } from 'react-native';
 import { AppProviders } from '@mowly/features';
 import { configureMocks } from '@mowly/mocks';
-import { colors } from '@mowly/ui';
+import { colors, PhoneFrame, useShowPhoneFrame } from '@mowly/ui';
 import { ServiceDetailTitle } from '../src/components/ServiceDetailTitle';
 import '../global.css';
 
@@ -15,6 +15,8 @@ LogBox.ignoreLogs(['Sending `onAnimatedValueUpdate` with no listeners registered
 
 /** The root layout of the app. */
 export default function RootLayout() {
+  // Desktop web shows the app inside a drawn iPhone; the iframe in it renders this layout again, unframed.
+  if (useShowPhoneFrame()) return <PhoneFrame switchTo="pro" />;
   return (
     <AppProviders>
       {/* Head throws on native; on web it replaces the empty <title> React Navigation injects. */}

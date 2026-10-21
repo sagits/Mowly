@@ -1,36 +1,44 @@
-/** The signed-in shell: an Expo Router Drawer (left slide-in, or a permanent sidebar when wide), redirecting to welcome when signed out. */
-import { Redirect } from 'expo-router';
-import { Drawer } from 'expo-router/drawer';
-import { useSession } from '@mowly/stores';
-import { colors, layout, useIsWide } from '@mowly/ui';
-import { DrawerButton } from '../../src/drawer/DrawerButton';
-import { DRAWER_ITEMS, DrawerMenu } from '../../src/drawer/DrawerMenu';
+/** The signed-in shell: a native Stack whose first screen is the drawer; step screens push above it. The root layout's Stack.Protected keeps it unreachable when signed out. */
+import { Stack } from 'expo-router';
+import { formatLong } from '@mowly/types';
+import type { IsoDate } from '@mowly/types';
+import { colors } from '@mowly/ui';
 
-/** Layout for every signed-in screen. The pro track computes the real settings badge. */
+/** A step opened directly (deep link, web refresh) still gets the drawer underneath, so back and save have somewhere to go. */
+export const unstable_settings = { initialRouteName: '(drawer)' };
+
+/** Layout for every signed-in screen. Pushed screens get the native back button, tinted green. */
 export default function AppLayout() {
-  const signedIn = useSession((s) => s.signedIn);
-  const wide = useIsWide();
-  if (!signedIn) return <Redirect href="/welcome" />;
   return (
-    <Drawer
-      drawerContent={(props) => <DrawerMenu {...props} settingsBadge={0} />}
+    <Stack
       screenOptions={{
-        drawerType: wide ? 'permanent' : 'front',
-        drawerStyle: { width: layout.sidebarWidth },
-        overlayColor: colors.scrim,
         headerTintColor: colors.primary,
         headerTitleAlign: 'center',
         headerTitleStyle: { color: colors.primary },
-        headerLeft: () => <DrawerButton />,
+        // Chevron only: the previous title would read "(drawer)", the group's route name.
+        headerBackButtonDisplayMode: 'minimal',
+        // Gives Maestro a stable text to tap (`tapOn: Back`) without changing the native look.
+        headerBackTitle: 'Back',
       }}
     >
-      {DRAWER_ITEMS.map((item) => (
-        <Drawer.Screen
-          key={item.testID}
-          name={item.href === '/' ? 'index' : String(item.href).slice(1)}
-          options={{ title: item.label }}
-        />
-      ))}
-    </Drawer>
+      <Stack.Screen name="(drawer)" options={{ headerShown: false }} />
+      <Stack.Screen name="profile/index" options={{ title: '', headerShadowVisible: false }} />
+      <Stack.Screen name="profile/form" options={{ title: 'Build a profile', headerBackTitle: 'Back', headerBackButtonDisplayMode: 'default', headerShadowVisible: false }} />
+      <Stack.Screen name="evaluate" options={{ title: 'Evaluate your skills' }} />
+      <Stack.Screen name="settings/business-profile" options={{ title: 'Business Profile' }} />
+      <Stack.Screen name="settings/account-info" options={{ title: 'Account Info' }} />
+      <Stack.Screen name="settings/billing" options={{ title: 'Billing' }} />
+      <Stack.Screen name="settings/notifications" options={{ title: 'Notifications' }} />
+      <Stack.Screen name="settings/account" options={{ title: 'Account Management' }} />
+      <Stack.Screen name="settings/work-area" options={{ title: 'Set up your work area' }} />
+      <Stack.Screen name="settings/location" options={{ title: 'Turn on your GPS' }} />
+      <Stack.Screen name="settings/damage-fee" options={{ title: 'Damage Fee' }} />
+      <Stack.Screen name="settings/tax-info" options={{ title: 'Provide tax info' }} />
+      <Stack.Screen name="settings/bank" options={{ title: 'Connect your bank account' }} />
+      <Stack.Screen name="calendar/[date]" options={({ route }) => ({ title: (route.params as { date?: IsoDate } | undefined)?.date ? formatLong((route.params as { date: IsoDate }).date) : 'Day' })} />
+      <Stack.Screen name="jobs/[id]/index" options={{ title: 'Job Details' }} />
+      <Stack.Screen name="jobs/[id]/recommend" options={{ title: 'Service Quote' }} />
+      <Stack.Screen name="route" options={{ title: 'Route Map' }} />
+    </Stack>
   );
 }

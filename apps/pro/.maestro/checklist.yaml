@@ -1,0 +1,98 @@
+appId: com.renatoprobst.mowlypro
+---
+- runFlow: common/launch.yaml
+- assertVisible:
+    id: checklist-profile-done
+- tapOn:
+    id: checklist-evaluate
+- assertVisible:
+    id: screen-evaluate
+- tapOn:
+    id: equipment-mower
+- tapOn:
+    id: evaluate-save
+- assertVisible:
+    id: checklist-evaluate-done
+- tapOn:
+    id: checklist-work-area
+- tapOn:
+    id: work-area-by-day
+- tapOn:
+    id: work-area-save
+- assertVisible:
+    id: checklist-work-area-done
+- tapOn:
+    id: checklist-gps
+- tapOn:
+    id: gps-enable
+- scrollUntilVisible:
+    element:
+      id: checklist-damage-fee
+- tapOn:
+    id: checklist-damage-fee
+- tapOn:
+    id: damage-fee-accept
+- assertVisible:
+    id: checklist-damage-fee-done
+- tapOn:
+    id: checklist-profile
+- tapOn:
+    id: profile-intro-continue
+- tapOn:
+    id: profile-business
+- eraseText: 40
+- inputText: Sullivan Lawn
+- tapOn:
+    id: profile-year
+- eraseText: 40
+- inputText: "2018"
+- tapOn:
+    id: profile-crew
+- eraseText: 40
+- inputText: "3"
+- tapOn: Customers will see this information when you’re assigned to the job.
+- tapOn:
+    id: profile-headshot
+- tapOn:
+    id: avatar-1
+- tapOn:
+    id: profile-continue
+- assertVisible:
+    id: screen-dashboard
+- scrollUntilVisible:
+    element:
+      id: checklist-tax
+- tapOn:
+    id: checklist-tax
+- tapOn:
+    id: tax-entity
+- tapOn:
+    id: tax-entity-option-individual
+- tapOn:
+    id: tax-legal-name
+- inputText: Mike Sullivan
+- tapOn:
+    id: tax-dob
+- inputText: 04/12/1985
+- tapOn: Tax info
+- tapOn:
+    id: tax-address
+- inputText: 1820 Maple Ridge Drive, Austin, TX 78704
+- tapOn: Tax info
+- tapOn:
+    id: tax-save
+- scrollUntilVisible:
+    element:
+      id: checklist-bank
+- tapOn:
+    id: checklist-bank
+- tapOn:
+    id: bank-link
+- assertVisible:
+    id: bank-linked
+- tapOn:
+    id: bank-done
+- assertVisible:
+    id: checklist-complete
+- assertVisible:
+    id: dash-route

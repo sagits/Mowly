@@ -5,13 +5,17 @@ import { Platform } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AppProviders } from '@mowly/features';
 import { configureMocks } from '@mowly/mocks';
-import { colors } from '@mowly/ui';
+import { useSession } from '@mowly/stores';
+import { colors, PhoneFrame, useShowPhoneFrame } from '@mowly/ui';
 import '../global.css';
 
 configureMocks({ seed: process.env.EXPO_PUBLIC_SEED !== 'false' });
 
 /** The root layout of the app. */
 export default function RootLayout() {
+  const signedIn = useSession((s) => s.signedIn);
+  // Desktop web shows the app inside a drawn iPhone; the iframe in it renders this layout again, unframed.
+  if (useShowPhoneFrame()) return <PhoneFrame switchTo="customer" />;
   return (
     <AppProviders>
       <GestureHandlerRootView style={{ flex: 1 }}>
@@ -28,8 +32,15 @@ export default function RootLayout() {
             headerTitleStyle: { color: colors.primary },
           }}
         >
-          <Stack.Screen name="(app)" options={{ headerShown: false }} />
-          <Stack.Screen name="welcome" options={{ headerShown: false }} />
+          {/* Each side is unreachable from the other: flipping the session swaps the stack, so back never crosses it. */}
+          <Stack.Protected guard={signedIn}>
+            <Stack.Screen name="(app)" options={{ headerShown: false }} />
+          </Stack.Protected>
+          <Stack.Protected guard={!signedIn}>
+            <Stack.Screen name="welcome" options={{ headerShown: false }} />
+            <Stack.Screen name="sign-in" options={{ title: 'Sign In', headerBackTitle: 'Back', headerBackButtonDisplayMode: 'default' }} />
+            <Stack.Screen name="sign-up" options={{ title: 'Sign Up', headerBackTitle: 'Back', headerBackButtonDisplayMode: 'default' }} />
+          </Stack.Protected>
         </Stack>
       </GestureHandlerRootView>
     </AppProviders>

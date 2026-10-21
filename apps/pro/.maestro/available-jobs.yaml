@@ -1,0 +1,19 @@
+appId: com.renatoprobst.mowlypro
+---
+- runFlow: common/launch.yaml
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-jobs
+- assertVisible:
+    id: screen-jobs
+- assertVisible:
+    id: pin-job-01
+- tapOn:
+    id: "job-date-job-01-.*"
+- tapOn:
+    id: claim-confirm
+- assertVisible:
+    id: toast
+- assertNotVisible:
+    id: pin-job-01

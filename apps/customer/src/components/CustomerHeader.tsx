@@ -6,7 +6,7 @@ import { useCustomer } from '@mowly/api';
 import { HeaderBand, colors } from '@mowly/ui';
 import { AddressSwitcher } from './AddressSwitcher';
 
-/** `HeaderBand` with an inert gift icon (the web "Switch app" link sits in the tab layout's strip) and the address row (testid `address-switcher`) that opens `AddressSwitcher`. */
+/** `HeaderBand` with an inert gift icon (the web "Switch to provider app" link sits in the tab layout's strip) and the address row (testid `address-switcher`) that opens `AddressSwitcher`. */
 export function CustomerHeader({ title }: { title: string }) {
   const { data: customer } = useCustomer();
   const [open, setOpen] = useState(false);

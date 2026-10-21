@@ -1,0 +1,73 @@
+appId: com.renatoprobst.mowlypro
+---
+- runFlow: common/launch.yaml
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-settings
+- tapOn:
+    id: settings-business-profile
+- tapOn:
+    id: bp-office-phone
+- eraseText: 20
+- inputText: "5125550100"
+- tapOn:
+    id: bp-address
+- eraseText: 80
+- inputText: 1820 Maple Ridge Drive
+- swipe:
+    direction: UP
+- tapOn:
+    id: bp-bio
+- inputText: Family-run since 2012.
+- swipe:
+    direction: DOWN
+- tapOn:
+    id: bp-save
+- assertVisible:
+    id: toast
+- tapOn:
+    id: settings-notifications
+- tapOn:
+    id: notif-jobs-text
+- tapOn: Back
+- tapOn:
+    id: settings-notifications
+- assertVisible:
+    id: notif-jobs-text
+    checked: false
+# Support: drawer root, Knowledge Base button toasts.
+- tapOn: Back
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-support
+- tapOn:
+    id: support-kb
+- assertVisible:
+    id: toast
+# Invented drawer screens: the first row of each.
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-crews
+- assertVisible:
+    id: crew-crew-mike
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-customers
+- assertVisible:
+    id: customer-job-11
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-performance
+- assertVisible:
+    id: stat-0
+- runFlow:
+    file: common/open-drawer-item.yaml
+    env:
+      ITEM: drawer-inbox
+- assertVisible:
+    id: pro-thread-pt-renato

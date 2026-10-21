@@ -45,6 +45,11 @@ test('ListRow disabled ignores presses', async () => {
   expect(onPress).not.toHaveBeenCalled();
 });
 
+test('ListRow focusable={false} leaves the tab order', async () => {
+  await render(<ListRow testID="r" title="Row" onPress={() => {}} focusable={false} />);
+  expect(screen.getByTestId('r').props.tabIndex).toBe(-1);
+});
+
 test('toast shows then hides', async () => {
   jest.useFakeTimers();
   await render(<ToastHost />);
