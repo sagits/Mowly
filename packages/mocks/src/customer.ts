@@ -46,6 +46,24 @@ export async function getCustomer(): Promise<Customer> {
   return structuredClone(getDb().customer);
 }
 
+/**
+ * Makes `addressId` (or, when it is unknown, a new address parsed from `text` as "line1, city, state zip") the
+ * customer's one address and returns it. New addresses join the searchable list.
+ */
+export async function saveAddress(addressId: string, text: string): Promise<Address> {
+  await delay();
+  const db = getDb();
+  let address = db.addresses.find((a) => a.id === addressId);
+  if (!address) {
+    const [line1 = '', city = '', rest = ''] = text.split(',').map((p) => p.trim());
+    const zip = text.match(/\d{5}(?!.*\d{5})/)?.[0] ?? '';
+    address = { id: `a-${hash(text).toString(36)}-${db.addresses.length}`, line1, city, state: rest.replace(zip, '').trim(), zip };
+    db.addresses.push(address);
+  }
+  db.customer.address = address;
+  return structuredClone(address);
+}
+
 /** Active bookings (not cancelled), newest first. */
 export async function getBookings(): Promise<Booking[]> {
   await delay();

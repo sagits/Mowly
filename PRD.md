@@ -505,8 +505,8 @@ fontSize: {
    check, inbox tray, person). Active tab is green with label; inactive is gray with label. The
    green header band carries the screen title, a gift icon and the address switcher
 
-On web at `md` and above, the tab bar becomes a left sidebar and content is centered with a max
-width. The funnel is a single centered column at every width.
+The tab bar stays fixed at the bottom at every width, as in the app. On web at `md` and above, content
+and the tabs are centered with a max width. The funnel is a single centered column at every width.
 
 **Pro.** A drawer (`P07`) with the user's name in green capitals at the top, then: Dashboard,
 Available Jobs, Skills and Services, Calendar, Crews, Inbox, Customer Search, Performance, Support,
@@ -853,7 +853,7 @@ A clean `pnpm build:web` only proves it compiled. Serve `dist/` and open it in a
 - `/customer` opens Browse with the seeded services; `/pro` opens the dashboard with the checklist
 - Deep links load directly: `/customer/services`, `/pro/calendar`, `/pro/settings/billing`
 - The quote funnel and the pro forms work with mouse and keyboard
-- At desktop width the customer tab bar and the pro drawer become left sidebars, content centered
+- At desktop width the customer tab bar stays at the bottom and the pro drawer becomes a left sidebar, content centered
 - The console has no errors and no React Native Web warnings about unsupported props
 
 Record every `.web.tsx` file that ends up existing, and why, in the README. Deployment to Vercel is

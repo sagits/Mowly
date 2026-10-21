@@ -97,3 +97,101 @@ The template's `tsconfig.json` mapped `expo-router` to `./node_modules/expo-rout
 The repo owner asked for `@react-navigation/drawer`. It and `react-native-gesture-handler` are added to the pro app only (`npx expo install`), which supersedes the "only two dependencies" rule for these two packages, and replace the custom Modal drawer (which slid up from the bottom, with no swipe). Reason: the left slide-in, the edge swipe and the permanent sidebar match P07 and the PRD. The Zustand `useDrawer` flag is gone; the navigator owns open and close. `GestureHandlerRootView` wraps the pro root layout. Jest mocks `react-native-reanimated` and `react-native-worklets` and loads gesture-handler's `jestSetup` in `apps/pro/jest.setup.ts`. Note: Expo Router 57 vendors its own drawer navigator (`expo-router/drawer`), so always import `Drawer` and its types from `expo-router/drawer`, never from `@react-navigation/drawer`. The package stays installed at the owner's request.
 
 **Pattern for the pro track:** a drawer screen that needs pushed screens becomes a folder with a `Stack` `_layout` (for example `settings/_layout.tsx` plus `settings/index.tsx`). In the drawer layout that screen gets `headerShown: false`, and its Stack shows the title, `DrawerButton` as `headerLeft` on the root screen, and the native back button on pushed ones.
+
+## [customer] Service select (C01-C03) screenshot simplifications
+
+The "Mowly" wordmark is the shared `Wordmark` (smaller than the LawnStarter logo, no registered mark), so the heading "Get started with Mowly!" fits on one line where the reference wraps. The phone icon is a plain Ionicons `call` in a bordered circle. Tiles use the `card` radius (8) and a lighter gray from the tokens. The reference's top scroll indicator and fade above CONTINUE are not reproduced.
+
+## [customer] Quote form screenshot simplifications (C04-C06)
+
+The form keeps C04-C06's copy, order and green focus border, but drops the red-asterisk required marks, the
+label-less "Apartment/Suite Number" placeholder (the field keeps a visible label), the raw-digit phone display
+(the demo phone shows formatted), the thicker grey borders and focus glow, the full marketing consent paragraph
+(shortened to one sentence with the two links), and the title wrapping onto two lines (it follows the type
+scale of the other funnel screens). The address dropdown renders inline under the field rather than floating
+over the next one, so it pushes the form down instead of overlapping it.
+
+## [customer] Policy FAQ screenshot simplifications (C16, C17)
+
+The shared `Accordion` keeps its divider lines, green chevrons and semibold questions (the reference has no dividers, black chevrons and bolder questions), answers render as plain paragraphs without the bullet dot, and the title is a step smaller. Only the first three answers are fully readable in the references (the others are faded behind the transition), so the wording of questions 4 to 7 is written to match the visible fragments, with the Mowly name and no phone number.
+
+## [customer] Pick your plan screenshot simplifications (C08-C12)
+
+Prices show whole dollars as in C09 (the plan prices are integers). The date sheet is a plain list of 14 days in a bottom sheet rather than the native iOS picker the reference opens. The promo modal is the shared `BottomSheet` with one field and APPLY, without the reference's X button. The "Code applied" text replaces the ADD A PROMO CODE link once a code is applied. The loading state is gray skeleton blocks (C08), CONTINUE swaps to the in-button spinner for 800 ms with nothing behind it (C12).
+
+Plan rows are 56 pt high with the reference's 8 pt gap, so ADD A PROMO CODE sits above the footer as in C09 (Task 14 sweep). The "What's included?" bullet is a small dot, and the included text is the catalog string rather than LawnStarter's. The FAQ modal's title clears the status bar (checked on the simulator), so `faq.tsx` needed no inset change.
+
+## [customer] My Services screenshot simplifications (C19)
+
+C19 is an Android screenshot, rebuilt in the iOS language of C01-C17. The header band has only the title: the gift icon and the address selector come with the shared CustomerHeader (Task 8). Cards use a hairline border instead of the Android drop shadow, and the next date reads "Sunday, October 25" (the shared long format) rather than "Sat, Nov 18". Icons are Ionicons outlines, and the empty state is a plain "No services yet" with a GET A QUOTE button (not in the references).
+
+## [customer] Create your account and booked screen simplifications (C13-C15)
+
+The account page uses the native header (back arrow, no title) instead of C13's grey circle back button plus the funnel header, and the title sits below it. First and last name share a row under a single "First name" / "Last name" label pair rather than one "Full Name*" label, and the red asterisks are dropped. The card block is the demo card: plain prefilled fields (no VISA or CVC icons) and the line "Demo card, nothing is charged". The policy summary card (C15) shows three short bullets with a pin icon and no bold terms section, since the real terms are not shown in the references. The "Terms of Service" link is not tappable. The booked screen is invented (no reference): green check, "You're booked!", service, plan and first date, and GO TO MY SERVICES.
+
+## [customer] Browse screenshot simplifications (C18)
+
+C18 is an Android screenshot, rebuilt in the iOS language of C01-C17. The recommended cards use the service photo where the reference has a cartoon gardener (no illustration asset), carry a hairline border instead of the drop shadow, and the three cards are Take a break, Keep it green and Bite-free summer. The service rows use the catalog `included` sentence (clamped to one line) and the shared `Button` outline pill. The address row shows the seeded address (1820 Maple Ridge Drive) and opens a sheet with that one address and an inert "Add address". The gift icon is inert. The header is shared by all four tabs.
+
+The Browse pills size to their content (no fixed widths) so the labels stay on one line. The service summary is clamped to one line as briefed, so long catalog sentences end in an ellipsis (C18's two-line summaries are shorter than the catalog text).
+
+## [customer] Service detail screenshot simplifications (C20)
+
+C20 is an Android screenshot, rebuilt in the iOS language. The header uses the native stack header (chevron back, plain help-circle icon without the white discs), the title block is centered by iOS rather than left-aligned, the status bar text stays dark, and action row titles are regular weight with the shared `ListRow` green chevron instead of C20's bold titles and dark chevrons. The "What's included?" text is the catalog sentence, shorter than C20's paragraph. Price reads "$53.00 per service" and the pro is the seeded Greenleaf Lawn Co.
+
+## [customer] Inbox screenshot simplifications (C21)
+
+C21 is an Android screenshot, rebuilt in the iOS language. The date uses the short format ("Oct 19") instead of "10/19/23", and the preview shows the last message text without the sender-name prefix ("John: ..."). The chat screen behind a row is a placeholder until Task 12.
+
+## [customer] Service management sheets (Task 11)
+
+The frequency and pause sheets have no subtitle line and no "Keep as is" outline button (the prototype has both); closing is by scrim or back. Frequency reuses `PlanRow`, the same cards as the plan screen. Skip, cancel and pause apply on tap and close the sheet immediately; reschedule reuses `DateSheet` (title "Preferred start date").
+
+## [customer] Chat simplifications (prototype)
+
+The chat is an invented screen. Against `prototype/index.html`: the header is the native stack header (green chevron, green pro name) instead of the prototype's dark title bar; the send button is the app's primary green circle, not the prototype's dark header-colour pill; the canned reply reads "Thanks! We'll take care of it." (the mocks' text) instead of "Thanks! Noted for the next visit."
+
+## [customer] Profile simplifications (invented screen)
+
+Profile reuses the shared `ListRow`, so against P15's list style the dividers run edge to edge in the neutral border colour (P15 insets them and tints them green) and rows are slightly shorter. The header is the green customer header, not P15's white bar. Name and email sit in a block above the rows (prototype c-profile). Reset demo asks to confirm, then shows the "Demo reset" toast; a failure shows an error toast.
+
+## [customer] Fidelity sweep, remaining differences (Task 14)
+
+The Task 14 re-shoot of C01-C21 fixed the tile, plan-row and footer sizes, the sizing ring size and the Browse pill size (the compact `Button size="sm"`). What is left, on purpose:
+
+- The funnel header (wordmark and address) stays fixed while the page scrolls; in C02, C05 and C06 it scrolls away with the content.
+- C08 shows a lone spinner under the header; Mowly shows the skeleton blocks and the cost footer at $0 with a disabled CONTINUE.
+- C12 keeps the CONTINUE label beside its spinner; the shared `Button` replaces the label with the spinner (changing that would change the pro app's buttons too).
+- C11 is a full-screen modal with an X and a large title; Mowly's promo sheet is the shared bottom sheet, which now rises above the keyboard (`avoidKeyboard`).
+- C14's card block has a "Card" heading with an icon; Mowly goes straight to the fields.
+- C16 and C17 are a full-screen sheet with larger, darker answer text; Mowly's FAQ is the iOS page-sheet modal with the shared `Accordion`.
+- Browse service summaries stay clamped to one line (C18 shows two).
+
+## [customer] Web build notes (Task 14)
+
+No `.web.tsx` files: every screen renders on web from the same source. Web-only adjustments live inline:
+
+- Service photos on Browse set their size in `style`, not `className`: on web an `Image` with only a size class takes the asset's intrinsic size and broke the cards.
+- The FAQ, sizing and chat screens use `Screen`, so at `md` and above they sit in the centered column like the rest of the funnel.
+- Pressables that open something carry `accessibilityRole` (`button` or `link`), and the checkbox and plan rows set `aria-checked`, because react-native-web reads `aria-*` props and ignores `accessibilityState`.
+- The "Switch app" link sits once, in the strip above the tabs (it was also in the green header, where its blue text was unreadable). Funnel screens do not show it.
+
+Known web limitations, recorded rather than fixed:
+
+- The shared `HeaderBand` keeps its 64 px top padding (meant for the iOS status bar) on web.
+- Pushed screens (service detail, chat, account) use the full-width stack header, so the back arrow sits at the far left outside the centered column, and the tab bar is hidden while they are open.
+- The checkbox toggles with Enter but not Space: react-native-web only maps Space to a press for the `button` role.
+- The back link's accessible name is the previous route's name ("(tabs), back", "plan, back").
+- Deep links to dynamic routes (`/customer/chat/<id>`, `/customer/service/<id>`) 404 on a plain static server; they need the host rewrites that are deferred to the integration ticket. Static routes such as `/customer/services` load directly.
+- The mock database is in memory, so a full page reload brings back the seed.
+- Chrome logs "Blocked aria-hidden on an element because its descendant retained focus" when a press pushes a screen: React Navigation hides the previous screen while the pressed button still has focus. No errors and no react-native-web prop warnings.
+
+## [customer] Final review fixes
+
+- **Leaving the funnel.** The funnel screens' header starts with an X (`funnel-close`, label "Close"), and the account step has it as the native header's right button. It closes the quote modal and keeps the draft, so VIEW PRICE again resumes where the user left. With nothing under the modal (a web reload or deep link) it replaces to Browse. The LawnStarter references have no X; without one, VIEW PRICE from Browse left no way out on iOS.
+- **Empty draft.** A funnel step whose earlier steps are missing from the draft redirects to the first missing one (`missingStep` in `useQuoteDraft.ts`): no service → service select, no contact → the form, no plan → the plan step. The confirmation with nothing in the draft shows My Services. The draft lives in memory, so a web reload always lands on service select.
+- **Prices.** Funnel prices show whole dollars as in C09 ("$57") and cents only when there are some ("$3.99"), through `formatPrice` in `src/pricing.ts`; Service detail keeps `formatMoney` ("$53.00 per service") as in C20.
+- **Change frequency** in the manage sheet saves the plan's full price for the new frequency. A promo applied at booking is not carried over.
+- **Typecheck** passes without Metro (the committed `types.d.ts` covers what Expo's generated files would), but typed routes are only enforced once Metro has generated `.expo/types/router.d.ts`; until then `Href` accepts any string.
+- **Tests and timers.** `renderApp` (expo-router's `renderRouter`) installs Jest fake timers itself. Tests advance them inside an async `act`: a synchronous `act(() => jest.advanceTimersByTime(...))` left the next render in the same file blank, which was the order-dependent failure first seen in Task 5.
+

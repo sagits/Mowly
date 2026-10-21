@@ -1,0 +1,72 @@
+appId: com.renatoprobst.mowly
+---
+# A typed address is accepted; once the details are saved VIEW PRICE skips to the plan;
+# the pencil returns to the form; Browse's "Add address" replaces the one address.
+- runFlow: common/launch.yaml
+- tapOn:
+    id: browse-view-price-mowing
+- extendedWaitUntil:
+    visible:
+      id: quote-name
+    timeout: 30000
+- tapOn:
+    id: quote-address-clear
+- tapOn:
+    id: quote-address
+- inputText: 1500 Zilker Street, Austin, TX 78701
+- hideKeyboard
+- tapOn:
+    id: quote-continue
+- extendedWaitUntil:
+    visible:
+      id: plan-screen
+    timeout: 30000
+- assertVisible: 1500 Zilker Street, Austin, TX 78701
+- tapOn:
+    id: funnel-close
+- extendedWaitUntil:
+    visible:
+      id: screen-browse
+    timeout: 30000
+- assertVisible: '.*1500 Zilker Street.*'
+# details known: straight to the plan
+- tapOn:
+    id: browse-view-price-leaf-removal
+- extendedWaitUntil:
+    visible:
+      id: plan-screen
+    timeout: 30000
+- tapOn:
+    id: funnel-edit-address
+- extendedWaitUntil:
+    visible:
+      id: quote-name
+    timeout: 30000
+- tapOn:
+    id: funnel-close
+- extendedWaitUntil:
+    visible:
+      id: screen-browse
+    timeout: 30000
+- tapOn:
+    id: address-switcher
+- tapOn:
+    id: address-switcher-add
+- extendedWaitUntil:
+    visible: Update your details
+    timeout: 30000
+- tapOn:
+    id: quote-address-clear
+- tapOn:
+    id: quote-address
+- inputText: 715 Oak
+- tapOn:
+    id: address-option-addr-oak-hollow
+- hideKeyboard
+- tapOn:
+    id: quote-continue
+- extendedWaitUntil:
+    visible:
+      id: screen-browse
+    timeout: 30000
+- assertVisible: '.*715 Oak Hollow Lane.*'

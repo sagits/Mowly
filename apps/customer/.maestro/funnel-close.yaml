@@ -1,0 +1,20 @@
+appId: com.renatoprobst.mowly
+---
+# The X leaves the quote funnel: Browse -> VIEW PRICE -> close -> back on Browse.
+- runFlow: common/launch.yaml
+- extendedWaitUntil:
+    visible:
+      id: browse-view-price-leaf-removal
+    timeout: 30000
+- tapOn:
+    id: browse-view-price-leaf-removal
+- extendedWaitUntil:
+    visible:
+      id: quote-name
+    timeout: 30000
+- tapOn:
+    id: funnel-close
+- extendedWaitUntil:
+    visible:
+      id: screen-browse
+    timeout: 30000
