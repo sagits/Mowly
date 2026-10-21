@@ -27,3 +27,9 @@ test('three recommended cards, all 11 services and the address switcher', async 
   expect(sheet.getByText('1820 Maple Ridge Drive')).toBeTruthy();
   expect(sheet.getByText('Add address')).toBeTruthy();
 });
+
+test('the quote form names the service on its first frame, from the cached catalog', async () => {
+  await renderApp('/');
+  await fireEvent.press(await screen.findByTestId('browse-view-price-leaf-removal'));
+  expect(screen.getByText("Let's get your Leaf Removal quote")).toBeTruthy();
+});

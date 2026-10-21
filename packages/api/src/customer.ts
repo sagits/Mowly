@@ -4,14 +4,22 @@ import {
   createBooking, getBooking, getBookings, getCustomer, getNeighbors, getQuote, getService, getServices, getThread, getThreads,
   resetDemo, searchAddresses, sendMessage, updateBooking,
 } from '@mowly/mocks';
-import type { BookingChange, NewBooking } from '@mowly/types';
+import type { BookingChange, NewBooking, Service } from '@mowly/types';
 import { queryKeys } from './queryKeys';
 
 /** The service catalog. */
 export const useServices = () => useQuery({ queryKey: queryKeys.services, queryFn: getServices });
 
-/** One service by id. */
-export const useService = (id: string) => useQuery({ queryKey: queryKeys.service(id), queryFn: () => getService(id) });
+/** One service by id. Starts from the cached catalog when it has the service, so names render without a refetch flash. */
+export const useService = (id: string) => {
+  const qc = useQueryClient();
+  return useQuery({
+    queryKey: queryKeys.service(id),
+    queryFn: () => getService(id),
+    initialData: () => qc.getQueryData<Service[]>(queryKeys.services)?.find((s) => s.id === id),
+    initialDataUpdatedAt: () => qc.getQueryState(queryKeys.services)?.dataUpdatedAt,
+  });
+};
 
 /** Addresses matching the typed text. */
 export const useAddressSearch = (query: string) =>
