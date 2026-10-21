@@ -324,3 +324,43 @@ The repo owner asked for the web link to name the other app instead of "Switch a
 ## Desktop guide beside the phone
 
 The link goes to hiring managers, so on desktop a guide sits left of the phone: what Mowly is, one card per app (audience plus a high-level list of its screens, the app on screen marked "On screen now"), a second switch link, and "Built by Renato Probst" (LinkedIn) and "Source code on GitHub" links that open in a new tab. The copy lives in `APP_GUIDE` in `packages/ui/src/PhoneFrame.tsx`; update it when screens are added. Phone browsers do not show the guide.
+
+
+## [integration] Changes to shared packages by both tracks
+
+Folded from the two `PACKAGES-CHANGES.md` files (deleted). Both tracks' additions are kept. Neither track added the same thing under one name, so nothing was deduplicated; the only shared files touched by both are `packages/mocks/src/seed.ts` and `packages/ui`, with disjoint edits.
+
+### Customer track
+
+- `packages/types/src/dates.ts`: added export `dateOf(epochMs): IsoDate` (local calendar date of a timestamp; wraps the existing private `toIso`). Used by `ThreadRow`, needed by chat. `packages/types/src/dates.test.ts` gained a test for it.
+- `packages/ui/src/BottomSheet.tsx`: new optional prop `avoidKeyboard` (default `false`), which lifts the panel above the iOS keyboard through a `KeyboardAvoidingView` that is disabled unless the prop is set. Used by `PromoSheet`, whose field and APPLY were hidden behind the keyboard.
+- `packages/ui/src/Button.tsx`: new optional prop `size` (`'md'` default, `'sm'` compact pill). Used by Browse's VIEW PRICE and GET A QUOTE (C18).
+- `packages/ui/src/Checkbox.tsx`: also passes `aria-checked={checked}` next to the existing `accessibilityState`, so the checked state reaches the DOM on web (react-native-web ignores `accessibilityState`). No API change.
+- `packages/api/src/customer.ts`: `useService(id)` now takes `initialData` from the cached `useServices` catalog when it holds that id, so screens that show the service name (the quote form title) render it on the first frame instead of after a refetch. No API change.
+- `packages/mocks/src/customer.ts`: new resolver `saveAddress(addressId, text)`. It makes a known address, or a new one parsed from free text, the customer's single address. New addresses join the searchable list. Test in `customer.test.ts`.
+- `packages/api/src/customer.ts`: new mutation `useSaveAddress()` over it, invalidating `customer`.
+- `packages/types/src/schemas.ts`: `QuoteContactSchema.addressId` is now any string (empty means typed freely); `addressText` is required with "Enter your address". Before, both required a picked suggestion.
+
+App-local note: `apps/customer/jest.setup.ts` now mocks `react-native-worklets` and calls Reanimated's `setUpTests()` (needed by `SizingRing`).
+
+### Pro track
+
+- `packages/mocks/src/seed.ts`: seed `skills` renamed to P05 names (`Lawn Mowing`, `Leaf Removal`, `Cleanup`). Value-only; customer tests pass.
+- `apps/pro/jest.setup.ts` (app-local, not a package): `beforeEach` also calls `useSession.getState().signIn()`, because the session store defaults to signed in but keeps its state across tests once one signs out.
+- Task 15 (all additive; customer tests pass):
+  - `packages/mocks/src/db.ts`: new exported types `CrewMember`, `PerformanceStat`; new `MockDb` fields `crew`, `performance`, `proThreads` (also blanked when `seed: false`).
+  - `packages/mocks/src/seed.ts`: seeds for those three fields (2 crew, 3 stats, 2 threads).
+  - `packages/mocks/src/pro.ts`: new resolvers `getCrew`, `getPerformance`, `getProThreads`.
+  - `packages/api/src/queryKeys.ts`: new keys `crew`, `performance`, `proThreads`.
+  - `packages/api/src/pro.ts`: new hooks `useCrew`, `usePerformance`, `useProThreads`.
+  - `packages/mocks/src/pro-extras.test.ts`: new test file.
+- Task 15 fix: `packages/mocks/src/seed.ts`: claimed jobs' `customerName` now cycles Renato Probst, Jane Kim, Tom Reyes (available jobs keep 'Austin homeowner'). Value-only; nothing in the customer app reads `customerName`.
+- Task 17 (additive; customer tests pass):
+  - `packages/ui/src/ListRow.tsx`: new optional `focusable` prop; `focusable={false}` sets `tabIndex={-1}` (react-native-web's Pressable ignores `focusable`). Omitted, behavior is unchanged.
+  - `packages/ui/src/SwitchAppLink.tsx`: same optional `focusable` prop (the signature gains an optional props object).
+  - `packages/ui/src/overlays.test.tsx`: new test `ListRow focusable={false} leaves the tab order`.
+- Desktop phone frame (additive; customer tests pass):
+  - `packages/ui/src/PhoneFrame.tsx`: new `PhoneFrame` and `useShowPhoneFrame`, exported from `@mowly/ui`. Both apps' root layouts call them; on native and phone browsers the hook is false, so nothing changes there.
+  - `packages/features/src/WebShell.tsx`: an inline script tags `<html class="framed">` inside the frame's iframe, and the shell CSS hides scrollbars under that class. Outside the frame the page is unchanged.
+- Switch link (both callers updated in this commit):
+  - `packages/ui/src/SwitchAppLink.tsx`: now takes a required `to: 'customer' | 'pro'`, reads "Switch to client app" / "Switch to provider app" and opens (in dev, the other app's `web` port: customer 8091, pro 8092) that app's base URL (`/customer/`, `/pro/`) in the top window, instead of "Switch app" to the `/` landing. Repo owner's request.
