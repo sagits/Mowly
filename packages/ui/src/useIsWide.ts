@@ -1,4 +1,4 @@
-/** Tells components whether the window is wide enough for the web sidebar layout. */
+/** Tells components whether the window is wide enough for the web wide layout (centered column, pro sidebar). */
 import { useSyncExternalStore } from 'react';
 import { useWindowDimensions } from 'react-native';
 import { layout } from '../tokens';

@@ -43,9 +43,9 @@ packages/
   comes from the tokens in `packages/ui/tokens.js`. Shared building blocks live in `packages/ui`:
   Button, TextField, Select, BottomSheet, ConfirmDialog, Accordion, ListRow, Toast, TabBar and
   others.
-- **Navigation.** The customer app uses bottom tabs (Browse, Service, Inbox, Profile). The pro app
-  uses a drawer that slides in from the left. On wide web screens, both become a permanent left
-  sidebar, and content is centered with a max width.
+- **Navigation.** The customer app uses bottom tabs (Browse, Service, Inbox, Profile), fixed at the
+  bottom at every width. The pro app uses a drawer that slides in from the left and becomes a
+  permanent left sidebar on wide web screens. On wide screens content is centered with a max width.
 - **Web.** Both apps use static export, so deep links such as `/pro/calendar` load directly on any
   static host. Every page is `noindex`. There are no `.web.tsx` files: web behaviour comes from the
   responsive layout inside the shared components.

@@ -179,7 +179,7 @@ No `.web.tsx` files: every screen renders on web from the same source. Web-only 
 Known web limitations, recorded rather than fixed:
 
 - The shared `HeaderBand` keeps its 64 px top padding (meant for the iOS status bar) on web.
-- Pushed screens (service detail, chat, account) use the full-width stack header, so the back arrow sits at the far left outside the centered column, and the left tab sidebar is hidden while they are open.
+- Pushed screens (service detail, chat, account) use the full-width stack header, so the back arrow sits at the far left outside the centered column, and the tab bar is hidden while they are open.
 - The checkbox toggles with Enter but not Space: react-native-web only maps Space to a press for the `button` role.
 - The back link's accessible name is the previous route's name ("(tabs), back", "plan, back").
 - Deep links to dynamic routes (`/customer/chat/<id>`, `/customer/service/<id>`) 404 on a plain static server; they need the host rewrites that are deferred to the integration ticket. Static routes such as `/customer/services` load directly.

@@ -1,8 +1,8 @@
-/** The signed-in tabs: a bottom bar on phones, a left sidebar on wide web. */
+/** The signed-in tabs: a bottom bar at every width, like the app. */
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { View } from 'react-native';
-import { SwitchAppLink, TabBar, useIsWide } from '@mowly/ui';
+import { SwitchAppLink, TabBar } from '@mowly/ui';
 
 type IconName = keyof typeof Ionicons.glyphMap;
 
@@ -16,7 +16,6 @@ const tabs: { name: string; title: string; icon: IconName; testID: string }[] = 
 
 /** Tab layout. The web-only "Switch app" link sits in a strip above the tabs. */
 export default function TabsLayout() {
-  const wide = useIsWide();
   return (
     <View className="flex-1 bg-surface">
       <View className="items-end px-4">
@@ -24,7 +23,7 @@ export default function TabsLayout() {
       </View>
       <Tabs
         tabBar={(props) => <TabBar {...props} />}
-        screenOptions={{ headerShown: false, tabBarPosition: wide ? 'left' : 'bottom' }}
+        screenOptions={{ headerShown: false }}
       >
         {tabs.map(({ name, title, icon, testID }) => (
           <Tabs.Screen
