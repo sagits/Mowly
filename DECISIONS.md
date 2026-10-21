@@ -88,7 +88,7 @@ The template's `tsconfig.json` mapped `expo-router` to `./node_modules/expo-rout
 - **The web `<Head>` title override is guarded off native** (`Platform.OS === 'web'`), because `Head` throws on native; on web it replaces the empty `<title>` React Navigation injects.
 - **Pro `(app)/_layout.tsx` derives `Drawer.Screen` names (formerly `Stack.Screen`) from `href.slice(1)`.** A drawer destination whose route is nested (for example `settings/index.tsx`) must keep a name that matches, or the screen loses its title and header button.
 - **Query keys live in `packages/api/src/queryKeys.ts`,** still exported as `queryKeys` from the package, so the two tracks do not both edit `customer.ts`.
-- **Favicon:** an inline SVG data URI `<link rel="icon">` in `WebShell` and the landing page (the green M), so the browser makes no `/favicon.ico` request. Color comes from the primary token.
+- **Favicon:** an inline SVG data URI `<link rel="icon">` in `WebShell` and the root redirect page (the green M), so the browser makes no `/favicon.ico` request. Color comes from the primary token.
 - **Claimed job dates are capped at +28 days,** so they stay within the current and next month (the calendar shows two months) whatever day it is.
 - **`find` is internal** (`packages/mocks/src/find.ts`, not re-exported).
 
@@ -319,8 +319,55 @@ The web build is how reviewers try the apps without a store install, so on a des
 
 ## "Switch to provider/client app" goes straight to the other app
 
-The repo owner asked for the web link to name the other app instead of "Switch app". `SwitchAppLink to="pro"` (customer tabs strip) reads "Switch to provider app" and opens `/pro/`; `to="customer"` (pro drawer) reads "Switch to client app" and opens `/customer/`. This overrides the PRD's link "back to `/`"; the landing stays at the site root. On desktop the link sits above the phone (`PhoneFrame switchTo`) and hides inside the iframe; phone browsers keep it in the app. Navigation uses `window.top`, so the whole page always switches. In dev each app has its own server, so the link jumps to the other app's fixed web port instead: `pnpm --filter @mowly/customer web` serves on 8091 and `pnpm --filter @mowly/pro web` on 8092 (run both to switch back and forth).
+The repo owner asked for the web link to name the other app instead of "Switch app". `SwitchAppLink to="pro"` (customer tabs strip) reads "Switch to provider app" and opens `/pro/`; `to="customer"` (pro drawer) reads "Switch to client app" and opens `/customer/`. This overrides the PRD's link "back to `/`". On desktop the link sits above the phone (`PhoneFrame switchTo`) and hides inside the iframe; phone browsers keep it in the app. Navigation uses `window.top`, so the whole page always switches. In dev each app has its own server, so the link jumps to the other app's fixed web port instead: `pnpm --filter @mowly/customer web` serves on 8091 and `pnpm --filter @mowly/pro web` on 8092 (run both to switch back and forth).
 
 ## Desktop guide beside the phone
 
 The link goes to hiring managers, so on desktop a guide sits left of the phone: what Mowly is, one card per app (audience plus a high-level list of its screens, the app on screen marked "On screen now"), a second switch link, and "Built by Renato Probst" (LinkedIn) and "Source code on GitHub" links that open in a new tab. The copy lives in `APP_GUIDE` in `packages/ui/src/PhoneFrame.tsx`; update it when screens are added. Phone browsers do not show the guide.
+
+## The site root opens the pro app
+
+The repo owner asked to drop the landing chooser (two cards, one per app) so the link opens the showcase straight away. `/` (`apps/landing/index.html`) is now a redirect page to `/pro/`: `location.replace('/pro/')` with a `<meta http-equiv="refresh">` fallback, and it keeps `noindex` and the favicon. Pro is the default because the owner's reference is the framed pro dashboard with the guide beside it; the customer app is one click away through the guide and the switch link. `dist/` is static files; the root is a plain redirect page so it needs no host rewrite (the dynamic routes do, see "The web deploys on Vercel with rewrites"). This supersedes the PRD's landing page at `/` and its check "`/` shows the landing with both cards".
+
+## The web deploys on Vercel with rewrites
+
+`vercel.json` sets `cleanUrls` and rewrites the five dynamic routes to the `[param].html` files Expo's static export writes: `/customer/service/:id`, `/customer/chat/:id`, `/pro/jobs/:id`, `/pro/jobs/:id/recommend` and `/pro/calendar/:date`. Static routes load on any static host; these five need the rewrites. The Vercel project needs the env var `ENABLE_EXPERIMENTAL_COREPACK=1` so the build uses the pnpm version in `packageManager` (12.3.4), and it deploys from `master`.
+
+## [integration] Changes to shared packages by both tracks
+
+Folded from the two `PACKAGES-CHANGES.md` files (deleted). Both tracks' additions are kept. Neither track added the same thing under one name, so nothing was deduplicated. The tracks edited disjoint `packages/ui` files (customer: `BottomSheet`, `Button`, `Checkbox`; pro: `ListRow`, `SwitchAppLink`, `PhoneFrame`). Both touched `packages/api` and `packages/mocks`, but different files; `packages/mocks/src/seed.ts` was touched only by the pro track.
+
+### Customer track
+
+- `packages/types/src/dates.ts`: added export `dateOf(epochMs): IsoDate` (local calendar date of a timestamp; wraps the existing private `toIso`). Used by `ThreadRow`, needed by chat. `packages/types/src/dates.test.ts` gained a test for it.
+- `packages/ui/src/BottomSheet.tsx`: new optional prop `avoidKeyboard` (default `false`), which lifts the panel above the iOS keyboard through a `KeyboardAvoidingView` that is disabled unless the prop is set. Used by `PromoSheet`, whose field and APPLY were hidden behind the keyboard.
+- `packages/ui/src/Button.tsx`: new optional prop `size` (`'md'` default, `'sm'` compact pill). Used by Browse's VIEW PRICE and GET A QUOTE (C18).
+- `packages/ui/src/Checkbox.tsx`: also passes `aria-checked={checked}` next to the existing `accessibilityState`, so the checked state reaches the DOM on web (react-native-web ignores `accessibilityState`). No API change.
+- `packages/api/src/customer.ts`: `useService(id)` now takes `initialData` from the cached `useServices` catalog when it holds that id, so screens that show the service name (the quote form title) render it on the first frame instead of after a refetch. No API change.
+- `packages/mocks/src/customer.ts`: new resolver `saveAddress(addressId, text)`. It makes a known address, or a new one parsed from free text, the customer's single address. New addresses join the searchable list. Test in `customer.test.ts`.
+- `packages/api/src/customer.ts`: new mutation `useSaveAddress()` over it, invalidating `customer`.
+- `packages/types/src/schemas.ts`: `QuoteContactSchema.addressId` is now any string (empty means typed freely); `addressText` is required with "Enter your address". Before, both required a picked suggestion.
+
+App-local note: `apps/customer/jest.setup.ts` now mocks `react-native-worklets` and calls Reanimated's `setUpTests()` (needed by `SizingRing`).
+
+### Pro track
+
+- `packages/mocks/src/seed.ts`: seed `skills` renamed to P05 names (`Lawn Mowing`, `Leaf Removal`, `Cleanup`). Value-only; customer tests pass.
+- `apps/pro/jest.setup.ts` (app-local, not a package): `beforeEach` also calls `useSession.getState().signIn()`, because the session store defaults to signed in but keeps its state across tests once one signs out.
+- Task 15 (all additive; customer tests pass):
+  - `packages/mocks/src/db.ts`: new exported types `CrewMember`, `PerformanceStat`; new `MockDb` fields `crew`, `performance`, `proThreads` (also blanked when `seed: false`).
+  - `packages/mocks/src/seed.ts`: seeds for those three fields (2 crew, 3 stats, 2 threads).
+  - `packages/mocks/src/pro.ts`: new resolvers `getCrew`, `getPerformance`, `getProThreads`.
+  - `packages/api/src/queryKeys.ts`: new keys `crew`, `performance`, `proThreads`.
+  - `packages/api/src/pro.ts`: new hooks `useCrew`, `usePerformance`, `useProThreads`.
+  - `packages/mocks/src/pro-extras.test.ts`: new test file.
+- Task 15 fix: `packages/mocks/src/seed.ts`: claimed jobs' `customerName` now cycles Renato Probst, Jane Kim, Tom Reyes (available jobs keep 'Austin homeowner'). Value-only; nothing in the customer app reads `customerName`.
+- Task 17 (additive; customer tests pass):
+  - `packages/ui/src/ListRow.tsx`: new optional `focusable` prop; `focusable={false}` sets `tabIndex={-1}` (react-native-web's Pressable ignores `focusable`). Omitted, behavior is unchanged.
+  - `packages/ui/src/SwitchAppLink.tsx`: same optional `focusable` prop (the signature gains an optional props object).
+  - `packages/ui/src/overlays.test.tsx`: new test `ListRow focusable={false} leaves the tab order`.
+- Desktop phone frame (additive; customer tests pass):
+  - `packages/ui/src/PhoneFrame.tsx`: new `PhoneFrame` and `useShowPhoneFrame`, exported from `@mowly/ui`. Both apps' root layouts call them; on native and phone browsers the hook is false, so nothing changes there.
+  - `packages/features/src/WebShell.tsx`: an inline script tags `<html class="framed">` inside the frame's iframe, and the shell CSS hides scrollbars under that class. Outside the frame the page is unchanged.
+- Switch link (both callers updated in this commit):
+  - `packages/ui/src/SwitchAppLink.tsx`: now takes a required `to: 'customer' | 'pro'`, reads "Switch to client app" / "Switch to provider app" and opens (in dev, the other app's `web` port: customer 8091, pro 8092) that app's base URL (`/customer/`, `/pro/`) in the top window, instead of "Switch app" to the `/` landing. Repo owner's request.

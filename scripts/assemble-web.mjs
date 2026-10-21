@@ -1,4 +1,4 @@
-// Assembles the single static web dist: landing at the root, each app under its base URL.
+// Assembles the single static web dist: the root redirect page to /pro/, each app under its base URL.
 import { cpSync, mkdirSync, rmSync } from 'node:fs';
 
 rmSync('dist', { recursive: true, force: true });

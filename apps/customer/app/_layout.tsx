@@ -15,6 +15,9 @@ LogBox.ignoreLogs(['Sending `onAnimatedValueUpdate` with no listeners registered
 
 /** The root layout of the app. */
 export default function RootLayout() {
+  // Static render only: registering the icon font makes the HTML draw the glyphs and embed the @font-face, so every
+  // icon hydrates as drawn. Without it, icons that mount after the client loads the font no longer match the HTML.
+  if (typeof window === 'undefined') void Ionicons.loadFont();
   // Desktop web shows the app inside a drawn iPhone; the iframe in it renders this layout again, unframed.
   if (useShowPhoneFrame()) return <PhoneFrame switchTo="pro" />;
   return (
@@ -44,6 +47,8 @@ export default function RootLayout() {
             headerRight: () => <Ionicons name="help-circle-outline" size={28} color={colors.surface} />,
           })}
         />
+        {/* The chat screen sets its title (the pro's name) on the client; '' keeps the static render from showing the route name. */}
+        <Stack.Screen name="chat/[id]" options={{ title: '' }} />
         <Stack.Screen name="quote" options={{ presentation: 'fullScreenModal', headerShown: false }} />
       </Stack>
     </AppProviders>

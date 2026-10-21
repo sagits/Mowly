@@ -1,0 +1,14 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "buildCommand": "pnpm build:web",
+  "outputDirectory": "dist",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/customer/service/:id", "destination": "/customer/service/[id].html" },
+    { "source": "/customer/chat/:id", "destination": "/customer/chat/[id].html" },
+    { "source": "/pro/jobs/:id/recommend", "destination": "/pro/jobs/[id]/recommend.html" },
+    { "source": "/pro/jobs/:id", "destination": "/pro/jobs/[id].html" },
+    { "source": "/pro/calendar/:date", "destination": "/pro/calendar/[date].html" }
+  ]
+}

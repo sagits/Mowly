@@ -149,6 +149,12 @@ function Phone({ scale }: { scale: number }) {
         {createElement('iframe', {
           src,
           title: 'App preview',
+          // The outer page's router mounts during hydration and, once the frame replaces it, rewrites the address bar
+          // (to `/pro/sign-in`, `/customer/`). Put back the screen the phone shows so the deep link survives a reload.
+          onLoad: (e: { currentTarget: HTMLIFrameElement }) => {
+            const inner = e.currentTarget.contentWindow?.location;
+            if (inner) window.history.replaceState(window.history.state, '', inner.pathname + inner.search + inner.hash);
+          },
           style: { flex: 1, width: '100%', border: 0, display: 'block' },
         })}
         <View style={{ height: HOME_STRIP }} className="items-center justify-center">

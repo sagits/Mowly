@@ -9,8 +9,8 @@ Mowly is a lawn care marketplace with two sides, each its own app:
   available jobs, see claimed jobs on a calendar, follow today's route, recommend extra services to
   a customer, and manage settings and billing.
 
-Both apps run on iOS and on the web from the same code. On the web, a landing page at `/` lets the
-visitor pick an app: the customer app is served at `/customer` and the pro app at `/pro`.
+Both apps run on iOS and on the web from the same code. On the web the customer app is served at
+`/customer` and the pro app at `/pro`; `/` opens the pro app.
 
 Everything runs on mock data. There is no backend, no real sign in, and no payments.
 
@@ -20,7 +20,7 @@ Everything runs on mock data. There is no backend, no real sign in, and no payme
 apps/
   customer/   Mowly (Expo Router, iOS + web)
   pro/        Mowly Pro (Expo Router, iOS + web)
-  landing/    static page at / that links to both apps
+  landing/    static page at / that redirects to /pro/
 packages/
   types/      domain types (Service, Booking, Job, Pro...), date helpers, Zod form schemas
   mocks/      seed data, in-memory database and async resolvers
@@ -44,11 +44,19 @@ packages/
   Button, TextField, Select, BottomSheet, ConfirmDialog, Accordion, ListRow, Toast, TabBar and
   others.
 - **Navigation.** The customer app uses bottom tabs (Browse, Service, Inbox, Profile), fixed at the
-  bottom at every width. The pro app uses a drawer that slides in from the left and becomes a
-  permanent left sidebar on wide web screens. On wide screens content is centered with a max width.
-- **Web.** Both apps use static export, so deep links such as `/pro/calendar` load directly on any
-  static host. Every page is `noindex`. There are no `.web.tsx` files: web behaviour comes from the
-  responsive layout inside the shared components.
+  bottom at every width. The pro app uses a drawer that slides in from the left when you tap the
+  hamburger, at every width.
+- **Web.** Both apps use static export, so static deep links such as `/pro/calendar` load directly on
+  any static host. The dynamic ones (service, chat, job and day pages) need the host rewrites in
+  `vercel.json`; the Vercel project needs the env var `ENABLE_EXPERIMENTAL_COREPACK=1`. Every page is `noindex` and `robots.txt` disallows everything. The web is a showcase
+  of the phone apps: on a desktop browser each app draws an iPhone whose screen is an `<iframe>` of
+  the current URL, with a guide to both apps on the left and a "Switch to client app" / "Switch to
+  provider app" link above the phone. Inside the iframe the window really is 393 px wide, so the app
+  renders exactly as on a phone. Phone browsers get the plain app, with the switch link in the
+  customer tabs strip and at the bottom of the pro drawer. `/` opens the pro app.
+- **`.web.tsx` files.** None (`git ls-files '*.web.tsx'` is empty). Every screen renders on the web
+  from the same source; the few web-only details (the phone frame, the switch link, `aria-*` props
+  for react-native-web) are `Platform.OS === 'web'` checks inside shared components.
 
 ## Tech stack
 
@@ -68,10 +76,24 @@ Requires Node 22.13 or later and pnpm 12. Run `pnpm install` first.
 | Type check and lint | `pnpm typecheck`, `pnpm lint` |
 | Simulator builds for end-to-end tests | `pnpm e2e:build` |
 | Maestro flows | `pnpm e2e` (both apps), `pnpm e2e:customer`, `pnpm e2e:pro` |
-| Web build (landing + both apps into `dist/`) | `pnpm build:web` |
+| Web build (root redirect + both apps into `dist/`) | `pnpm build:web` |
 | Serve the web build locally | `npx serve dist` |
 
 The simulator commands expect an `iPhone 16` simulator. Boot it with `xcrun simctl boot "iPhone 16"`.
+
+## Test report
+
+`pnpm test` runs Jest: 106 tests in 28 suites for the customer app and 79 in 20 suites for the pro
+app, all passing. The Maestro flows ran on an iPhone 16 simulator (iOS 18.6); the reports are `apps/customer/.maestro/report.xml` and `apps/pro/.maestro/report.xml`.
+
+| App | Flows | Passed | Failed |
+|---|---|---|---|
+| Mowly (customer) | 10: smoke, quote-funnel, funnel-close, address, my-services, manage-service, inbox, chat, profile, demo | 10 | 0 |
+| Mowly Pro | 9: smoke, sign-up, sign-out, checklist, available-jobs, calendar, recommend, settings, demo | 9 | 0 |
+
+The web build was checked in Chrome at 1280 px (phone frame) and 390 px (plain app): every route
+and static deep link, both switch links, the guide, the quote funnel and the pro forms with mouse and
+keyboard, and a console with no errors or react-native-web warnings.
 
 ## Pull requests
 

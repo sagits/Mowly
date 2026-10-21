@@ -9,7 +9,9 @@ appId: com.renatoprobst.mowly
     id: detail-skip
 - tapOn:
     id: skip-confirm
-- assertVisible: "Tuesday, November 24 (Monthly)"
+# seed: next visit is today + 5 days; a monthly skip adds 30 more (same rule as the mocks), so the date moves with the clock
+- evalScript: ${output.expected = (function () { var d = new Date(); d.setDate(d.getDate() + 35); return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][d.getDay()] + ', ' + ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][d.getMonth()] + ' ' + d.getDate() + ' (Monthly)'; })()}
+- assertVisible: ${output.expected}
 - tapOn:
     id: detail-cancel
 - tapOn:
