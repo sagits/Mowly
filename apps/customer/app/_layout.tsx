@@ -2,7 +2,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { Stack } from 'expo-router';
 import Head from 'expo-router/head';
-import { Platform } from 'react-native';
+import { LogBox, Platform } from 'react-native';
 import { AppProviders } from '@mowly/features';
 import { configureMocks } from '@mowly/mocks';
 import { colors } from '@mowly/ui';
@@ -10,6 +10,8 @@ import { ServiceDetailTitle } from '../src/components/ServiceDetailTitle';
 import '../global.css';
 
 configureMocks({ seed: process.env.EXPO_PUBLIC_SEED !== 'false' });
+// ponytail: dev-only RN warning from library animations (no listener on a native-driven value); harmless
+LogBox.ignoreLogs(['Sending `onAnimatedValueUpdate` with no listeners registered']);
 
 /** The root layout of the app. */
 export default function RootLayout() {
