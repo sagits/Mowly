@@ -36,7 +36,7 @@ export function DrawerMenu({ navigation, settingsBadge }: DrawerContentComponent
   const status = useDrawerStatus();
   const offscreen = Platform.OS === 'web' && status === 'closed';
   return (
-    <ScrollView testID="drawer-sidebar" aria-hidden={offscreen || undefined} className="flex-1 bg-surface" contentContainerClassName="pt-16">
+    <ScrollView testID="drawer-sidebar" aria-hidden={offscreen || undefined} className="flex-1 bg-surface" contentContainerClassName="pt-16 web:pt-4">
       <Text testID="drawer-name" className="px-4 pb-4 text-lg font-bold text-primary">{name}</Text>
       {DRAWER_ITEMS.map((item) => {
         const active = item.href === '/' ? pathname === '/' : pathname === item.href || pathname.startsWith(`${item.href}/`);
@@ -58,7 +58,7 @@ export function DrawerMenu({ navigation, settingsBadge }: DrawerContentComponent
           />
         );
       })}
-      <View className="items-center py-4"><SwitchAppLink to="customer" focusable={!offscreen} /></View>
+      <View className="items-center"><SwitchAppLink to="customer" focusable={!offscreen} className="py-4" /></View>
     </ScrollView>
   );
 }

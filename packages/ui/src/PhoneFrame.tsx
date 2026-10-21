@@ -76,8 +76,9 @@ function Guide({ switchTo }: { switchTo: AppId }) {
       <View className="gap-2">
         <Text className="text-2xl font-bold text-ink">Mowly</Text>
         <Text className="text-base text-inkProBody">
-          A lawn care marketplace with two apps, built from one Expo and React Native codebase for iOS and the web. Use
-          the phone on the right as you would on an iPhone. Everything runs on sample data, so reloading starts over.
+          A lawn care marketplace with two apps, built from one Expo and React Native monorepo for iOS and the web. This
+          site is the real iOS app running in the browser through React Native Web. Use the phone on the right as you
+          would on an iPhone. Everything runs on sample data, so reloading starts over.
         </Text>
       </View>
       {(['customer', 'pro'] as const).map((id) => {

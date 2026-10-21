@@ -18,9 +18,9 @@ const inFrame = () => Platform.OS === 'web' && window.self !== window.top;
 /**
  * Renders nothing on native; on web a "Switch to client app" / "Switch to provider app" link that opens the `to` app.
  * Inside the desktop PhoneFrame iframe it hides, because the frame shows it above the phone.
- * `focusable={false}` drops it from the tab order.
+ * `focusable={false}` drops it from the tab order. Put spacing in `className`, not on a wrapper, so it hides with the link.
  */
-export function SwitchAppLink({ to, focusable }: { to: AppId; focusable?: boolean }) {
+export function SwitchAppLink({ to, focusable, className }: { to: AppId; focusable?: boolean; className?: string }) {
   const hidden = useSyncExternalStore(subscribe, inFrame, () => false);
   if (Platform.OS !== 'web' || hidden) return null;
   const app = APPS[to];
@@ -29,6 +29,7 @@ export function SwitchAppLink({ to, focusable }: { to: AppId; focusable?: boolea
       testID="switch-app"
       accessibilityRole="link"
       tabIndex={focusable === false ? -1 : undefined}
+      className={className}
       onPress={() => {
         // ponytail: in dev each app has its own server, so jump to the other port; the built site serves both on one origin.
         const href = __DEV__ ? `${window.location.protocol}//${window.location.hostname}:${app.devPort}/` : app.path;
