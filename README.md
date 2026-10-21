@@ -73,6 +73,11 @@ Requires Node 22.13 or later and pnpm 12. Run `pnpm install` first.
 
 The simulator commands expect an `iPhone 16` simulator. Boot it with `xcrun simctl boot "iPhone 16"`.
 
+## Pull requests
+
+PR descriptions follow [`.github/pull_request_template.md`](.github/pull_request_template.md): What is this
+change?, Solution, How to test, Evidences and Notes. GitHub prefills it on new PRs.
+
 ## Disclaimer
 
 Mowly is a UI and architecture study built for a portfolio. It has no affiliation with and is not
