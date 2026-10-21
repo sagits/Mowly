@@ -210,3 +210,7 @@ P11 differences kept on purpose: the page background is `pageMuted` (P11 uses a 
 ## Customer tab bar stays at the bottom on wide web
 
 The repo owner asked for the customer tabs to stay as a fixed bottom bar on desktop web, the same as the mobile app. This overrides the PRD's "tab bar becomes a left sidebar at `md` and above". `TabBar` in `@mowly/ui` no longer has a wide variant, and `(tabs)/_layout.tsx` no longer sets `tabBarPosition`. The pro drawer is unchanged (still a permanent sidebar when wide).
+
+## [pro] Route Map shows an aerial photo
+
+The repo owner asked for a map image like P13's satellite map. `CityMap` takes `aerial`, which draws `apps/pro/src/assets/route-map.jpg` (cropped to fill) under the pins and polyline; Route Map uses it, and Available Jobs keeps the drawn SVG map. The image is stitched from public-domain USGS tiles of Austin (The National Map, `USGSImageryTopo`, zoom 12), so it can ship without a license and is credited "USGS" in the corner. Pins still sit at the mock `pin.x/y` fractions, not real coordinates.

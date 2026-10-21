@@ -12,7 +12,7 @@ export default function RouteScreen() {
   return (
     <View testID="screen-route" className="flex-1 bg-surface">
       <ScrollView>
-        <CityMap height={300}>
+        <CityMap height={300} aerial>
           {stops && stops.length > 1 && (
             <Svg pointerEvents="none" width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position: 'absolute' }}>
               <Polyline points={stops.map((s) => `${s.pin.x * 100},${s.pin.y * 100}`).join(' ')} stroke={colors.routeBlue} strokeWidth={1.2} fill="none" strokeLinejoin="round" />
