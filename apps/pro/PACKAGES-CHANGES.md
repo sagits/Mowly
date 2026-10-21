@@ -14,3 +14,6 @@
   - `packages/ui/src/ListRow.tsx`: new optional `focusable` prop; `focusable={false}` sets `tabIndex={-1}` (react-native-web's Pressable ignores `focusable`). Omitted, behavior is unchanged.
   - `packages/ui/src/SwitchAppLink.tsx`: same optional `focusable` prop (the signature gains an optional props object).
   - `packages/ui/src/overlays.test.tsx`: new test `ListRow focusable={false} leaves the tab order`.
+- Desktop phone frame (additive; customer tests pass):
+  - `packages/ui/src/PhoneFrame.tsx`: new `PhoneFrame` and `useShowPhoneFrame`, exported from `@mowly/ui`. Both apps' root layouts call them; on native and phone browsers the hook is false, so nothing changes there.
+  - `packages/features/src/WebShell.tsx`: an inline script tags `<html class="framed">` inside the frame's iframe, and the shell CSS hides scrollbars under that class. Outside the frame the page is unchanged.

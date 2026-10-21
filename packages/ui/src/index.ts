@@ -18,6 +18,7 @@ export { Accordion } from './Accordion';
 export { BottomSheet } from './BottomSheet';
 export { AERIAL_IMAGE, AVATARS, serviceImage } from './images';
 export { ListRow } from './ListRow';
+export { PhoneFrame, useShowPhoneFrame } from './PhoneFrame';
 export { Select } from './Select';
 export { SwitchAppLink } from './SwitchAppLink';
 export { TabBar } from './TabBar';

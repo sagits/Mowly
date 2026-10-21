@@ -6,7 +6,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { AppProviders } from '@mowly/features';
 import { configureMocks } from '@mowly/mocks';
 import { useSession } from '@mowly/stores';
-import { colors } from '@mowly/ui';
+import { colors, PhoneFrame, useShowPhoneFrame } from '@mowly/ui';
 import '../global.css';
 
 configureMocks({ seed: process.env.EXPO_PUBLIC_SEED !== 'false' });
@@ -14,6 +14,8 @@ configureMocks({ seed: process.env.EXPO_PUBLIC_SEED !== 'false' });
 /** The root layout of the app. */
 export default function RootLayout() {
   const signedIn = useSession((s) => s.signedIn);
+  // Desktop web shows the app inside a drawn iPhone; the iframe in it renders this layout again, unframed.
+  if (useShowPhoneFrame()) return <PhoneFrame />;
   return (
     <AppProviders>
       <GestureHandlerRootView style={{ flex: 1 }}>
