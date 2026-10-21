@@ -15,6 +15,14 @@
 - Everything in the foundation plan's Global Constraints applies, including **no attribution trailer on any commit**
 - A `packages/` conflict keeps both sides' additions. If both tracks added the same thing under one name, keep one, make both apps use it, and record that in `DECISIONS.md`
 - Both `[customer]` and `[pro]` `DECISIONS.md` entries survive the merge
+- **The web is a showcase of the phone apps, on purpose. Do not undo it.** The repo owner overrode the PRD's desktop layout (sidebars, centered content) after the tracks were planned; each change is recorded in `DECISIONS.md`. Keep all of these, and treat a PRD line that contradicts them as superseded:
+  - **Desktop phone frame:** on a desktop browser (fine pointer, window ≥ `layout.wideBreakpoint`) both root layouts return `PhoneFrame` (`packages/ui/src/PhoneFrame.tsx`), which draws an iPhone whose screen is an `<iframe>` of the current URL. Inside the iframe the app renders as on a phone. Phone browsers and native are unchanged. Never replace the iframe with a styled wrapper: inside it the window really is 393 px, which is what keeps `useIsWide`, the drawer, modals and toasts phone-sized
+  - **Guide beside the phone:** `APP_GUIDE` in `PhoneFrame.tsx` explains both apps and their screens for a hiring manager. Its cards switch apps ("Click to see"), and it links to the author's LinkedIn and the repo. If a screen is added or renamed, update `APP_GUIDE`
+  - **Customer tab bar stays at the bottom** at every width, and **the pro drawer is a slide-in opened by the hamburger** at every width (`drawerType: 'front'`), not a permanent sidebar
+  - **"Switch to client app" / "Switch to provider app"** (`SwitchAppLink to=…`) goes straight to the other app (`/customer/`, `/pro/`), not to `/`. In the frame it shows above the phone and in the guide, and hides inside the iframe. In dev it jumps to the other app's fixed web port (`pnpm --filter @mowly/customer web` on 8091, `pnpm --filter @mowly/pro web` on 8092)
+  - **No status-bar top padding on web** (`web:pt-*` on `HeaderBand` and the pro drawer); the browser or the frame draws the status bar
+  - **Aerial map photo** (`apps/pro/src/assets/city-map.jpg`, public-domain USGS) under the pins on Available Jobs and Route Map
+- **e2e simulators use the iOS 18.6 runtime** (`xcrun simctl create "<name>" "iPhone 16" com.apple.CoreSimulator.SimRuntime.iOS-18-6`). On iOS 27.0 the prebuilt app crashes at launch
 
 ## Review Focus
 
@@ -29,8 +37,8 @@
 **Files:**
 - Modify: anything in conflict, `DECISIONS.md`, `README.md`
 
-- [ ] **Step 1:** `git checkout master && git merge --no-ff track/customer -m "merge: customer track"`. Expected: a clean merge (master has nothing new since the fork)
-- [ ] **Step 2:** `git merge --no-ff track/pro -m "merge: pro track"`. Resolve conflicts under the rule above, reading both `PACKAGES-CHANGES.md` first
+- [x] **Step 1:** Customer track merged into `master` through PR #11
+- [ ] **Step 2:** Merge `track/pro` through PR #12. It already merged `master` (with #11) and resolved the overlap: the tab bar files took the customer track's version, and `DECISIONS.md` keeps both sides. Expected: no conflicts left; if any appear, resolve under the rules above, reading both `PACKAGES-CHANGES.md` first
 - [ ] **Step 3:** `pnpm install && pnpm test && pnpm typecheck && pnpm lint`. Expected: all green. Fix anything red with `superpowers:systematic-debugging`
 - [ ] **Step 4:** Fold both `PACKAGES-CHANGES.md` files into one `DECISIONS.md` entry and delete them
 - [ ] **Step 5: Commit.** `git add -A && git commit -m "chore: integrate both tracks" -m "Refs #9"`
@@ -47,10 +55,12 @@
 - [ ] **Step 1:** `pnpm build:web`. Expected: exit 0
 - [ ] **Step 2:** `npx serve dist` in the background, then check each of these in Chrome (claude-in-chrome) and note pass or fail for each:
   - `/` shows both cards, and each one opens its app
-  - `/customer` opens Browse with the seeded services, and `/pro` opens the dashboard with the checklist
-  - `/customer/services`, `/pro/calendar` and `/pro/settings/billing` load directly
-  - The quote funnel and the pro forms work with mouse and keyboard
-  - At desktop width the customer tab bar stays at the bottom and the pro drawer is a left sidebar, with content centered
+  - At desktop width (1280 px) `/customer` and `/pro` show the guide on the left and the phone frame on the right. Inside the phone, `/customer` opens Browse with the seeded services (tab bar at the bottom) and `/pro` opens the dashboard with the checklist (drawer opens from the hamburger)
+  - "Switch to provider app" / "Switch to client app" (above the phone and in the guide) and the guide's "Click to see" card each load the other app in the whole page, in its own frame
+  - "Renato Probst" and "Source code on GitHub" open in a new tab
+  - `/customer/services`, `/pro/calendar` and `/pro/settings/billing` load directly, framed on desktop with that screen inside the phone
+  - The quote funnel and the pro forms work with mouse and keyboard inside the phone
+  - At phone width (390 px, reload after resizing) there is no frame or guide: the plain app fills the page, with the switch link in the app (customer strip above the tabs, bottom of the pro drawer)
   - The console has no errors and no React Native Web warnings about unsupported props
   - The page source has `noindex`, and `/robots.txt` disallows everything
 - [ ] **Step 3:** Fix every failure, rebuild, and recheck
