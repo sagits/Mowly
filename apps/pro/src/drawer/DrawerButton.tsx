@@ -3,13 +3,11 @@ import { Ionicons } from '@expo/vector-icons';
 import type { DrawerNavigationProp } from 'expo-router/drawer';
 import { useNavigation } from 'expo-router';
 import { Pressable } from 'react-native';
-import { colors, useIsWide } from '@mowly/ui';
+import { colors } from '@mowly/ui';
 
-/** `headerLeft` for drawer-root screens. Hidden when the drawer is a permanent sidebar. */
+/** `headerLeft` for drawer-root screens. */
 export function DrawerButton() {
-  const wide = useIsWide();
   const navigation = useNavigation<DrawerNavigationProp<Record<string, undefined>>>();
-  if (wide) return null;
   return (
     <Pressable
       testID="drawer-toggle"

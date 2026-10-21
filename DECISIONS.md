@@ -214,3 +214,7 @@ The repo owner asked for the customer tabs to stay as a fixed bottom bar on desk
 ## [pro] Maps show an aerial photo
 
 The repo owner asked for a map image like P13's satellite map, on Route Map and Available Jobs. `CityMap` now draws `apps/pro/src/assets/city-map.jpg` (cropped to fill) under the pins, replacing the drawn SVG map. The image is stitched from public-domain USGS tiles of Austin (The National Map, `USGSImageryTopo`, zoom 12), so it can ship without a license and is credited "USGS" in the corner. Pins still sit at the mock `pin.x/y` fractions, not real coordinates.
+
+## [pro] Web drawer slides in like the app
+
+The repo owner wants the web build to simulate the app, so the drawer is a slide-in opened by the hamburger at every width. This overrides the PRD's "permanent left sidebar at `md` and above" for the pro app: `drawerType` is always `'front'`, `DrawerButton` always renders, and `DrawerMenu` drops its wide-screen branches.
