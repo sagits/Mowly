@@ -16,7 +16,7 @@ LogBox.ignoreLogs(['Sending `onAnimatedValueUpdate` with no listeners registered
 /** The root layout of the app. */
 export default function RootLayout() {
   // Desktop web shows the app inside a drawn iPhone; the iframe in it renders this layout again, unframed.
-  if (useShowPhoneFrame()) return <PhoneFrame />;
+  if (useShowPhoneFrame()) return <PhoneFrame switchTo="pro" />;
   return (
     <AppProviders>
       {/* Head throws on native; on web it replaces the empty <title> React Navigation injects. */}

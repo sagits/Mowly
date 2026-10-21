@@ -15,7 +15,7 @@ configureMocks({ seed: process.env.EXPO_PUBLIC_SEED !== 'false' });
 export default function RootLayout() {
   const signedIn = useSession((s) => s.signedIn);
   // Desktop web shows the app inside a drawn iPhone; the iframe in it renders this layout again, unframed.
-  if (useShowPhoneFrame()) return <PhoneFrame />;
+  if (useShowPhoneFrame()) return <PhoneFrame switchTo="customer" />;
   return (
     <AppProviders>
       <GestureHandlerRootView style={{ flex: 1 }}>

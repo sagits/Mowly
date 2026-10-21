@@ -3,12 +3,15 @@ import { Ionicons } from '@expo/vector-icons';
 import { createElement, useState, useSyncExternalStore } from 'react';
 import { Platform, Text, useWindowDimensions, View } from 'react-native';
 import { colors, layout } from '../tokens';
+import { type AppId, SwitchAppLink } from './SwitchAppLink';
 
 // iPhone 16 points: the screen, the bezel around it, the status bar and the home indicator strip.
 const SCREEN = { width: 393, height: 852 };
 const BEZEL = 14;
 const STATUS_BAR = 54;
 const HOME_STRIP = 21;
+// Room above the phone for the switch link.
+const LINK_SPACE = 40;
 
 const subscribe = () => () => {};
 
@@ -26,14 +29,17 @@ export function useShowPhoneFrame(): boolean {
   return useSyncExternalStore(subscribe, isDesktopTop, () => false);
 }
 
-/** A centered iPhone whose screen is an iframe of the current URL; scaled down to fit short windows. */
-export function PhoneFrame() {
+/** A centered iPhone whose screen is an iframe of the current URL, with the switch link above it; scaled down to fit short windows. */
+export function PhoneFrame({ switchTo }: { switchTo: AppId }) {
   const [src] = useState(() => window.location.href);
   const { height } = useWindowDimensions();
   const outerHeight = SCREEN.height + BEZEL * 2;
-  const scale = Math.min(1, (height - 48) / outerHeight);
+  const scale = Math.min(1, (height - LINK_SPACE - 48) / outerHeight);
   return (
     <View testID="phone-frame" className="flex-1 items-center justify-center bg-pageMuted">
+      <View style={{ height: LINK_SPACE }} className="justify-center">
+        <SwitchAppLink to={switchTo} />
+      </View>
       <View
         style={{
           width: SCREEN.width + BEZEL * 2,
@@ -42,6 +48,8 @@ export function PhoneFrame() {
           borderRadius: 68,
           backgroundColor: colors.ink,
           transform: [{ scale }],
+          // scale shrinks only the drawing; pull the layout box in too so the link sits right above the phone
+          marginVertical: (-outerHeight * (1 - scale)) / 2,
           boxShadow: '0 24px 60px rgba(0,0,0,0.25)',
         }}
       >
