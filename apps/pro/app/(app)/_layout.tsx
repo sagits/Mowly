@@ -35,7 +35,11 @@ export default function AppLayout() {
       <Stack.Screen name="settings/damage-fee" options={{ title: 'Damage Fee' }} />
       <Stack.Screen name="settings/tax-info" options={{ title: 'Provide tax info' }} />
       <Stack.Screen name="settings/bank" options={{ title: 'Connect your bank account' }} />
-      <Stack.Screen name="calendar/[date]" options={({ route }) => ({ title: (route.params as { date?: IsoDate } | undefined)?.date ? formatLong((route.params as { date: IsoDate }).date) : 'Day' })} />
+      <Stack.Screen name="calendar/[date]" options={({ route }) => {
+        // The static render passes the literal "[date]"; only a real ISO date is formatted.
+        const date = (route.params as { date?: string } | undefined)?.date;
+        return { title: date && /^\d{4}-\d{2}-\d{2}$/.test(date) ? formatLong(date as IsoDate) : 'Day' };
+      }} />
       <Stack.Screen name="jobs/[id]/index" options={{ title: 'Job Details' }} />
       <Stack.Screen name="jobs/[id]/recommend" options={{ title: 'Service Quote' }} />
       <Stack.Screen name="route" options={{ title: 'Route Map' }} />
