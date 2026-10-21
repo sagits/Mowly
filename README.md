@@ -46,8 +46,9 @@ packages/
 - **Navigation.** The customer app uses bottom tabs (Browse, Service, Inbox, Profile), fixed at the
   bottom at every width. The pro app uses a drawer that slides in from the left when you tap the
   hamburger, at every width.
-- **Web.** Both apps use static export, so deep links such as `/pro/calendar` load directly on any
-  static host. Every page is `noindex` and `robots.txt` disallows everything. The web is a showcase
+- **Web.** Both apps use static export, so static deep links such as `/pro/calendar` load directly on
+  any static host. The dynamic ones (service, chat, job and day pages) need the host rewrites in
+  `vercel.json`; the Vercel project needs the env var `ENABLE_EXPERIMENTAL_COREPACK=1`. Every page is `noindex` and `robots.txt` disallows everything. The web is a showcase
   of the phone apps: on a desktop browser each app draws an iPhone whose screen is an `<iframe>` of
   the current URL, with a guide to both apps on the left and a "Switch to client app" / "Switch to
   provider app" link above the phone. Inside the iframe the window really is 393 px wide, so the app
@@ -91,7 +92,7 @@ app, all passing. The Maestro flows ran on an iPhone 16 simulator (iOS 18.6); th
 | Mowly Pro | 9: smoke, sign-up, sign-out, checklist, available-jobs, calendar, recommend, settings, demo | 9 | 0 |
 
 The web build was checked in Chrome at 1280 px (phone frame) and 390 px (plain app): every route
-and deep link, both switch links, the guide, the quote funnel and the pro forms with mouse and
+and static deep link, both switch links, the guide, the quote funnel and the pro forms with mouse and
 keyboard, and a console with no errors or react-native-web warnings.
 
 ## Pull requests

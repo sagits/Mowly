@@ -327,12 +327,15 @@ The link goes to hiring managers, so on desktop a guide sits left of the phone: 
 
 ## The site root opens the pro app
 
-The repo owner asked to drop the landing chooser (two cards, one per app) so the link opens the showcase straight away. `/` (`apps/landing/index.html`) is now a redirect page to `/pro/`: `location.replace('/pro/')` with a `<meta http-equiv="refresh">` fallback, and it keeps `noindex` and the favicon. Pro is the default because the owner's reference is the framed pro dashboard with the guide beside it; the customer app is one click away through the guide and the switch link. `dist/` is plain static files with no host config, so a redirect page is the simplest root that works on any static host. This supersedes the PRD's landing page at `/` and its check "`/` shows the landing with both cards".
+The repo owner asked to drop the landing chooser (two cards, one per app) so the link opens the showcase straight away. `/` (`apps/landing/index.html`) is now a redirect page to `/pro/`: `location.replace('/pro/')` with a `<meta http-equiv="refresh">` fallback, and it keeps `noindex` and the favicon. Pro is the default because the owner's reference is the framed pro dashboard with the guide beside it; the customer app is one click away through the guide and the switch link. `dist/` is static files; the root is a plain redirect page so it needs no host rewrite (the dynamic routes do, see "The web deploys on Vercel with rewrites"). This supersedes the PRD's landing page at `/` and its check "`/` shows the landing with both cards".
 
+## The web deploys on Vercel with rewrites
+
+`vercel.json` sets `cleanUrls` and rewrites the five dynamic routes to the `[param].html` files Expo's static export writes: `/customer/service/:id`, `/customer/chat/:id`, `/pro/jobs/:id`, `/pro/jobs/:id/recommend` and `/pro/calendar/:date`. Static routes load on any static host; these five need the rewrites. The Vercel project needs the env var `ENABLE_EXPERIMENTAL_COREPACK=1` so the build uses the pnpm version in `packageManager` (12.3.4), and it deploys from `master`.
 
 ## [integration] Changes to shared packages by both tracks
 
-Folded from the two `PACKAGES-CHANGES.md` files (deleted). Both tracks' additions are kept. Neither track added the same thing under one name, so nothing was deduplicated; the only shared files touched by both are `packages/mocks/src/seed.ts` and `packages/ui`, with disjoint edits.
+Folded from the two `PACKAGES-CHANGES.md` files (deleted). Both tracks' additions are kept. Neither track added the same thing under one name, so nothing was deduplicated. The tracks edited disjoint `packages/ui` files (customer: `BottomSheet`, `Button`, `Checkbox`; pro: `ListRow`, `SwitchAppLink`, `PhoneFrame`). Both touched `packages/api` and `packages/mocks`, but different files; `packages/mocks/src/seed.ts` was touched only by the pro track.
 
 ### Customer track
 
