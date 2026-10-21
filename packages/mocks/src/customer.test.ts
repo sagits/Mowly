@@ -1,7 +1,7 @@
 // Tests the customer resolvers: reads, writes and seed options.
 import {
   DEMO_ADDRESS_ID, configureMocks, createBooking, getBooking, getBookings, getNeighbors, getQuote, getServices, getThread,
-  getThreads, resetDb, searchAddresses, sendMessage, updateBooking,
+  getCustomer, getThreads, resetDb, saveAddress, searchAddresses, sendMessage, updateBooking,
 } from './index';
 import { setToday } from '@mowly/types';
 
@@ -46,3 +46,12 @@ test('SEED=false empties the lists but keeps the catalog', async () => {
 });
 test('unknown ids reject', () => expect(getBooking('nope')).rejects.toThrow('Not found'));
 test('a quote for an unknown address rejects', () => expect(getQuote('mowing', 'nope')).rejects.toThrow('Not found'));
+test('saveAddress keeps a picked address or creates one from free text, and makes it the customer address', async () => {
+  expect((await saveAddress(DEMO_ADDRESS_ID, 'ignored')).id).toBe(DEMO_ADDRESS_ID);
+  const a = await saveAddress('', '1500 Zilker Street, Austin, TX 78701');
+  expect(a).toMatchObject({ line1: '1500 Zilker Street', city: 'Austin', state: 'TX', zip: '78701' });
+  expect((await getCustomer()).address.id).toBe(a.id);
+  expect((await getQuote('mowing', a.id)).plans.length).toBeGreaterThan(0);
+  expect((await searchAddresses('zilker')).map((x) => x.id)).toEqual([a.id]);
+  expect((await saveAddress('', '1500')).line1).toBe('1500');
+});

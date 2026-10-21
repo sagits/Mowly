@@ -1,4 +1,7 @@
-/** The quote funnel's in-progress answers. Reset when a booking is made. */
+/**
+ * The quote funnel's in-progress answers. A booking resets the quote but keeps the contact details, so the next
+ * quote skips the form; only the demo reset clears them.
+ */
 import { create } from 'zustand';
 import type { Frequency, IsoDate, QuoteContactInput, ServiceId } from '@mowly/types';
 
@@ -15,7 +18,10 @@ export type QuoteDraft = {
   choosePlan(frequency: Frequency): void;
   setStartDate(date: IsoDate): void;
   applyPromo(): void;
+  /** Clears the quote (service, plan, promo); the contact details stay. */
   reset(): void;
+  /** Clears everything, contact details included. */
+  clear(): void;
 };
 
 const EMPTY = { serviceId: null, contact: null, frequency: null, startDate: null, promoApplied: false };
@@ -29,7 +35,8 @@ export const useQuoteDraft = create<QuoteDraft>((set) => ({
   choosePlan: (frequency) => set({ frequency }),
   setStartDate: (startDate) => set({ startDate }),
   applyPromo: () => set({ promoApplied: true }),
-  reset: () => set(EMPTY),
+  reset: () => set((s) => ({ ...EMPTY, contact: s.contact })),
+  clear: () => set(EMPTY),
 }));
 
 /** A funnel step and what it needs from the earlier steps. */
@@ -45,4 +52,9 @@ export function missingStep(draft: Pick<QuoteDraft, 'serviceId' | 'contact' | 'f
   if (!draft.contact) return '/quote/details' as const;
   if (step === 'plan') return null;
   return draft.frequency && draft.startDate ? null : ('/quote/plan' as const);
+}
+
+/** Where the funnel goes once a service is chosen: the plan when the contact details are already known, else the form. */
+export function afterService(draft: Pick<QuoteDraft, 'contact'>) {
+  return draft.contact ? ('/quote/plan' as const) : ('/quote/details' as const);
 }

@@ -29,7 +29,7 @@ export default function QuoteSizingScreen() {
       <View testID="sizing-screen" className="flex-1 items-center justify-center bg-surface px-12">
         <SizingRing durationMs={SIZING_MS} />
         <Text className="mt-12 text-center text-3xl font-bold text-ink">We&apos;re sizing your lawn with satellite precision!</Text>
-        {data !== undefined && (
+        {data !== undefined && zip !== '' && (
           <Text className="mt-6 text-center text-xl text-inkSoft">
             <Text testID="sizing-neighbors">
               Join <Text className="text-primary">{data} neighbors</Text> in {zip}

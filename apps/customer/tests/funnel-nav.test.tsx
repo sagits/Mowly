@@ -1,22 +1,18 @@
 // Tests leaving and re-entering the quote funnel: the close X, empty-draft redirects, "not looking" and going back.
 import { router } from 'expo-router';
-import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';
+import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { useQuoteDraft } from '../src/stores/useQuoteDraft';
 import { renderApp } from './renderApp';
 
 const CONTACT = { name: 'Jane Doe', addressId: 'addr-maple-ridge', addressText: '1820 Maple Ridge Drive, Austin, TX 78704', apt: '', phone: '5125550147' };
 
-beforeEach(() => useQuoteDraft.getState().reset());
+beforeEach(() => useQuoteDraft.getState().clear());
 
-/** From service select: pick `tile`, submit the form, and stand in for the sizing timer (its own test covers it). */
-async function toPlan(tile: string, prefilledName?: string) {
+/** From service select with the contact already known: pick `tile`, and Continue skips the form for the plan. */
+async function toPlan(tile: string) {
   await fireEvent.press(await screen.findByTestId(`service-tile-${tile}`));
   await fireEvent.press(screen.getByTestId('quote-continue'));
-  await screen.findByTestId('quote-name');
-  if (prefilledName) expect(screen.getByTestId('quote-name')).toHaveDisplayValue(prefilledName);
-  await fireEvent.press(screen.getByTestId('quote-continue'));
-  await waitFor(() => expect(screen).toHavePathname('/quote/sizing'));
-  await act(async () => router.replace('/quote/plan'));
+  await waitFor(() => expect(screen).toHavePathname('/quote/plan'));
   await waitFor(() => expect(screen.getByTestId('cost-per-service')).not.toHaveTextContent('$0'));
 }
 
@@ -75,9 +71,19 @@ test('going back to another service resets plan and promo, keeps the contact', a
 
   await fireEvent.press(screen.getByTestId('plan-not-looking'));
   await waitFor(() => expect(screen).toHavePathname('/quote'));
-  await toPlan('leaf-removal', 'Jane Doe');
+  await toPlan('leaf-removal');
   expect(screen.getByTestId('cost-per-service')).toHaveTextContent('$129');
   expect(useQuoteDraft.getState().frequency).toBe('one-time');
   expect(screen.queryByTestId('promo-applied')).toBeNull();
   expect(useQuoteDraft.getState().contact?.name).toBe('Jane Doe');
+});
+
+test('once the details are known, VIEW PRICE opens the plan, and the pencil goes back to the form', async () => {
+  useQuoteDraft.getState().setContact(CONTACT);
+  await renderApp('/');
+  await fireEvent.press(await screen.findByTestId('browse-view-price-mowing'));
+  await waitFor(() => expect(screen).toHavePathname('/quote/plan'));
+  await fireEvent.press(await screen.findByTestId('funnel-edit-address'));
+  await waitFor(() => expect(screen).toHavePathname('/quote/details'));
+  expect(await screen.findByDisplayValue('Jane Doe')).toBeTruthy();
 });

@@ -7,18 +7,18 @@ import { Screen, Skeleton } from '@mowly/ui';
 import { CustomerHeader } from '../../src/components/CustomerHeader';
 import { RecommendedCarousel } from '../../src/components/RecommendedCarousel';
 import { ServiceExploreRow } from '../../src/components/ServiceExploreRow';
-import { useQuoteDraft } from '../../src/stores/useQuoteDraft';
+import { afterService, useQuoteDraft } from '../../src/stores/useQuoteDraft';
 
 /** The Browse tab. */
 export default function BrowseScreen() {
   const router = useRouter();
   const { data: services } = useServices();
-  // Both shortcuts skip service select: fresh draft, service chosen, straight to the form.
+  // Both shortcuts skip service select: fresh quote, service chosen, then the form (or the plan when the details are known).
   const quote = (id: ServiceId) => {
     const draft = useQuoteDraft.getState();
     draft.reset();
     draft.selectService(id);
-    router.push('/quote/details');
+    router.push(afterService(draft));
   };
   return (
     <View testID="screen-browse" className="flex-1">

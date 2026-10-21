@@ -5,7 +5,7 @@ import { useQuoteDraft } from '../src/stores/useQuoteDraft';
 import { renderApp } from './renderApp';
 
 beforeEach(() => {
-  useQuoteDraft.getState().reset();
+  useQuoteDraft.getState().clear();
   useQuoteDraft.getState().selectService('mowing');
   useQuoteDraft.getState().setContact({ name: 'Renato Probst', addressId: 'addr-maple-ridge', addressText: '1820 Maple Ridge Drive, Austin, TX 78704', apt: '', phone: '5125550147' });
 });

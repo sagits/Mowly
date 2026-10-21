@@ -3,7 +3,7 @@ import { fireEvent, screen } from '@testing-library/react-native';
 import { useQuoteDraft } from '../src/stores/useQuoteDraft';
 import { renderApp } from './renderApp';
 
-beforeEach(() => useQuoteDraft.getState().reset());
+beforeEach(() => useQuoteDraft.getState().clear());
 
 test('Continue unlocks after picking a service and opens the quote form', async () => {
   await renderApp('/quote');

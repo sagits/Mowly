@@ -2,7 +2,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import {
   createBooking, getBooking, getBookings, getCustomer, getNeighbors, getQuote, getService, getServices, getThread, getThreads,
-  resetDemo, searchAddresses, sendMessage, updateBooking,
+  resetDemo, saveAddress, searchAddresses, sendMessage, updateBooking,
 } from '@mowly/mocks';
 import type { BookingChange, NewBooking, Service } from '@mowly/types';
 import { queryKeys } from './queryKeys';
@@ -38,6 +38,15 @@ export const useNeighbors = (zip: string) => useQuery({ queryKey: queryKeys.neig
 
 /** The signed-in demo customer. */
 export const useCustomer = () => useQuery({ queryKey: queryKeys.customer, queryFn: getCustomer });
+
+/** Saves the customer's one address (picked or typed); `{ addressId, text }` like the quote form holds it. */
+export const useSaveAddress = () => {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ addressId, text }: { addressId: string; text: string }) => saveAddress(addressId, text),
+    onSuccess: () => qc.invalidateQueries({ queryKey: queryKeys.customer }),
+  });
+};
 
 /** All of the customer's bookings, newest first. */
 export const useBookings = () => useQuery({ queryKey: queryKeys.bookings, queryFn: getBookings });

@@ -5,7 +5,7 @@ import { Pressable, ScrollView, Text, View } from 'react-native';
 import { useServices } from '@mowly/api';
 import { Button, colors, Screen, Spinner } from '@mowly/ui';
 import { FunnelHeader } from '../../src/components/FunnelHeader';
-import { useQuoteDraft } from '../../src/stores/useQuoteDraft';
+import { afterService, useQuoteDraft } from '../../src/stores/useQuoteDraft';
 
 /** The Service select screen. */
 export default function ServiceSelectScreen() {
@@ -52,7 +52,7 @@ export default function ServiceSelectScreen() {
           testID="quote-continue"
           label="Continue"
           disabled={!serviceId}
-          onPress={() => router.push('/quote/details')}
+          onPress={() => router.push(afterService(useQuoteDraft.getState()))}
         />
       </View>
     </Screen>

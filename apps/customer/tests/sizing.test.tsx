@@ -3,7 +3,7 @@ import { act, screen, waitFor } from '@testing-library/react-native';
 import { useQuoteDraft } from '../src/stores/useQuoteDraft';
 import { renderApp } from './renderApp';
 
-beforeEach(() => useQuoteDraft.getState().reset());
+beforeEach(() => useQuoteDraft.getState().clear());
 // renderApp (expo-router's renderRouter) installs fake timers; leave the next file's setup clean.
 afterEach(() => jest.useRealTimers());
 

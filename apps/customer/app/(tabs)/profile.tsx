@@ -42,7 +42,7 @@ export default function ProfileScreen() {
           reset.mutate(undefined, {
             onSuccess: () => {
               // a half-finished quote must not survive the reset either
-              useQuoteDraft.getState().reset();
+              useQuoteDraft.getState().clear();
               close();
               showToast('Demo reset');
             },

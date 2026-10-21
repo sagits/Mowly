@@ -46,7 +46,7 @@ export default function QuotePlanScreen() {
   return (
     <Screen>
       <View testID="plan-screen" className="flex-1">
-        <FunnelHeader />
+        <FunnelHeader editAddress />
         {!quote ? (
           <View testID="plan-loading" className="flex-1 px-4 pt-8">
             <Skeleton className="mb-4 h-10 w-3/4" />

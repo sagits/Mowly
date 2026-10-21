@@ -6,7 +6,7 @@ import { renderApp } from './renderApp';
 
 beforeEach(() => {
   const d = useQuoteDraft.getState();
-  d.reset();
+  d.clear();
   d.selectService('leaf-removal');
   d.setContact({ name: 'Renato Probst', addressId: 'addr-maple-ridge', addressText: '1820 Maple Ridge Drive, Austin, TX 78704', apt: '', phone: '5125550147' });
   d.choosePlan('one-time');
