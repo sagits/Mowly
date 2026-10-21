@@ -15,6 +15,9 @@ LogBox.ignoreLogs(['Sending `onAnimatedValueUpdate` with no listeners registered
 
 /** The root layout of the app. */
 export default function RootLayout() {
+  // Static render only: registering the icon font makes the HTML draw the glyphs and embed the @font-face, so every
+  // icon hydrates as drawn. Without it, icons that mount after the client loads the font no longer match the HTML.
+  if (typeof window === 'undefined') void Ionicons.loadFont();
   // Desktop web shows the app inside a drawn iPhone; the iframe in it renders this layout again, unframed.
   if (useShowPhoneFrame()) return <PhoneFrame switchTo="pro" />;
   return (
