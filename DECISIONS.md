@@ -320,3 +320,7 @@ The web build is how reviewers try the apps without a store install, so on a des
 ## "Switch to provider/client app" goes straight to the other app
 
 The repo owner asked for the web link to name the other app instead of "Switch app". `SwitchAppLink to="pro"` (customer tabs strip) reads "Switch to provider app" and opens `/pro/`; `to="customer"` (pro drawer) reads "Switch to client app" and opens `/customer/`. This overrides the PRD's link "back to `/`"; the landing stays at the site root. On desktop the link sits above the phone (`PhoneFrame switchTo`) and hides inside the iframe; phone browsers keep it in the app. Navigation uses `window.top`, so the whole page always switches. In dev each app has its own server, so the link jumps to the other app's fixed web port instead: `pnpm --filter @mowly/customer web` serves on 8091 and `pnpm --filter @mowly/pro web` on 8092 (run both to switch back and forth).
+
+## Desktop guide beside the phone
+
+The link goes to hiring managers, so on desktop a guide sits left of the phone: what Mowly is, one card per app (audience plus a high-level list of its screens, the app on screen marked "On screen now"), a second switch link, and "Built by Renato Probst" (LinkedIn) and "Source code on GitHub" links that open in a new tab. The copy lives in `APP_GUIDE` in `packages/ui/src/PhoneFrame.tsx`; update it when screens are added. Phone browsers do not show the guide.
