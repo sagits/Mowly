@@ -5,10 +5,10 @@
   "outputDirectory": "dist",
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/customer/service/:id", "destination": "/customer/service/[id].html" },
-    { "source": "/customer/chat/:id", "destination": "/customer/chat/[id].html" },
-    { "source": "/pro/jobs/:id/recommend", "destination": "/pro/jobs/[id]/recommend.html" },
-    { "source": "/pro/jobs/:id", "destination": "/pro/jobs/[id].html" },
-    { "source": "/pro/calendar/:date", "destination": "/pro/calendar/[date].html" }
+    { "source": "/customer/service/:id", "destination": "/customer/service/%5Bid%5D" },
+    { "source": "/customer/chat/:id", "destination": "/customer/chat/%5Bid%5D" },
+    { "source": "/pro/jobs/:id/recommend", "destination": "/pro/jobs/%5Bid%5D/recommend" },
+    { "source": "/pro/jobs/:id", "destination": "/pro/jobs/%5Bid%5D" },
+    { "source": "/pro/calendar/:date", "destination": "/pro/calendar/%5Bdate%5D" }
   ]
 }
