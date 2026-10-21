@@ -206,3 +206,7 @@ P11 differences kept on purpose: the page background is `pageMuted` (P11 uses a 
 - [pro] Recommend a service (P12, `screenshots/providers-app/recomend-services.webp`): the heading is `text-2xl`, larger than the reference (about `text-lg`), and the tiles are `h-24` at 48% width (about 1.75:1), squarer than the reference's wide tiles (about 2.8:1). Kept: the larger heading and tiles are easier tap targets and keep the six options above the price and note fields on an iPhone 16.
 - [pro] Dashboard after the checklist: the "near you" jobs are compact rows, not the `JobCard` from Available Jobs. `JobCard` is the per-date picker (address, yard size and one row per available date, each opening the claim sheet); on the Dashboard the rows only open Available Jobs, so the full card is too heavy for a summary.
 - [pro] Testing note (moved from the Billing fidelity list): the billing test is split in two (empty state, then listed rows under both tabs), because a second `renderApp` inside one test leaves overlapping act() scopes that break the next test in the file.
+
+## Customer tab bar stays at the bottom on wide web
+
+The repo owner asked for the customer tabs to stay as a fixed bottom bar on desktop web, the same as the mobile app. This overrides the PRD's "tab bar becomes a left sidebar at `md` and above". `TabBar` in `@mowly/ui` no longer has a wide variant, and `(tabs)/_layout.tsx` no longer sets `tabBarPosition`. The pro drawer is unchanged (still a permanent sidebar when wide).
