@@ -3,7 +3,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { createElement, useState, useSyncExternalStore } from 'react';
 import { Platform, Pressable, Text, useWindowDimensions, View } from 'react-native';
 import { colors, layout } from '../tokens';
-import { type AppId, SwitchAppLink } from './SwitchAppLink';
+import { type AppId, SwitchAppLink, switchToApp } from './SwitchAppLink';
 
 // iPhone 16 points: the screen, the bezel around it, the status bar and the home indicator strip.
 const SCREEN = { width: 393, height: 852 };
@@ -83,20 +83,28 @@ function Guide({ switchTo }: { switchTo: AppId }) {
       </View>
       {(['customer', 'pro'] as const).map((id) => {
         const app = APP_GUIDE[id];
+        const onScreen = id === current;
+        // The other app's card opens it; the card on screen does nothing.
         return (
-          <View
+          <Pressable
             key={id}
-            className={`gap-1 rounded-card border p-4 ${id === current ? 'border-primary bg-surface' : 'border-border'}`}
+            testID={`guide-${id}`}
+            accessibilityRole={onScreen ? undefined : 'link'}
+            disabled={onScreen}
+            onPress={() => switchToApp(id)}
+            className={`gap-1 rounded-card border p-4 ${onScreen ? 'border-primary bg-surface' : 'border-border hover:border-primary hover:bg-surface'}`}
           >
             <View className="flex-row items-center justify-between">
               <Text className="text-lg font-bold text-ink">{app.title}</Text>
-              {id === current && <Text className="text-sm font-semibold text-primary">On screen now</Text>}
+              <Text className={`text-sm font-semibold ${onScreen ? 'text-primary' : 'text-link underline'}`}>
+                {onScreen ? 'On screen now' : 'Click to see'}
+              </Text>
             </View>
             <Text className="pb-1 text-sm text-muted">{app.audience}</Text>
             {app.screens.map((screen) => (
               <Text key={screen} className="text-sm text-inkProBody">{`•  ${screen}`}</Text>
             ))}
-          </View>
+          </Pressable>
         );
       })}
       <SwitchAppLink to={switchTo} />

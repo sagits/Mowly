@@ -11,6 +11,14 @@ const APPS = {
 /** The two web apps. */
 export type AppId = keyof typeof APPS;
 
+/** Web only: loads the `to` app in the whole page (never just an iframe). */
+export function switchToApp(to: AppId) {
+  const app = APPS[to];
+  // ponytail: in dev each app has its own server, so jump to the other port; the built site serves both on one origin.
+  const href = __DEV__ ? `${window.location.protocol}//${window.location.hostname}:${app.devPort}/` : app.path;
+  (window.top ?? window).location.href = href;
+}
+
 const subscribe = () => () => {};
 // False while hydrating, so the first client render matches the static HTML.
 const inFrame = () => Platform.OS === 'web' && window.self !== window.top;
@@ -23,21 +31,15 @@ const inFrame = () => Platform.OS === 'web' && window.self !== window.top;
 export function SwitchAppLink({ to, focusable, className }: { to: AppId; focusable?: boolean; className?: string }) {
   const hidden = useSyncExternalStore(subscribe, inFrame, () => false);
   if (Platform.OS !== 'web' || hidden) return null;
-  const app = APPS[to];
   return (
     <Pressable
       testID="switch-app"
       accessibilityRole="link"
       tabIndex={focusable === false ? -1 : undefined}
       className={className}
-      onPress={() => {
-        // ponytail: in dev each app has its own server, so jump to the other port; the built site serves both on one origin.
-        const href = __DEV__ ? `${window.location.protocol}//${window.location.hostname}:${app.devPort}/` : app.path;
-        // window.top: always switch the whole page, never just an iframe.
-        (window.top ?? window).location.href = href;
-      }}
+      onPress={() => switchToApp(to)}
     >
-      <Text className="text-sm text-link underline">{app.label}</Text>
+      <Text className="text-sm text-link underline">{APPS[to].label}</Text>
     </Pressable>
   );
 }
