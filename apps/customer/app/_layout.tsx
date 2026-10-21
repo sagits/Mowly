@@ -47,6 +47,8 @@ export default function RootLayout() {
             headerRight: () => <Ionicons name="help-circle-outline" size={28} color={colors.surface} />,
           })}
         />
+        {/* The chat screen sets its title (the pro's name) on the client; '' keeps the static render from showing the route name. */}
+        <Stack.Screen name="chat/[id]" options={{ title: '' }} />
         <Stack.Screen name="quote" options={{ presentation: 'fullScreenModal', headerShown: false }} />
       </Stack>
     </AppProviders>
