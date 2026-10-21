@@ -88,7 +88,7 @@ The template's `tsconfig.json` mapped `expo-router` to `./node_modules/expo-rout
 - **The web `<Head>` title override is guarded off native** (`Platform.OS === 'web'`), because `Head` throws on native; on web it replaces the empty `<title>` React Navigation injects.
 - **Pro `(app)/_layout.tsx` derives `Drawer.Screen` names (formerly `Stack.Screen`) from `href.slice(1)`.** A drawer destination whose route is nested (for example `settings/index.tsx`) must keep a name that matches, or the screen loses its title and header button.
 - **Query keys live in `packages/api/src/queryKeys.ts`,** still exported as `queryKeys` from the package, so the two tracks do not both edit `customer.ts`.
-- **Favicon:** an inline SVG data URI `<link rel="icon">` in `WebShell` and the landing page (the green M), so the browser makes no `/favicon.ico` request. Color comes from the primary token.
+- **Favicon:** an inline SVG data URI `<link rel="icon">` in `WebShell` and the root redirect page (the green M), so the browser makes no `/favicon.ico` request. Color comes from the primary token.
 - **Claimed job dates are capped at +28 days,** so they stay within the current and next month (the calendar shows two months) whatever day it is.
 - **`find` is internal** (`packages/mocks/src/find.ts`, not re-exported).
 
@@ -319,11 +319,15 @@ The web build is how reviewers try the apps without a store install, so on a des
 
 ## "Switch to provider/client app" goes straight to the other app
 
-The repo owner asked for the web link to name the other app instead of "Switch app". `SwitchAppLink to="pro"` (customer tabs strip) reads "Switch to provider app" and opens `/pro/`; `to="customer"` (pro drawer) reads "Switch to client app" and opens `/customer/`. This overrides the PRD's link "back to `/`"; the landing stays at the site root. On desktop the link sits above the phone (`PhoneFrame switchTo`) and hides inside the iframe; phone browsers keep it in the app. Navigation uses `window.top`, so the whole page always switches. In dev each app has its own server, so the link jumps to the other app's fixed web port instead: `pnpm --filter @mowly/customer web` serves on 8091 and `pnpm --filter @mowly/pro web` on 8092 (run both to switch back and forth).
+The repo owner asked for the web link to name the other app instead of "Switch app". `SwitchAppLink to="pro"` (customer tabs strip) reads "Switch to provider app" and opens `/pro/`; `to="customer"` (pro drawer) reads "Switch to client app" and opens `/customer/`. This overrides the PRD's link "back to `/`". On desktop the link sits above the phone (`PhoneFrame switchTo`) and hides inside the iframe; phone browsers keep it in the app. Navigation uses `window.top`, so the whole page always switches. In dev each app has its own server, so the link jumps to the other app's fixed web port instead: `pnpm --filter @mowly/customer web` serves on 8091 and `pnpm --filter @mowly/pro web` on 8092 (run both to switch back and forth).
 
 ## Desktop guide beside the phone
 
 The link goes to hiring managers, so on desktop a guide sits left of the phone: what Mowly is, one card per app (audience plus a high-level list of its screens, the app on screen marked "On screen now"), a second switch link, and "Built by Renato Probst" (LinkedIn) and "Source code on GitHub" links that open in a new tab. The copy lives in `APP_GUIDE` in `packages/ui/src/PhoneFrame.tsx`; update it when screens are added. Phone browsers do not show the guide.
+
+## The site root opens the pro app
+
+The repo owner asked to drop the landing chooser (two cards, one per app) so the link opens the showcase straight away. `/` (`apps/landing/index.html`) is now a redirect page to `/pro/`: `location.replace('/pro/')` with a `<meta http-equiv="refresh">` fallback, and it keeps `noindex` and the favicon. Pro is the default because the owner's reference is the framed pro dashboard with the guide beside it; the customer app is one click away through the guide and the switch link. `dist/` is plain static files with no host config, so a redirect page is the simplest root that works on any static host. This supersedes the PRD's landing page at `/` and its check "`/` shows the landing with both cards".
 
 
 ## [integration] Changes to shared packages by both tracks

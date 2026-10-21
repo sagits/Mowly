@@ -9,8 +9,8 @@ Mowly is a lawn care marketplace with two sides, each its own app:
   available jobs, see claimed jobs on a calendar, follow today's route, recommend extra services to
   a customer, and manage settings and billing.
 
-Both apps run on iOS and on the web from the same code. On the web, a landing page at `/` lets the
-visitor pick an app: the customer app is served at `/customer` and the pro app at `/pro`.
+Both apps run on iOS and on the web from the same code. On the web the customer app is served at
+`/customer` and the pro app at `/pro`; `/` opens the pro app.
 
 Everything runs on mock data. There is no backend, no real sign in, and no payments.
 
@@ -20,7 +20,7 @@ Everything runs on mock data. There is no backend, no real sign in, and no payme
 apps/
   customer/   Mowly (Expo Router, iOS + web)
   pro/        Mowly Pro (Expo Router, iOS + web)
-  landing/    static page at / that links to both apps
+  landing/    static page at / that redirects to /pro/
 packages/
   types/      domain types (Service, Booking, Job, Pro...), date helpers, Zod form schemas
   mocks/      seed data, in-memory database and async resolvers
@@ -68,7 +68,7 @@ Requires Node 22.13 or later and pnpm 12. Run `pnpm install` first.
 | Type check and lint | `pnpm typecheck`, `pnpm lint` |
 | Simulator builds for end-to-end tests | `pnpm e2e:build` |
 | Maestro flows | `pnpm e2e` (both apps), `pnpm e2e:customer`, `pnpm e2e:pro` |
-| Web build (landing + both apps into `dist/`) | `pnpm build:web` |
+| Web build (root redirect + both apps into `dist/`) | `pnpm build:web` |
 | Serve the web build locally | `npx serve dist` |
 
 The simulator commands expect an `iPhone 16` simulator. Boot it with `xcrun simctl boot "iPhone 16"`.
