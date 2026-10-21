@@ -1,4 +1,4 @@
-/** The signed-in tabs: a bottom bar at every width, web included. */
+/** The signed-in tabs: a bottom bar at every width, like the app. */
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { View } from 'react-native';

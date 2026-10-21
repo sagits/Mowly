@@ -50,7 +50,7 @@
   - `/customer` opens Browse with the seeded services, and `/pro` opens the dashboard with the checklist
   - `/customer/services`, `/pro/calendar` and `/pro/settings/billing` load directly
   - The quote funnel and the pro forms work with mouse and keyboard
-  - At desktop width the customer tab bar and the pro drawer are left sidebars, with content centered
+  - At desktop width the customer tab bar stays at the bottom and the pro drawer is a left sidebar, with content centered
   - The console has no errors and no React Native Web warnings about unsupported props
   - The page source has `noindex`, and `/robots.txt` disallows everything
 - [ ] **Step 3:** Fix every failure, rebuild, and recheck

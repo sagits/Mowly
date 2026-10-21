@@ -10,7 +10,8 @@ const contact = { name: 'Renato Probst', addressId: 'a1', addressText: '1820 Map
 test('quote contact', () => {
   expect(QuoteContactSchema.safeParse(contact).success).toBe(true);
   expect(issue(QuoteContactSchema, { ...contact, name: '' })).toBe('Enter your name');
-  expect(issue(QuoteContactSchema, { ...contact, addressId: '' })).toBe('Pick an address from the list');
+  expect(QuoteContactSchema.safeParse({ ...contact, addressId: '', addressText: '1500 anything' }).success).toBe(true);
+  expect(issue(QuoteContactSchema, { ...contact, addressText: ' ' })).toBe('Enter your address');
   expect(issue(QuoteContactSchema, { ...contact, phone: '555-0147' })).toBe('Enter a 10-digit phone number');
 });
 test('phones keep only digits', () => {

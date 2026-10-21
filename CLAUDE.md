@@ -24,3 +24,8 @@ foundation first, then one plan for Mowly and one for Mowly Pro). Execute with
   passes. Flows test the feature's main path, not its layout
 - **The foundation plan installs Maestro** (Homebrew, Java 17) and leaves one minimal flow passing,
   so every later task finds it ready
+
+## Pull requests
+
+Write every PR description with the template in `.github/pull_request_template.md` (What is this
+change?, Solution, How to test, Evidences, Notes). Keep its headings and order.

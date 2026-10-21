@@ -17,7 +17,10 @@ const INK: Record<Variant, string> = {
   text: 'text-primary',
 };
 
-/** Full-width pill with an uppercase label. While `loading` it is a disabled gray button holding a `Spinner` (`${testID}-spinner`). */
+/**
+ * Full-width pill with an uppercase label. While `loading` it is a disabled gray button holding a `Spinner` (`${testID}-spinner`).
+ * `size="sm"` is the compact pill of in-card actions (C18's VIEW PRICE and GET A QUOTE).
+ */
 export function Button({
   label,
   onPress,
@@ -25,6 +28,7 @@ export function Button({
   variant = 'filled',
   disabled = false,
   loading = false,
+  size = 'md',
 }: {
   label: string;
   onPress: () => void;
@@ -32,6 +36,7 @@ export function Button({
   variant?: Variant;
   disabled?: boolean;
   loading?: boolean;
+  size?: 'md' | 'sm';
 }) {
   const inactive = disabled || loading;
   const ground = inactive && variant !== 'text' ? 'bg-surfaceMuted' : GROUND[variant];
@@ -45,12 +50,12 @@ export function Button({
       accessibilityState={{ disabled: inactive, busy: loading }}
       disabled={inactive}
       onPress={onPress}
-      className={`w-full items-center justify-center rounded-full px-6 py-4 ${ground}`}
+      className={`w-full items-center justify-center rounded-full ${size === 'sm' ? 'px-4 py-2' : 'px-6 py-4'} ${ground}`}
     >
       {loading ? (
         <Spinner testID={`${testID}-spinner`} />
       ) : (
-        <Text className={`text-button uppercase ${ink}`}>{label}</Text>
+        <Text className={`${size === 'sm' ? 'text-sm font-semibold tracking-wide' : 'text-button'} uppercase ${ink}`}>{label}</Text>
       )}
     </Pressable>
   );

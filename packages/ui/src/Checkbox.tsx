@@ -21,6 +21,7 @@ export function Checkbox({
       testID={testID}
       accessibilityRole="checkbox"
       accessibilityState={{ checked }}
+      aria-checked={checked} // react-native-web reads aria-*, not accessibilityState
       onPress={() => onChange(!checked)}
       className="flex-row items-center gap-3"
     >

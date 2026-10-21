@@ -1,0 +1,9 @@
+appId: com.renatoprobst.mowly
+---
+- runFlow: common/launch.yaml
+- tapOn:
+    id: tab-inbox
+- tapOn:
+    id: thread-t-greenleaf
+- assertVisible:
+    id: chat-screen

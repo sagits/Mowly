@@ -1,5 +1,5 @@
 // Tests the date helpers and formatters.
-import { addDays, formatLong, formatMoney, formatShort, nextWeekday, setToday, today, weekdayShort } from './dates';
+import { addDays, dateOf, formatLong, formatMoney, formatShort, nextWeekday, setToday, today, weekdayShort } from './dates';
 
 beforeEach(() => setToday('2026-10-20')); // a Tuesday
 afterAll(() => setToday(null));
@@ -23,4 +23,8 @@ test('today follows the override', () => expect(today()).toBe('2026-10-20'));
 test('today without an override is a local date', () => {
   setToday(null);
   expect(today()).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+});
+
+test('dateOf gives the local calendar date of a timestamp', () => {
+  expect(dateOf(new Date(2026, 9, 19, 14, 30).getTime())).toBe('2026-10-19');
 });

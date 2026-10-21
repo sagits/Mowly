@@ -1,13 +1,17 @@
 /** The root layout: loads the NativeWind stylesheet and wraps the navigation Stack in the app providers. */
+import { Ionicons } from '@expo/vector-icons';
 import { Stack } from 'expo-router';
 import Head from 'expo-router/head';
-import { Platform } from 'react-native';
+import { LogBox, Platform } from 'react-native';
 import { AppProviders } from '@mowly/features';
 import { configureMocks } from '@mowly/mocks';
 import { colors } from '@mowly/ui';
+import { ServiceDetailTitle } from '../src/components/ServiceDetailTitle';
 import '../global.css';
 
 configureMocks({ seed: process.env.EXPO_PUBLIC_SEED !== 'false' });
+// ponytail: dev-only RN warning from library animations (no listener on a native-driven value); harmless
+LogBox.ignoreLogs(['Sending `onAnimatedValueUpdate` with no listeners registered']);
 
 /** The root layout of the app. */
 export default function RootLayout() {
@@ -27,6 +31,18 @@ export default function RootLayout() {
         }}
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="service/[id]"
+          options={({ route }) => ({
+            headerStyle: { backgroundColor: colors.primaryHeader },
+            headerTintColor: colors.surface,
+            headerTitleAlign: 'left',
+            headerBackButtonDisplayMode: 'minimal',
+            headerTitle: () => <ServiceDetailTitle id={(route.params as { id: string }).id} />,
+            headerRight: () => <Ionicons name="help-circle-outline" size={28} color={colors.surface} />,
+          })}
+        />
+        <Stack.Screen name="quote" options={{ presentation: 'fullScreenModal', headerShown: false }} />
       </Stack>
     </AppProviders>
   );

@@ -1,0 +1,18 @@
+appId: com.renatoprobst.mowly
+---
+- runFlow: common/launch.yaml
+- tapOn:
+    id: tab-services
+- tapOn:
+    id: booking-card-b-mowing
+- tapOn:
+    id: detail-skip
+- tapOn:
+    id: skip-confirm
+- assertVisible: "Tuesday, November 24 (Monthly)"
+- tapOn:
+    id: detail-cancel
+- tapOn:
+    id: cancel-confirm
+- assertNotVisible:
+    id: booking-card-b-mowing

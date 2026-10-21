@@ -15,8 +15,9 @@ const zip = z.string().regex(/^\d{5}$/, { error: 'Enter a 5-digit zip code' });
 /** Contact step of the quote flow. */
 export const QuoteContactSchema = z.object({
   name: required('Enter your name'),
-  addressId: required('Pick an address from the list'),
-  addressText: required('Pick an address from the list'),
+  /** The picked suggestion's id; empty when the address was typed freely (saved as a new address on submit). */
+  addressId: z.string(),
+  addressText: required('Enter your address'),
   apt: z.string(),
   phone,
 });

@@ -1,0 +1,11 @@
+appId: com.renatoprobst.mowly
+---
+- runFlow: common/launch.yaml
+- tapOn:
+    id: tab-profile
+- tapOn:
+    id: profile-reset
+- tapOn:
+    id: reset-confirm
+- assertVisible:
+    id: toast

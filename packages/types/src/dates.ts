@@ -13,6 +13,11 @@ const parse = (date: IsoDate): Date => {
   return new Date(y, m - 1, d);
 };
 
+/** The local calendar date of an epoch-milliseconds timestamp. */
+export function dateOf(epochMs: number): IsoDate {
+  return toIso(new Date(epochMs));
+}
+
 /** Today's date, or the value set with `setToday`. */
 export function today(): IsoDate {
   return override ?? toIso(new Date());

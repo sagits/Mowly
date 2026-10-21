@@ -43,9 +43,9 @@ packages/
   comes from the tokens in `packages/ui/tokens.js`. Shared building blocks live in `packages/ui`:
   Button, TextField, Select, BottomSheet, ConfirmDialog, Accordion, ListRow, Toast, TabBar and
   others.
-- **Navigation.** The customer app uses bottom tabs (Browse, Service, Inbox, Profile). The pro app
-  uses a drawer that slides in from the left. On wide web screens, both become a permanent left
-  sidebar, and content is centered with a max width.
+- **Navigation.** The customer app uses bottom tabs (Browse, Service, Inbox, Profile), fixed at the
+  bottom at every width. The pro app uses a drawer that slides in from the left and becomes a
+  permanent left sidebar on wide web screens. On wide screens content is centered with a max width.
 - **Web.** Both apps use static export, so deep links such as `/pro/calendar` load directly on any
   static host. Every page is `noindex`. There are no `.web.tsx` files: web behaviour comes from the
   responsive layout inside the shared components.
@@ -72,6 +72,11 @@ Requires Node 22.13 or later and pnpm 12. Run `pnpm install` first.
 | Serve the web build locally | `npx serve dist` |
 
 The simulator commands expect an `iPhone 16` simulator. Boot it with `xcrun simctl boot "iPhone 16"`.
+
+## Pull requests
+
+PR descriptions follow [`.github/pull_request_template.md`](.github/pull_request_template.md): What is this
+change?, Solution, How to test, Evidences and Notes. GitHub prefills it on new PRs.
 
 ## Disclaimer
 

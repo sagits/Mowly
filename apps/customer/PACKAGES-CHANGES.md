@@ -1,0 +1,12 @@
+# Package changes (customer track)
+
+- `packages/types/src/dates.ts`: added export `dateOf(epochMs): IsoDate` (local calendar date of a timestamp; wraps the existing private `toIso`). Used by `ThreadRow`, needed by chat. `packages/types/src/dates.test.ts` gained a test for it.
+- `packages/ui/src/BottomSheet.tsx`: new optional prop `avoidKeyboard` (default `false`), which lifts the panel above the iOS keyboard through a `KeyboardAvoidingView` that is disabled unless the prop is set. Used by `PromoSheet`, whose field and APPLY were hidden behind the keyboard.
+- `packages/ui/src/Button.tsx`: new optional prop `size` (`'md'` default, `'sm'` compact pill). Used by Browse's VIEW PRICE and GET A QUOTE (C18).
+- `packages/ui/src/Checkbox.tsx`: also passes `aria-checked={checked}` next to the existing `accessibilityState`, so the checked state reaches the DOM on web (react-native-web ignores `accessibilityState`). No API change.
+- `packages/api/src/customer.ts`: `useService(id)` now takes `initialData` from the cached `useServices` catalog when it holds that id, so screens that show the service name (the quote form title) render it on the first frame instead of after a refetch. No API change.
+- `packages/mocks/src/customer.ts`: new resolver `saveAddress(addressId, text)`. It makes a known address, or a new one parsed from free text, the customer's single address. New addresses join the searchable list. Test in `customer.test.ts`.
+- `packages/api/src/customer.ts`: new mutation `useSaveAddress()` over it, invalidating `customer`.
+- `packages/types/src/schemas.ts`: `QuoteContactSchema.addressId` is now any string (empty means typed freely); `addressText` is required with "Enter your address". Before, both required a picked suggestion.
+
+App-local note: `apps/customer/jest.setup.ts` now mocks `react-native-worklets` and calls Reanimated's `setUpTests()` (needed by `SizingRing`).
