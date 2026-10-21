@@ -17,3 +17,5 @@
 - Desktop phone frame (additive; customer tests pass):
   - `packages/ui/src/PhoneFrame.tsx`: new `PhoneFrame` and `useShowPhoneFrame`, exported from `@mowly/ui`. Both apps' root layouts call them; on native and phone browsers the hook is false, so nothing changes there.
   - `packages/features/src/WebShell.tsx`: an inline script tags `<html class="framed">` inside the frame's iframe, and the shell CSS hides scrollbars under that class. Outside the frame the page is unchanged.
+- Switch link (both callers updated in this commit):
+  - `packages/ui/src/SwitchAppLink.tsx`: now takes a required `to: 'customer' | 'pro'`, reads "Switch to Mowly" / "Switch to Mowly Pro" and opens that app's base URL (`/customer/`, `/pro/`) in the top window, instead of "Switch app" to the `/` landing. Repo owner's request.

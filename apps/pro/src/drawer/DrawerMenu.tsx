@@ -58,7 +58,7 @@ export function DrawerMenu({ navigation, settingsBadge }: DrawerContentComponent
           />
         );
       })}
-      <View className="items-center py-4"><SwitchAppLink focusable={!offscreen} /></View>
+      <View className="items-center py-4"><SwitchAppLink to="customer" focusable={!offscreen} /></View>
     </ScrollView>
   );
 }
